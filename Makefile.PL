@@ -1,6 +1,6 @@
 #!perl -w
 
-require 5.008008;
+require 5.008001;
 use strict;
 use ExtUtils::MakeMaker;
 
@@ -11,7 +11,7 @@ WriteMakefile(
     ABSTRACT => 'HTTP style messages',
     AUTHOR => 'Gisle Aas <gisle@activestate.com>',
     LICENSE => "perl",
-    MIN_PERL_VERSION => 5.008008,
+    MIN_PERL_VERSION => 5.008001,
     PREREQ_PM => {
         'URI'            => "1.10",
 	'HTTP::Date'     => 6,
