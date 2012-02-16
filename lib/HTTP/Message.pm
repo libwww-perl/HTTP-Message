@@ -307,7 +307,7 @@ sub decoded_content
 		    $content_ref = \$output;
 		    $content_ref_iscopy++;
 		}
-		elsif ($ce eq "x-bzip2") {
+		elsif ($ce eq "x-bzip2" or $ce eq "bzip2") {
 		    require IO::Uncompress::Bunzip2;
 		    my $output;
 		    IO::Uncompress::Bunzip2::bunzip2($content_ref, \$output, Transparent => 0)
