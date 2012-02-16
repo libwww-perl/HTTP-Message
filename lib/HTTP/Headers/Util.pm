@@ -3,7 +3,7 @@ package HTTP::Headers::Util;
 use strict;
 use vars qw($VERSION @ISA @EXPORT_OK);
 
-$VERSION = "6.00";
+$VERSION = "6.03";
 
 require Exporter;
 @ISA=qw(Exporter);

@@ -13,7 +13,7 @@ require Exporter;
 require HTTP::Request;
 use Carp();
 
-$VERSION = "6.00";
+$VERSION = "6.03";
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 

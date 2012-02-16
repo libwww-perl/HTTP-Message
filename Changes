@@ -1,4 +1,18 @@
 _______________________________________________________________________________
+2012-02-16 HTTP-Message 6.03
+
+Support 'bzip2' as alternative to Content-Encoding: x-bzip2.  Some
+servers seem to return it.
+
+Make newlines in forms be "\r\n" terminated.
+
+Added some more status codes.
+
+Restore perl-5.8.1 compatiblity.
+
+
+
+_______________________________________________________________________________
 2011-03-20 HTTP-Message 6.02
 
 Declare dependency on Bunzip2 v2.021 [RT#66593]
