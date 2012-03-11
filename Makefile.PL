@@ -32,7 +32,7 @@ WriteMakefile(
     },
     META_MERGE => {
 	resources => {
-            repository => 'http://github.com/gisle/http-message',
+            repository => 'http://github.com/libwww-perl/http-message',
 	    MailingList => 'mailto:libwww@perl.org',
         }
     },
