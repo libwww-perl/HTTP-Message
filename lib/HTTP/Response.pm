@@ -380,7 +380,7 @@ Constructs a new C<HTTP::Response> object describing a response with
 response code $code and optional message $msg.  The optional $header
 argument should be a reference to an C<HTTP::Headers> object or a
 plain array reference of key/value pairs.  The optional $content
-argument should be a string of bytes.  The meaning these arguments are
+argument should be a string of bytes.  The meanings of these arguments are
 described below.
 
 =item $r = HTTP::Response->parse( $str )
