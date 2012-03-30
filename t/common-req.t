@@ -1,7 +1,7 @@
 #perl -w
 
 use Test;
-plan tests => 52;
+plan tests => 56;
 
 use HTTP::Request::Common;
 
@@ -51,6 +51,14 @@ ok($r->content_type, "application/x-www-form-urlencoded");
 ok($r->content_length, 83);
 ok($r->header("bar"), "foo");
 ok($r->content, "foo=bar%3Bbaz&baz=a&baz=b&baz=c&foo=zoo%3D%26&space+=+%2B+&nl=a%0D%0Ab%0D%0Ac%0D%0A");
+
+$r = POST "http://example.com";
+ok($r->content_length, 0);
+ok($r->content, "");
+
+$r = POST "http://example.com", [];
+ok($r->content_length, 0);
+ok($r->content, "");
 
 $r = POST "mailto:gisle\@aas.no",
      Subject => "Heisan",
