@@ -567,13 +567,14 @@ sub dump
 	$content =~ s/(\n+)\n/("\\n" x length($1)) . "\n"/eg;
 	$content =~ s/\n\z/\\n/;
 
-	my $no_content = "(no content)";
+	my $no_content = $opt{no_content};
+	$no_content = "(no content)" unless defined $no_content;
 	if ($content eq $no_content) {
 	    # escape our $no_content marker
 	    $content =~ s/^(.)/sprintf('\\x%02X',ord($1))/eg;
 	}
 	elsif ($content eq "") {
-	    $content = "(no content)";
+	    $content = $no_content;
 	}
     }
 
@@ -1066,6 +1067,10 @@ for unlimited.
 
 If the content is longer then the string is chopped at the limit and
 the string "...\n(### more bytes not shown)" appended.
+
+=item no_content => $str
+
+Replaces the "(no content)" marker.
 
 =item prefix => $str
 

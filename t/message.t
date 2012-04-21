@@ -3,7 +3,7 @@
 use strict;
 use Test qw(plan ok skip);
 
-plan tests => 125;
+plan tests => 129;
 
 require HTTP::Message;
 use Config qw(%Config);
@@ -27,6 +27,11 @@ $m2->header(bar => 2);
 ok($m->as_string, "Foo: 1\n\n");
 ok($m2->as_string, "Bar: 2\nFoo: 1\n\n");
 ok($m2->dump, "Bar: 2\nFoo: 1\n\n(no content)\n");
+ok($m2->dump(no_content => ""), "Bar: 2\nFoo: 1\n\n\n");
+ok($m2->dump(no_content => "-"), "Bar: 2\nFoo: 1\n\n-\n");
+$m2->content('0');
+ok($m2->dump(no_content => "-"), "Bar: 2\nFoo: 1\n\n0\n");
+ok($m2->dump(no_content => "0"), "Bar: 2\nFoo: 1\n\n\\x30\n");
 
 $m2 = HTTP::Message->new($m->headers, "foo");
 ok($m2->as_string, "Foo: 1\n\nfoo\n");
