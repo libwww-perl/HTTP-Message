@@ -207,10 +207,10 @@ sub content_charset
     # Unicode BOM
     for ($$cref) {
 	return "UTF-8"     if /^\xEF\xBB\xBF/;
-	return "UTF-32-LE" if /^\xFF\xFE\x00\x00/;
-	return "UTF-32-BE" if /^\x00\x00\xFE\xFF/;
-	return "UTF-16-LE" if /^\xFF\xFE/;
-	return "UTF-16-BE" if /^\xFE\xFF/;
+	return "UTF-32LE" if /^\xFF\xFE\x00\x00/;
+	return "UTF-32BE" if /^\x00\x00\xFE\xFF/;
+	return "UTF-16LE" if /^\xFF\xFE/;
+	return "UTF-16BE" if /^\xFE\xFF/;
     }
 
     if ($self->content_is_xml) {
@@ -219,10 +219,10 @@ sub content_charset
 	# in UTF-8 or UTF-16 encoding must begin with an XML encoding declaration,
 	# in which the first characters must be '<?xml'
 	for ($$cref) {
-	    return "UTF-32-BE" if /^\x00\x00\x00</;
-	    return "UTF-32-LE" if /^<\x00\x00\x00/;
-	    return "UTF-16-BE" if /^(?:\x00\s)*\x00</;
-	    return "UTF-16-LE" if /^(?:\s\x00)*<\x00/;
+	    return "UTF-32BE" if /^\x00\x00\x00</;
+	    return "UTF-32LE" if /^<\x00\x00\x00/;
+	    return "UTF-16BE" if /^(?:\x00\s)*\x00</;
+	    return "UTF-16LE" if /^(?:\s\x00)*<\x00/;
 	    if (/^\s*(<\?xml[^\x00]*?\?>)/) {
 		if ($1 =~ /\sencoding\s*=\s*(["'])(.*?)\1/) {
 		    my $enc = $2;

@@ -54,7 +54,7 @@ $r->content("<foo>..</foo>");
 ok($r->content_charset, "UTF-8");
 
 require Encode;
-for my $enc ("UTF-16-BE", "UTF-16-LE", "UTF-32-BE", "UTF-32-LE") {
+for my $enc ("UTF-16BE", "UTF-16LE", "UTF-32BE", "UTF-32LE") {
     $r->content(Encode::encode($enc, "<foo>..</foo>"));
     ok($r->content_charset, $enc);
 }
