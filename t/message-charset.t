@@ -3,7 +3,7 @@
 use strict;
 
 use Test;
-plan tests => 38;
+plan tests => 43;
 
 use HTTP::Response;
 my $r = HTTP::Response->new(200, "OK");
@@ -79,6 +79,12 @@ $r->content(<<'EOT');
 encoding="US-ASCII" ?>
 EOT
 ok($r->content_charset, "US-ASCII");
+
+$r->content_type("application/json");
+for my $enc ("UTF-8", "UTF-16BE", "UTF-16LE", "UTF-32BE", "UTF-32LE") {
+    $r->content(Encode::encode($enc, "{}"));
+    ok($r->content_charset, $enc);
+}
 
 {
  sub TIESCALAR{bless[]}

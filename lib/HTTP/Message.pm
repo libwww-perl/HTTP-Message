@@ -265,6 +265,16 @@ sub content_charset
 	$p->parse($$cref);
 	return $charset if $charset;
     }
+    elsif ($self->content_type eq "application/json") {
+	for ($$cref) {
+	    # RFC 4627, ch 3
+	    return "UTF-32BE" if /^\x00\x00\x00./s;
+	    return "UTF-32LE" if /^.\x00\x00\x00/s;
+	    return "UTF-16BE" if /^\x00.\x00./s;
+	    return "UTF-16LE" if /^.\x00.\x00/s;
+	    return "UTF-8";
+	}
+    }
     if ($self->content_type =~ /^text\//) {
 	for ($$cref) {
 	    if (length) {
