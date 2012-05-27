@@ -1,7 +1,7 @@
 #perl -w
 
 use Test;
-plan tests => 56;
+plan tests => 57;
 
 use HTTP::Request::Common;
 
@@ -70,6 +70,13 @@ ok($r->method, "POST");
 ok($r->header("Subject"), "Heisan");
 ok($r->content, "Howdy\n");
 ok($r->content_type, "text/plain");
+
+{
+    my @warnings;
+    local $SIG{__WARN__} = sub { push @warnings, @_ };
+    $r = POST 'http://unf.ug/', [];
+    ok( "@warnings", '', 'empty POST' );
+}
 
 #
 # POST for File upload
