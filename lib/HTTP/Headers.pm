@@ -272,7 +272,7 @@ sub _process_newline {
     # must handle header values with embedded newlines with care
     s/\s+$//;        # trailing newlines and space must go
     s/\n(\x0d?\n)+/\n/g;     # no empty lines
-    s/\n([^\040\t])/\n $1/g; # intial space for continuation
+    s/\n([^\040\t])/\n $1/g; # initial space for continuation
     s/\n/$endl/g;    # substitute with requested line ending
     $_;
 }

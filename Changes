@@ -8,7 +8,7 @@ Make newlines in forms be "\r\n" terminated.
 
 Added some more status codes.
 
-Restore perl-5.8.1 compatiblity.
+Restore perl-5.8.1 compatibility.
 
 
 
