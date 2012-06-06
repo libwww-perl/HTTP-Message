@@ -181,7 +181,6 @@ sub filename
 
 sub as_string
 {
-    require HTTP::Status;
     my $self = shift;
     my($eol) = @_;
     $eol = "\n" unless defined $eol;
