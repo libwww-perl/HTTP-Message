@@ -8,7 +8,14 @@ require HTTP::Headers;
 require Carp;
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
-$HTTP::URI_CLASS ||= $ENV{PERL_HTTP_URI_CLASS} || "URI";
+unless ($HTTP::URI_CLASS) {
+    if ($ENV{PERL_HTTP_URI_CLASS}
+    &&  $ENV{PERL_HTTP_URI_CLASS} =~ /^([\w:]+)$/) {
+        $HTTP::URI_CLASS = $1;
+    } else {
+        $HTTP::URI_CLASS = "URI";
+    }
+}
 eval "require $HTTP::URI_CLASS"; die $@ if $@;
 
 *_utf8_downgrade = defined(&utf8::downgrade) ?
