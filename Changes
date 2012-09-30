@@ -1,4 +1,35 @@
 _______________________________________________________________________________
+2012-09-30 HTTP-Message 6.04
+
+Gisle Aas (5):
+      Updated repository URL
+      Avoid undef warning for empty content
+      Teach $m->content_charset about JSON
+      Use the canonical charset name for UTF-16LE (and frieds)
+      Add option to override the "(no content)" marker of $m->dump
+
+Christopher J. Madsen (2):
+      Use IO::HTML for <meta> encoding sniffing
+      mime_name was introduced in Encode 2.21
+
+Tom Hukins (1):
+      Remove an unneeded "require"
+
+Ville Skyttä (1):
+      Spelling fixes.
+
+chromatic (1):
+      Sanitized PERL_HTTP_URI_CLASS environment variable.
+
+Martin H. Sluka (1):
+      Add test from RT#77466
+
+Father Chrysostomos (1):
+      Fix doc grammo [RT#75831]
+
+
+
+_______________________________________________________________________________
 2012-02-16 HTTP-Message 6.03
 
 Support 'bzip2' as alternative to Content-Encoding: x-bzip2.  Some
