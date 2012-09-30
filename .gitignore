@@ -1,9 +1,6 @@
-Makefile
-Makefile.old
-blib
-pm_to_blib
-SSL
-t/CAN_TALK_TO_OURSELF
-t/live/ENABLED
-*.tar.gz
-xx*
+/Makefile
+/Makefile.old
+/MYMETA.yml
+/blib
+/pm_to_blib
+/*.tar.gz
