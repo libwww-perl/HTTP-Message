@@ -138,6 +138,9 @@ sub remove_content_headers
     for my $f (grep $entity_header{$_} || /^content-/, keys %$self) {
 	$c->{$f} = delete $self->{$f};
     }
+    if (exists $self->{'::std_case'}) {
+	$c->{'::std_case'} = $self->{'::std_case'};
+    }
     $c;
 }
 
@@ -153,10 +156,10 @@ sub _header
 	$field =~ tr/_/-/ if $TRANSLATE_UNDERSCORE;
 	my $old = $field;
 	$field = lc $field;
-	unless(defined $standard_case{$field}) {
-	    # generate a %standard_case entry for this field
+	unless($standard_case{$field} || $self->{'::std_case'}{$field}) {
+	    # generate a %std_case entry for this field
 	    $old =~ s/\b(\w)/\u$1/g;
-	    $standard_case{$field} = $old;
+	    $self->{'::std_case'}{$field} = $old;
 	}
     }
 
@@ -205,15 +208,15 @@ sub _sorted_field_names
     return [ sort {
         ($header_order{$a} || 999) <=> ($header_order{$b} || 999) ||
          $a cmp $b
-    } keys %$self ];
+    } grep !/^::/, keys %$self ];
 }
 
 
 sub header_field_names {
     my $self = shift;
-    return map $standard_case{$_} || $_, @{ $self->_sorted_field_names },
+    return map $standard_case{$_} || $self->{'::std_case'}{$_} || $_, @{ $self->_sorted_field_names },
 	if wantarray;
-    return keys %$self;
+    return grep !/^::/, keys %$self;
 }
 
 
@@ -226,11 +229,11 @@ sub scan
 	if (ref($vals) eq 'ARRAY') {
 	    my $val;
 	    for $val (@$vals) {
-		$sub->($standard_case{$key} || $key, $val);
+		$sub->($standard_case{$key} || $self->{'::std_case'}{$key} || $key, $val);
 	    }
 	}
 	else {
-	    $sub->($standard_case{$key} || $key, $vals);
+	    $sub->($standard_case{$key} || $self->{'::std_case'}{$key} || $key, $vals);
 	}
     }
 }
@@ -247,7 +250,7 @@ sub as_string
 	my $vals = $self->{$key};
 	if ( ref($vals) eq 'ARRAY' ) {
 	    for my $val (@$vals) {
-		my $field = $standard_case{$key} || $key;
+		my $field = $standard_case{$key} || $self->{'::std_case'}{$key} || $key;
 		$field =~ s/^://;
 		if ( index($val, "\n") >= 0 ) {
 		    $val = _process_newline($val, $endl);
@@ -256,7 +259,7 @@ sub as_string
 	    }
 	}
 	else {
-	    my $field = $standard_case{$key} || $key;
+	    my $field = $standard_case{$key} || $self->{'::std_case'}{$key} || $key;
 	    $field =~ s/^://;
 	    if ( index($vals, "\n") >= 0 ) {
 		$vals = _process_newline($vals, $endl);

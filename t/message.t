@@ -73,7 +73,7 @@ ok($m->as_string, <<EOT);
 Bar: 
  1
 Baz: 1
-Foo: 1
+FOO: 1
  2
   3
    4
