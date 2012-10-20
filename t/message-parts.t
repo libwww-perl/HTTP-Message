@@ -2,7 +2,7 @@
 
 use strict;
 use Test qw(plan ok);
-plan tests => 39;
+plan tests => 47;
 
 use HTTP::Message;
 use HTTP::Request::Common qw(POST);
@@ -97,7 +97,7 @@ $m->parts(HTTP::Request->new("GET", "http://www.example.com"));
 ok($m->as_string, "Content-Type: message/http\n\nGET http://www.example.com\r\n\r\n");
 
 $m = HTTP::Request->new("PUT", "http://www.example.com");
-$m->parts(HTTP::Message->new([Foo => 1], "abc\n"));
+$m->parts(HTTP::Message->new([Foo => 1], "abc\n"), HTTP::Message->new([Bar => 2], "def"));
 ok($m->as_string, <<EOT);
 PUT http://www.example.com
 Content-Type: multipart/mixed; boundary=xYzZY
@@ -107,7 +107,43 @@ Foo: 1\r
 \r
 abc
 \r
+--xYzZY\r
+Bar: 2\r
+\r
+def\r
 --xYzZY--\r
 EOT
+
+$m->content(<<EOT);
+--xYzZY
+Content-Length: 4
+
+abcd
+--xYzZY--
+EOT
+
+@parts = $m->parts;
+ok(@parts, 1);
+ok($parts[0]->content_length, 4);
+ok($parts[0]->content, "abcd");
+
+$m->content("
+
+--xYzZY
+Content-Length: 4
+
+efgh
+--xYzZY
+Content-Length: 3
+
+ijk
+--xYzZY--");
+
+@parts = $m->parts;
+ok(@parts, 2);
+ok($parts[0]->content_length, 4);
+ok($parts[0]->content, "efgh");
+ok($parts[1]->content_length, 3);
+ok($parts[1]->content, "ijk");
 
 sub j { join(":", @_) }
