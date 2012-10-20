@@ -1,4 +1,16 @@
 _______________________________________________________________________________
+2012-10-21 HTTP-Message 6.06
+
+Gisle Aas (2):
+      More forgiving test on croak message [RT#80302]
+      Added test for multipart parsing
+
+Mark Overmeer (1):
+      Multipart end boundary doesn't need match a complete line [RT#79239]
+
+
+
+_______________________________________________________________________________
 2012-10-20 HTTP-Message 6.05
 
 Gisle Aas (5):
