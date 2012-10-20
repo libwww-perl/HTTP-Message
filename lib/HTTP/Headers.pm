@@ -219,7 +219,6 @@ sub scan
     my($self, $sub) = @_;
     my $key;
     for $key (@{ $self->_sorted_field_names }) {
-	next if substr($key, 0, 1) eq '_';
 	my $vals = $self->{$key};
 	if (ref($vals) eq 'ARRAY') {
 	    my $val;
