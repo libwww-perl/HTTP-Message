@@ -671,7 +671,7 @@ sub _parts {
 	my %h = @{$h[0]};
 	if (defined(my $b = $h{boundary})) {
 	    my $str = $self->content;
-	    $str =~ s/\r?\n--\Q$b\E--\r?\n.*//s;
+	    $str =~ s/\r?\n--\Q$b\E--.*//s;
 	    if ($str =~ s/(^|.*?\r?\n)--\Q$b\E\r?\n//s) {
 		$self->{_parts} = [map HTTP::Message->parse($_),
 				   split(/\r?\n--\Q$b\E\r?\n/, $str)]
