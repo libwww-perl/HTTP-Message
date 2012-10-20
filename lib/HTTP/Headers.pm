@@ -146,6 +146,9 @@ sub _header
 {
     my($self, $field, $val, $op) = @_;
 
+    Carp::croak("Illegal field name '$field'")
+        if rindex($field, ':') > 1 || !length($field);
+
     unless ($field =~ /^:/) {
 	$field =~ tr/_/-/ if $TRANSLATE_UNDERSCORE;
 	my $old = $field;

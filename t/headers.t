@@ -3,7 +3,7 @@
 use strict;
 use Test qw(plan ok);
 
-plan tests => 164;
+plan tests => 166;
 
 my($h, $h2);
 sub j { join("|", @_) }
@@ -286,6 +286,19 @@ Proxy-Authorization: Basic dTI6cDI=
 Proxy-Authenticate: bar
 WWW-Authenticate: bar
 EOT
+
+# Try some bad field names
+my $file = __FILE__;
+my $line;
+$h = HTTP::Headers->new;
+eval {
+    $line = __LINE__; $h->header('foo:', 1);
+};
+ok($@, "Illegal field name 'foo:' at $file line $line\n");
+eval {
+    $line = __LINE__; $h->header('', 2);
+};
+ok($@, "Illegal field name '' at $file line $line\n");
 
 
 
