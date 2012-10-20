@@ -641,7 +641,7 @@ sub AUTOLOAD
     # We create the function here so that it will not need to be
     # autoloaded the next time.
     no strict 'refs';
-    *$method = sub { shift->headers->$method(@_) };
+    *$method = sub { local $Carp::Internal{+__PACKAGE__} = 1; shift->headers->$method(@_) };
     goto &$method;
 }
 
