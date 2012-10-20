@@ -1,4 +1,16 @@
 _______________________________________________________________________________
+2012-10-20 HTTP-Message 6.05
+
+Gisle Aas (5):
+      Updated ignores
+      No need to prevent visiting field values starting with '_'
+      Report the correct croak caller for delegated methods
+      Disallow empty field names or field names containing ':'
+      Make the extra std_case entries local to each header
+
+
+
+_______________________________________________________________________________
 2012-09-30 HTTP-Message 6.04
 
 Gisle Aas (5):
