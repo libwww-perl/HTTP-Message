@@ -294,11 +294,11 @@ $h = HTTP::Headers->new;
 eval {
     $line = __LINE__; $h->header('foo:', 1);
 };
-ok($@, "Illegal field name 'foo:' at $file line $line\n");
+ok($@, qr/^Illegal field name 'foo:' at \Q$file\E line $line/);
 eval {
     $line = __LINE__; $h->header('', 2);
 };
-ok($@, "Illegal field name '' at $file line $line\n");
+ok($@, qr/^Illegal field name '' at \Q$file\E line $line/);
 
 
 
