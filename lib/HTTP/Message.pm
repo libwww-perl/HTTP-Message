@@ -574,6 +574,10 @@ sub dump
     return $dump;
 }
 
+# allow subclasses to override what will handle individual parts
+sub _part_class {
+    return __PACKAGE__;
+}
 
 sub parts {
     my $self = shift;
@@ -602,8 +606,10 @@ sub parts {
 sub add_part {
     my $self = shift;
     if (($self->content_type || "") !~ m,^multipart/,) {
-	my $p = HTTP::Message->new($self->remove_content_headers,
-				   $self->content(""));
+	my $p = $self->_part_class->new(
+	    $self->remove_content_headers,
+	    $self->content(""),
+	);
 	$self->content_type("multipart/mixed");
 	$self->{_parts} = [];
         if ($p->headers->header_field_names || $p->content ne "") {
@@ -673,7 +679,7 @@ sub _parts {
 	    my $str = $self->content;
 	    $str =~ s/\r?\n--\Q$b\E--.*//s;
 	    if ($str =~ s/(^|.*?\r?\n)--\Q$b\E\r?\n//s) {
-		$self->{_parts} = [map HTTP::Message->parse($_),
+		$self->{_parts} = [map $self->_part_class->parse($_),
 				   split(/\r?\n--\Q$b\E\r?\n/, $str)]
 	    }
 	}
@@ -687,7 +693,7 @@ sub _parts {
 	$self->{_parts} = [$class->parse($content)];
     }
     elsif ($ct =~ m,^message/,) {
-	$self->{_parts} = [ HTTP::Message->parse($self->content) ];
+	$self->{_parts} = [ $self->_part_class->parse($self->content) ];
     }
 
     $self->{_parts} ||= [];
