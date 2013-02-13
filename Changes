@@ -1,3 +1,7 @@
+
+Added support for is_client_error, is_server_error to HTTP::Response
+(Karen Etheridge)
+
 _______________________________________________________________________________
 2012-10-21 HTTP-Message 6.06
 

@@ -212,6 +212,8 @@ sub is_info     { HTTP::Status::is_info     (shift->{'_rc'}); }
 sub is_success  { HTTP::Status::is_success  (shift->{'_rc'}); }
 sub is_redirect { HTTP::Status::is_redirect (shift->{'_rc'}); }
 sub is_error    { HTTP::Status::is_error    (shift->{'_rc'}); }
+sub is_client_error { HTTP::Status::is_client_error (shift->{'_rc'}); }
+sub is_server_error { HTTP::Status::is_server_error (shift->{'_rc'}); }
 
 
 sub error_as_HTML
@@ -538,6 +540,10 @@ Returns a textual representation of the response.
 =item $r->is_redirect
 
 =item $r->is_error
+
+=item $r->is_client_error
+
+=item $r->is_server_error
 
 These methods indicate if the response was informational, successful, a
 redirection, or an error.  See L<HTTP::Status> for the meaning of these.
