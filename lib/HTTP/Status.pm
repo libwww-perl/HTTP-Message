@@ -110,6 +110,8 @@ sub is_error        ($) { $_[0] >= 400 && $_[0] < 600; }
 sub is_client_error ($) { $_[0] >= 400 && $_[0] < 500; }
 sub is_server_error ($) { $_[0] >= 500 && $_[0] < 600; }
 
+sub all_status          { \%StatusCode; }
+
 1;
 
 
@@ -257,6 +259,12 @@ of status codes is intended for cases in which the server is aware
 that it has erred or is incapable of performing the request.
 
 This function is B<not> exported by default.
+
+=item all_status
+
+Return all status code and messages as a hash reference.
+
+This function is B<not> exported.
 
 =back
 
