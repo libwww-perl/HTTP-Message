@@ -110,7 +110,7 @@ sub is_error        ($) { $_[0] >= 400 && $_[0] < 600; }
 sub is_client_error ($) { $_[0] >= 400 && $_[0] < 500; }
 sub is_server_error ($) { $_[0] >= 500 && $_[0] < 600; }
 
-sub all_status          { \%StatusCode; }
+sub all_status          { %StatusCode; }
 
 1;
 
