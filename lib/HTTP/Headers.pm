@@ -238,6 +238,18 @@ sub scan
     }
 }
 
+sub flatten {
+	my($self)=@_;
+
+	(
+		map {
+			my $k = $_;
+			map {
+				( $k => $_ )
+			} $self->header($_);
+		} $self->header_field_names
+	);
+}
 
 sub as_string
 {
@@ -611,6 +623,10 @@ will be visited in the recommended "Good Practice" order.
 Any return values of the callback routine are ignored.  The loop can
 be broken by raising an exception (C<die>), but the caller of scan()
 would have to trap the exception itself.
+
+=item $h->flatten()
+
+Returns the list of pairs of keys and values.
 
 =item $h->as_string
 
