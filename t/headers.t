@@ -457,3 +457,12 @@ $h = HTTP::Headers->new(
     if_modified_since => "Sat, 29 Oct 1994 19:43:31 GMT; length=34343"
 );
 ok(gmtime($h->if_modified_since), "Sat Oct 29 19:43:31 1994");
+
+$h = HTTP::Headers->new();
+$h->content_type('text/plain');
+$h->content_length(4);
+ok([$h->flatten]->[0] eq 'Content-Length');
+ok([$h->flatten]->[1] eq 4);
+ok([$h->flatten]->[2] eq 'Content-Type');
+ok([$h->flatten]->[3] eq 'text/plain');
+
