@@ -431,7 +431,7 @@ charsets have been decoded.  See L<HTTP::Message> for details.
 =item $r->request( $request )
 
 This is used to get/set the request attribute.  The request attribute
-is a reference to the the request that caused this response.  It does
+is a reference to the request that caused this response.  It does
 not have to be the same request passed to the $ua->request() method,
 because there might have been redirects and authorization retries in
 between.
