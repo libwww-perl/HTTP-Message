@@ -359,7 +359,7 @@ sub decoded_content
 		"ISO-8859-1"
 	    );
 	    if ($charset eq "none") {
-		# leave it asis
+		# leave it as is
 	    }
 	    elsif ($charset eq "us-ascii" || $charset eq "iso-8859-1") {
 		if ($$content_ref =~ /[^\x00-\x7F]/ && defined &utf8::upgrade) {
@@ -639,7 +639,7 @@ sub _stale_content {
 }
 
 
-# delegate all other method calls the the headers object.
+# delegate all other method calls to the headers object.
 sub AUTOLOAD
 {
     my $method = substr($AUTOLOAD, rindex($AUTOLOAD, '::')+2);
