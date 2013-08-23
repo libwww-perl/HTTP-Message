@@ -3,7 +3,7 @@
 use strict;
 use Test qw(plan ok);
 
-plan tests => 166;
+plan tests => 175;
 
 my($h, $h2);
 sub j { join("|", @_) }
