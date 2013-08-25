@@ -212,7 +212,7 @@ ok(@parts, 1);
 $m2 = $parts[0];
 ok(ref($m2), "HTTP::Request");
 ok($m2->method, "GET");
-ok($m2->uri, "/");
+ok($m2->uri, "http://www.example.com:8008/");
 ok($m2->protocol, "HTTP/1.1");
 ok($m2->header("Host"), "www.example.com:8008");
 ok($m2->content, "");

@@ -71,7 +71,7 @@ EOT
 @parts = $m->parts;
 ok(@parts, 1);
 ok($parts[0]->method, "GET");
-ok($parts[0]->uri, "/");
+ok($parts[0]->uri, "http://example.com/");
 ok($parts[0]->protocol, "HTTP/1.0");
 ok($parts[0]->header("Host"), "example.com");
 ok($parts[0]->content, "How is this?\n");
