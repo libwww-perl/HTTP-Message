@@ -4,7 +4,7 @@
 use strict;
 
 use Test;
-plan tests => 15;
+plan tests => 16;
 
 use HTTP::Request;
 
@@ -41,3 +41,6 @@ ok($req->uri, 'http://example.com/');
 ok($req->protocol, 'HTTP/1.1');
 my $headers = $req->headers;
 ok($headers->header('Host'), 'example.com');
+
+my $r2_string = $req->as_string;
+ok($r2_string, $raw_request."\n");

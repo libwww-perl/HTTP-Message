@@ -116,7 +116,17 @@ sub as_string
 
     my $req_line = $self->method || "-";
     my $uri = $self->uri;
-    $uri = (defined $uri) ? $uri->as_string : "-";
+    my $headers = $self->headers;
+    if (defined $headers) {
+        my $host = $headers->header('Host');
+        if (defined $host) {
+            $uri = $uri->path_query;
+        }
+    } elsif (defined $uri) {
+        $uri = $uri->as_string;
+    } else {
+        $uri = '-';
+    }
     $req_line .= " $uri";
     my $proto = $self->protocol;
     $req_line .= " $proto" if $proto;
