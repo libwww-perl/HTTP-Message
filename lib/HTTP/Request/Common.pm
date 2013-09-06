@@ -19,13 +19,20 @@ my $CRLF = "\015\012";   # "\r\n" is not portable
 
 sub GET  { _simple_req('GET',  @_); }
 sub HEAD { _simple_req('HEAD', @_); }
-sub PUT  { _simple_req('PUT' , @_); }
 sub DELETE { _simple_req('DELETE', @_); }
 
-sub POST
+for my $type (qw(PUT POST)) {
+    no strict 'refs';
+    *{ __PACKAGE__ . "::" . $type } = sub {
+        return request_type_with_data($type, @_);
+    };
+}
+
+sub request_type_with_data
 {
-    my $url = shift;
-    my $req = HTTP::Request->new(POST => $url);
+    my $type = shift;
+    my $url  = shift;
+    my $req = HTTP::Request->new($type => $url);
     my $content;
     $content = shift if @_ and ref $_[0];
     my($k, $v);
