@@ -11,6 +11,8 @@ require Exporter;
 @EXPORT_OK = qw(is_client_error is_server_error);
 $VERSION = "6.03";
 
+use Readonly;
+
 # Note also addition of mnemonics to @EXPORT below
 
 # Unmarked codes are from RFC 2616
@@ -87,6 +89,8 @@ while (($code, $message) = each %StatusCode) {
     $mnemonicCode .= "*RC_$message = \\&HTTP_$message;\n";  # legacy
     $mnemonicCode .= "push(\@EXPORT_OK, 'HTTP_$message');\n";
     $mnemonicCode .= "push(\@EXPORT, 'RC_$message');\n";
+    $mnemonicCode .= "Readonly::Scalar our \$HTTP_$message => $code;\n";
+    $mnemonicCode .= "push(\@EXPORT_OK, '\$HTTP_$message');\n";
 }
 eval $mnemonicCode; # only one eval for speed
 die if $@;
@@ -97,6 +101,7 @@ push(@EXPORT, "RC_MOVED_TEMPORARILY");
 
 %EXPORT_TAGS = (
    constants => [grep /^HTTP_/, @EXPORT_OK],
+   readonly  => [grep /^\$HTTP_/, @EXPORT_OK],
    is => [grep /^is_/, @EXPORT, @EXPORT_OK],
 );
 
@@ -206,6 +211,19 @@ tag to import them all.
    HTTP_BANDWIDTH_LIMIT_EXCEEDED        (509)
    HTTP_NOT_EXTENDED                    (510)
    HTTP_NETWORK_AUTHENTICATION_REQUIRED (511)
+
+You can use the C<:readonly> tag to import similarly named L<Readonly>
+variables, which can be interpolated in strings or used as hash keys:
+
+   $HTTP_CONTINUE                       (100)
+   $HTTP_SWITCHING_PROTOCOLS            (101)
+   $HTTP_PROCESSING                     (102)
+
+   $HTTP_OK                             (200)
+   $HTTP_CREATED                        (201)
+   $HTTP_ACCEPTED                       (202)
+
+et cetera...
 
 =head1 FUNCTIONS
 
