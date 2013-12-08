@@ -19,13 +19,25 @@ my $CRLF = "\015\012";   # "\r\n" is not portable
 
 sub GET  { _simple_req('GET',  @_); }
 sub HEAD { _simple_req('HEAD', @_); }
-sub PUT  { _simple_req('PUT' , @_); }
 sub DELETE { _simple_req('DELETE', @_); }
+
+sub PUT
+{
+    my $url = shift;
+    my $req = HTTP::Request->new(PUT => $url);
+    return _process_put_post_args($req, @_);
+}
 
 sub POST
 {
     my $url = shift;
     my $req = HTTP::Request->new(POST => $url);
+    return _process_put_post_args($req, @_);
+}
+
+sub _process_put_post_args
+{
+    my $req = shift;
     my $content;
     $content = shift if @_ and ref $_[0];
     my($k, $v);
@@ -356,6 +368,10 @@ $ua->request(HEAD ...).
 
 =item PUT $url, Header => Value,...
 
+=item PUT $url, $form_ref, Header => Value,...
+
+=item PUT $url, Header => Value,..., Content => $form_ref
+
 =item PUT $url, Header => Value,..., Content => $content
 
 Like GET() but the method in the request is "PUT".
@@ -366,35 +382,16 @@ there is no way to directly specify a header that is actually called
 "Content".  If you really need this you must update the request
 returned in a separate statement.
 
-=item DELETE $url
-
-=item DELETE $url, Header => Value,...
-
-Like GET() but the method in the request is "DELETE".  This function
-is not exported by default.
-
-=item POST $url
-
-=item POST $url, Header => Value,...
-
-=item POST $url, $form_ref, Header => Value,...
-
-=item POST $url, Header => Value,..., Content => $form_ref
-
-=item POST $url, Header => Value,..., Content => $content
-
-This works mostly like PUT() with "POST" as the method, but this
-function also takes a second optional array or hash reference
-parameter $form_ref.  As for PUT() the content can also be specified
-directly using the "Content" pseudo-header, and you may also provide
-the $form_ref this way.
+The content of the request can also be specified by passing $form_ref
+(a reference to a hash or array of key/value pairs) as optional
+second argument or as value of the "Content" pseudo-header.
 
 The $form_ref argument can be used to pass key/value pairs for the
 form content.  By default we will initialize a request using the
 C<application/x-www-form-urlencoded> content type.  This means that
-you can emulate an HTML E<lt>form> POSTing like this:
+you can generate an HTML PUT request with form content like this:
 
-  POST 'http://www.perl.org/survey.cgi',
+  PUT 'http://www.perl.org/survey.cgi',
        [ name   => 'Gisle Aas',
          email  => 'gisle@aas.no',
          gender => 'M',
@@ -404,7 +401,7 @@ you can emulate an HTML E<lt>form> POSTing like this:
 
 This will create an HTTP::Request object that looks like this:
 
-  POST http://www.perl.org/survey.cgi
+  PUT http://www.perl.org/survey.cgi
   Content-Length: 66
   Content-Type: application/x-www-form-urlencoded
 
@@ -413,12 +410,12 @@ This will create an HTTP::Request object that looks like this:
 Multivalued form fields can be specified by either repeating the field
 name or by passing the value as an array reference.
 
-The POST method also supports the C<multipart/form-data> content used
+The PUT method also supports the C<multipart/form-data> content used
 for I<Form-based File Upload> as specified in RFC 1867.  You trigger
-this content format by specifying a content type of C<'form-data'> as
-one of the request headers.  If one of the values in the $form_ref is
-an array reference, then it is treated as a file part specification
-with the following interpretation:
+this content format by specifying a content type of C<'form-data'>
+or C<'multipart/form-data'> as one of the request headers.  If one of
+the values in the $form_ref is an array reference, then it is treated
+as a file part specification with the following interpretation:
 
   [ $file, $filename, Header => Value... ]
   [ undef, $filename, Header => Value,..., Content => $content ]
@@ -439,7 +436,7 @@ returned by LWP::MediaTypes::guess_media_type()
 Sending my F<~/.profile> to the survey used as example above can be
 achieved by this:
 
-  POST 'http://www.perl.org/survey.cgi',
+  PUT 'http://www.perl.org/survey.cgi',
        Content_Type => 'form-data',
        Content      => [ name  => 'Gisle Aas',
                          email => 'gisle@aas.no',
@@ -448,11 +445,11 @@ achieved by this:
                          init   => ["$ENV{HOME}/.profile"],
                        ]
 
-This will create an HTTP::Request object that almost looks this (the
+This will create an HTTP::Request object that almost looks like this (the
 boundary and the content of your F<~/.profile> is likely to be
 different):
 
-  POST http://www.perl.org/survey.cgi
+  PUT http://www.perl.org/survey.cgi
   Content-Length: 388
   Content-Type: multipart/form-data; boundary="6G+f"
 
@@ -492,6 +489,47 @@ defined for the request.  Not all servers (or server
 applications) like this.  Also, if the file(s) change in size between
 the time the Content-Length is calculated and the time that the last
 chunk is delivered, the subroutine will C<Croak>.
+
+The put(...)  method of "LWP::UserAgent" exists as a shortcut for
+$ua->request(PUT ...).
+
+
+=item DELETE $url
+
+=item DELETE $url, Header => Value,...
+
+Like GET() but the method in the request is "DELETE".  This function
+is not exported by default.
+
+=item POST $url
+
+=item POST $url, Header => Value,...
+
+=item POST $url, $form_ref, Header => Value,...
+
+=item POST $url, Header => Value,..., Content => $form_ref
+
+=item POST $url, Header => Value,..., Content => $content
+
+This works like PUT() but with "POST" as the method.
+
+You can emulate an HTML E<lt>form> POSTing like this:
+
+  POST 'http://www.perl.org/survey.cgi',
+       [ name   => 'Gisle Aas',
+         email  => 'gisle@aas.no',
+         gender => 'M',
+         born   => '1964',
+         perc   => '3%',
+       ];
+
+This will create an HTTP::Request object that looks like this:
+
+  POST http://www.perl.org/survey.cgi
+  Content-Length: 66
+  Content-Type: application/x-www-form-urlencoded
+
+  name=Gisle%20Aas&email=gisle%40aas.no&gender=M&born=1964&perc=3%25
 
 The post(...)  method of "LWP::UserAgent" exists as a shortcut for
 $ua->request(POST ...).
