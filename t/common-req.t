@@ -1,7 +1,7 @@
 #perl -w
 
 use Test;
-plan tests => 57;
+plan tests => 58;
 
 use HTTP::Request::Common;
 
@@ -34,6 +34,10 @@ ok(!defined($r->header("Content")));
 ok(${$r->content_ref}, "foo");
 ok($r->content, "foo");
 ok($r->content_length, 3);
+
+$r = PUT "http://www.sn.no",
+     { foo => "bar" };
+ok($r->content, "foo=bar");
 
 #--- Test POST requests ---
 
@@ -226,4 +230,4 @@ $r = HTTP::Request::Common::PUT 'http://www.example.com',
     'Content-Type' => 'application/octet-steam',
     'Content' => 'foobarbaz',
     'Content-Length' => 12;   # a slight lie
-ok($r->header('Content-Length'), 12);
+ok($r->header('Content-Length'), 9);
