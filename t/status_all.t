@@ -5,7 +5,7 @@ plan tests => 6;
 
 use HTTP::Status;
 
-my %StatusCode = HTTP::Status->all_status;
+my %StatusCode = HTTP::Status->status_codes;
 
 ok(!$StatusCode{0});
 

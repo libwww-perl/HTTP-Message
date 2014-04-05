@@ -110,7 +110,7 @@ sub is_error        ($) { $_[0] >= 400 && $_[0] < 600; }
 sub is_client_error ($) { $_[0] >= 400 && $_[0] < 500; }
 sub is_server_error ($) { $_[0] >= 500 && $_[0] < 600; }
 
-sub all_status          { %StatusCode; }
+sub status_codes        { %StatusCode; }
 
 1;
 
@@ -260,9 +260,9 @@ that it has erred or is incapable of performing the request.
 
 This function is B<not> exported by default.
 
-=item all_status
+=item status_codes
 
-Return all status code and messages as a hash reference.
+Returns a hash mapping numerical HTTP status codes (e.g. 200) to text status messages (e.g. "OK")
 
 This function is B<not> exported.
 
