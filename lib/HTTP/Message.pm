@@ -292,7 +292,7 @@ sub decoded_content
 	    $h =~ s/\s+$//;
 	    for my $ce (reverse split(/\s*,\s*/, lc($h))) {
 		next unless $ce;
-		next if $ce eq "identity";
+		next if $ce eq "identity" || $ce eq "none";
 		if ($ce eq "gzip" || $ce eq "x-gzip") {
 		    require IO::Uncompress::Gunzip;
 		    my $output;
