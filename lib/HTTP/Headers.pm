@@ -533,7 +533,7 @@ If no such field exists C<undef> will be returned.
 
 A multi-valued field will be returned as separate values in list
 context and will be concatenated with ", " as separator in scalar
-context.  The HTTP spec (RFC 2616) promise that joining multiple
+context.  The HTTP spec (RFC 2616) promises that joining multiple
 values in this way will not change the semantic of a header field, but
 in practice there are cases like old-style Netscape cookies (see
 L<HTTP::Cookies>) where "," is used as part of the syntax of a single
