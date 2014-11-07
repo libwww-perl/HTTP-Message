@@ -167,7 +167,7 @@ ok(j($h->header_field_names), "Date");
 ok($h->header("Date") =~ /^[A-Z][a-z][a-z], \d\d .* GMT$/);
 {
     my $off = time - $h->date;
-    ok($off == 0 || $off == 1); 
+    ok($off == 0 || $off == 1);
 }
 
 if ($] < 5.006) {
@@ -376,7 +376,7 @@ F: foo<<
 EOT
 
 # Check for attempt to send a body
-$h = HTTP::Headers->new( 
+$h = HTTP::Headers->new(
     a => "foo\r\n\r\nevil body" ,
     b => "foo\015\012\015\012evil body" ,
     c => "foo\x0d\x0a\x0d\x0aevil body" ,
