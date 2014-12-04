@@ -1,7 +1,7 @@
 #perl -w
 
 use Test;
-plan tests => 58;
+plan tests => 60;
 
 use HTTP::Request::Common;
 
@@ -36,6 +36,10 @@ ok($r->content, "foo");
 ok($r->content_length, 3);
 
 $r = PUT "http://www.sn.no",
+     { foo => "bar" };
+ok($r->content, "foo=bar");
+
+$r = HTTP::Request::Common::PATCH "http://www.sn.no",
      { foo => "bar" };
 ok($r->content, "foo=bar");
 
@@ -148,7 +152,7 @@ ok($r->content =~ /bar=24/);
 ok($r->content_type, "application/x-www-form-urlencoded");
 ok($r->content_length, 13);
 
- 
+
 #
 # POST for File upload
 #
@@ -227,6 +231,12 @@ $r = HTTP::Request::Common::DELETE 'http://www.example.com';
 ok($r->method, "DELETE");
 
 $r = HTTP::Request::Common::PUT 'http://www.example.com',
+    'Content-Type' => 'application/octet-steam',
+    'Content' => 'foobarbaz',
+    'Content-Length' => 12;   # a slight lie
+ok($r->header('Content-Length'), 9);
+
+$r = HTTP::Request::Common::PATCH 'http://www.example.com',
     'Content-Type' => 'application/octet-steam',
     'Content' => 'foobarbaz',
     'Content-Length' => 12;   # a slight lie
