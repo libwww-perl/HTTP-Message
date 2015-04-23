@@ -1,3 +1,10 @@
+Michael Houghton (1):
+    Modified HTTP::Message::new to check $content to see if it is a ref.
+    If it is a ref, dereference it before doing utf8::downgrade on it.
+    This addresses issue #13 in GitHub
+
+_______________________________________________________________________________
+2015-04-23 HTTP-Message 6.07
 
 Added support for is_client_error, is_server_error to HTTP::Response
 (Karen Etheridge)

@@ -2,7 +2,7 @@ package HTTP::Message;
 
 use strict;
 use vars qw($VERSION $AUTOLOAD);
-$VERSION = "6.06";
+$VERSION = "6.07";
 
 require HTTP::Headers;
 require Carp;
@@ -43,7 +43,10 @@ sub new
 	$header = HTTP::Headers->new;
     }
     if (defined $content) {
+        # POD says "should be bytes", but tests also use refs
+        my $dcontent = ref($content) ? $$content : $content;
         _utf8_downgrade($content);
+        $content = $dcontent;
     }
     else {
         $content = '';
