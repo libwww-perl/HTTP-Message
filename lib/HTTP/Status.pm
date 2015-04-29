@@ -36,6 +36,7 @@ my %StatusCode = (
     304 => 'Not Modified',
     305 => 'Use Proxy',
     307 => 'Temporary Redirect',
+    308 => 'Permanent Redirect',              # RFC 7238
     400 => 'Bad Request',
     401 => 'Unauthorized',
     402 => 'Payment Required',
@@ -165,6 +166,7 @@ tag to import them all.
    HTTP_NOT_MODIFIED                    (304)
    HTTP_USE_PROXY                       (305)
    HTTP_TEMPORARY_REDIRECT              (307)
+   HTTP_PERMANENT_REDIRECT              (308)
 
    HTTP_BAD_REQUEST                     (400)
    HTTP_UNAUTHORIZED                    (401)
