@@ -8,7 +8,7 @@ $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
 require Exporter;
 *import = \&Exporter::import;
 @EXPORT =qw(GET HEAD PUT POST);
-@EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
+@EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE PATCH);
 
 require HTTP::Request;
 use Carp();
@@ -21,7 +21,7 @@ sub GET  { _simple_req('GET',  @_); }
 sub HEAD { _simple_req('HEAD', @_); }
 sub DELETE { _simple_req('DELETE', @_); }
 
-for my $type (qw(PUT POST)) {
+for my $type (qw(PUT POST PATCH)) {
     no strict 'refs';
     *{ __PACKAGE__ . "::" . $type } = sub {
         return request_type_with_data($type, @_);
@@ -221,7 +221,7 @@ sub form_data   # RFC1867
 		    # or perhaps a file in the /proc file system where
 		    # stat may return a 0 size even though reading it
 		    # will produce data.  So we cannot make
-		    # a Content-Length header.  
+		    # a Content-Length header.
 		    undef $length;
 		    last;
 		}
@@ -265,7 +265,7 @@ sub form_data   # RFC1867
 		}
 		if ($buflength) {
 		    defined $length && ($length -= $buflength);
-		    return $buf 
+		    return $buf
 	    	}
 	    }
 	};
@@ -518,4 +518,3 @@ This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 =cut
-
