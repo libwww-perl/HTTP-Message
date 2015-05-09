@@ -1,14 +1,15 @@
 package HTTP::Request::Common;
 
 use strict;
-use vars qw(@EXPORT @EXPORT_OK $VERSION $DYNAMIC_FILE_UPLOAD);
+use vars qw(@EXPORT @EXPORT_OK $VERSION $DYNAMIC_FILE_UPLOAD $DYNAMIC_FILE_UPLOAD_READ_SIZE);
 
 $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
+$DYNAMIC_FILE_UPLOAD_READ_SIZE ||= 2048;
 
 require Exporter;
 *import = \&Exporter::import;
 @EXPORT =qw(GET HEAD PUT POST);
-@EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
+@EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE $DYNAMIC_FILE_UPLOAD_READ_SIZE);
 
 require HTTP::Request;
 use Carp();
@@ -255,7 +256,7 @@ sub form_data   # RFC1867
                     binmode($fh);
                 }
 		my $buflength = length $buf;
-		my $n = read($fh, $buf, 2048, $buflength);
+		my $n = read($fh, $buf, $DYNAMIC_FILE_UPLOAD_READ_SIZE, $buflength);
 		if ($n) {
 		    $buflength += $n;
 		    unshift(@parts, ["", $fh]);
