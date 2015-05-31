@@ -2,6 +2,7 @@ Michael Houghton (1):
     Modified HTTP::Message::new to check $content to see if it is a ref.
     Use the content_ref method to add $content in properly if it is a ref.
     This addresses issue #13 in GitHub
+    Test added to t/message.t that fails in 6.06
 
 _______________________________________________________________________________
 2015-04-23 HTTP-Message 6.07
