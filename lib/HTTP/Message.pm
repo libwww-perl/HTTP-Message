@@ -49,10 +49,16 @@ sub new
         $content = '';
     }
 
-    bless {
+    my $self = bless {
 	'_headers' => $header,
 	'_content' => $content,
     }, $class;
+    
+    # docs say content should be bytes, but refs are OK
+    # the code above does not downgrade a ref properly, so this will do the trick
+    $self->content_ref($content) if (ref($content));
+    
+    return $self;
 }
 
 
