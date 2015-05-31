@@ -1,6 +1,6 @@
 Michael Houghton (1):
     Modified HTTP::Message::new to check $content to see if it is a ref.
-    If it is a ref, dereference it before doing utf8::downgrade on it.
+    Use the content_ref method to add $content in properly if it is a ref.
     This addresses issue #13 in GitHub
 
 _______________________________________________________________________________

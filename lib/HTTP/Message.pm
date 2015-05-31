@@ -2,7 +2,7 @@ package HTTP::Message;
 
 use strict;
 use vars qw($VERSION $AUTOLOAD);
-$VERSION = "6.07";
+$VERSION = "6.06";
 
 require HTTP::Headers;
 require Carp;
@@ -43,19 +43,22 @@ sub new
 	$header = HTTP::Headers->new;
     }
     if (defined $content) {
-        # POD says "should be bytes", but tests also use refs
-        my $dcontent = ref($content) ? $$content : $content;
         _utf8_downgrade($content);
-        $content = $dcontent;
     }
     else {
         $content = '';
     }
 
-    bless {
+    my $self = bless {
 	'_headers' => $header,
 	'_content' => $content,
     }, $class;
+    
+    # docs say content should be bytes, but refs are OK
+    # the code above does not downgrade a ref properly, so this will do the trick
+    $self->content_ref($content) if (ref($content));
+    
+    return $self;
 }
 
 
