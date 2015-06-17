@@ -149,6 +149,7 @@ sub filename
 
 		    $file = $encfile unless $@;
 		}
+		else { return undef; }
 	    }
 	}
     }
