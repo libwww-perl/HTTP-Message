@@ -36,6 +36,11 @@ $r->remove_header('Content-Disposition');
 $r->push_header('Content-Disposition', 'attachment; q;');
 ok($r->filename, undef);
 
+# incorrect header that has no filename defined, but does have a filename field
+$r->remove_header('Content-Disposition');
+$r->push_header('Content-Disposition', 'attachment; q; filename=""');
+ok($r->filename, undef);
+
 # Q is quoted printable encoding type, filename() should return 'a'
 $r->remove_header('Content-Disposition');
 $r->push_header('Content-Disposition', 'attachment; q; filename="=?ISO-8859-1?Q?a?="');
