@@ -5,7 +5,7 @@
 
 use strict;
 use Test;
-plan tests => 12;
+plan tests => 13;
 
 use HTTP::Date;
 use HTTP::Request;
@@ -33,17 +33,17 @@ ok($r->filename, 'fname.ext');
 
 # incorrect header that has no filename defined
 $r->remove_header('Content-Disposition');
-$r->push_header('Content-Disposition', 'attachment; q;');
+$r->push_header('Content-Disposition', 'attachment;');
 ok($r->filename, undef);
 
 # incorrect header that has no filename defined, but does have a filename field
 $r->remove_header('Content-Disposition');
-$r->push_header('Content-Disposition', 'attachment; q; filename=""');
+$r->push_header('Content-Disposition', 'attachment; filename=""');
 ok($r->filename, undef);
 
 # Q is quoted printable encoding type, filename() should return 'a'
 $r->remove_header('Content-Disposition');
-$r->push_header('Content-Disposition', 'attachment; q; filename="=?ISO-8859-1?Q?a?="');
+$r->push_header('Content-Disposition', 'attachment; filename="=?ISO-8859-1?Q?a?="');
 ok($r->filename, 'a');
 
 # B is base64 encoding type, filename() should return  'a'
@@ -53,5 +53,6 @@ ok($r->filename, 'a');
 
 # K is not a valid encoding type, filename() should return undef
 $r->remove_header('Content-Disposition');
-$r->push_header('Content-Disposition', 'attachment; q; filename="=?ISO-8859-1?K?YQ=?="');
+$r->push_header('Content-Disposition', 'attachment; filename="=?ISO-8859-1?K?YQ=?="');
 ok($r->filename, undef);
+
