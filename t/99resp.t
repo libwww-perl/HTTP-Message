@@ -5,7 +5,7 @@
 
 use strict;
 use Test;
-plan tests => 89;
+plan tests => 94;
 
 use HTTP::Date;
 use HTTP::Request;
@@ -15,6 +15,21 @@ my $time = time;
 
 my $req = HTTP::Request->new(GET => 'http://www.sn.no');
 my $r = new HTTP::Response 200, 'OK';
+$r->push_header('Client-Date', 'Fri, 10 Dec 2010 15:20:02 GMT');
+ok($r->current_age, time() - 1291994402);
+$r->push_header('Date', '2015-06-06');
+ok($r->current_age, time() - 1291994402);
+$r->remove_header('Client-Date');
+ok($r->current_age, 0);
+$r->push_header('Age', 1);
+ok($r->current_age, 1);
+$r->remove_header('Age');
+my $t_ime = time();
+$r->remove_header('Client-Date');
+$r->push_header('Age', $t_ime + $t_ime);
+ok($r->current_age, $t_ime + $t_ime);
+$r->remove_header('Age');
+
 
 ok($r->is_redirect, '');
 ok($r->is_error, '');
