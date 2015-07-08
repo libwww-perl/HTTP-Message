@@ -1,6 +1,22 @@
+Revision history for HTTP-Message
 
-Added support for is_client_error, is_server_error to HTTP::Response
-(Karen Etheridge)
+6.07   2015-xx-xx
+    - Allow subclasses to override the class of parts - it used to be
+      hardcoded to HTTP::Message. (Gisle Aas, RT#79239)
+
+    - Added support for is_client_error, is_server_error to HTTP::Response
+      (Karen Etheridge)
+
+    - Added flatten interface to HTTP::Headers (Tokuhiro Matsuno, GH#5)
+
+    - Allow PUT to pass content data via hashrefs just like with POST (Michael
+      Schilli, GH#9)
+
+    - Fix for "Content-Encoding: none" header (Gisle Aas, RT#94882)
+
+    - Add support for HTTP status 308, defined in RFC 7238 (Olivier Mengué,
+      RT#104102)
+
 
 _______________________________________________________________________________
 2012-10-21 HTTP-Message 6.06
