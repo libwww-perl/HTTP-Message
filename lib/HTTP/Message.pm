@@ -1,6 +1,7 @@
 package HTTP::Message;
 
 use strict;
+use warnings;
 
 our $VERSION = "6.07";
 

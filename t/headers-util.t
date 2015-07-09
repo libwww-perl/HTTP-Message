@@ -1,6 +1,8 @@
 #!perl -w
 
 use strict;
+use warnings;
+
 use Test;
 
 use HTTP::Headers::Util qw(split_header_words join_header_words);

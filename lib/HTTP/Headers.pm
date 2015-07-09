@@ -1,6 +1,8 @@
 package HTTP::Headers;
 
 use strict;
+use warnings;
+
 use Carp ();
 
 our $VERSION = "6.07";

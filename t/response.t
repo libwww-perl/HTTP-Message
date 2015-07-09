@@ -4,6 +4,8 @@
 # message.t test suite.
 
 use strict;
+use warnings;
+
 use Test;
 plan tests => 23;
 

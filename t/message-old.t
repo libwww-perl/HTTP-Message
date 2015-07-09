@@ -5,6 +5,8 @@
 # add new tests to message.t instead.
 
 use strict;
+use warnings;
+
 use Test qw(plan ok);
 
 plan tests => 20;

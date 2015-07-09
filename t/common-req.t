@@ -1,11 +1,14 @@
 #perl -w
 
+use strict;
+use warnings;
+
 use Test;
 plan tests => 58;
 
 use HTTP::Request::Common;
 
-$r = GET 'http://www.sn.no/';
+my $r = GET 'http://www.sn.no/';
 print $r->as_string;
 
 ok($r->method, "GET");
@@ -85,7 +88,7 @@ ok($r->content_type, "text/plain");
 #
 # POST for File upload
 #
-$file = "test-$$";
+my $file = "test-$$";
 open(FILE, ">$file") or die "Can't create $file: $!";
 print FILE "foo\nbar\nbaz\n";
 close(FILE);
@@ -105,12 +108,12 @@ unlink($file) or warn "Can't unlink $file: $!";
 ok($r->method, "POST");
 ok($r->uri->path, "/survey.cgi");
 ok($r->content_type, "multipart/form-data");
-ok($r->header(Content_type) =~ /boundary="?([^"]+)"?/);
-$boundary = $1;
+ok($r->header('Content_type') =~ /boundary="?([^"]+)"?/);
+my $boundary = $1;
 
-$c = $r->content;
+my $c = $r->content;
 $c =~ s/\r//g;
-@c = split(/--\Q$boundary/, $c);
+my @c = split(/--\Q$boundary/, $c);
 print "$c[5]\n";
 
 ok(@c == 7 and $c[6] =~ /^--\n/);  # 5 parts + header & trailer
@@ -175,13 +178,13 @@ print $r->as_string, "\n";
 ok($r->method, "POST");
 ok($r->uri->path, "/survey.cgi");
 ok($r->content_type, "multipart/form-data");
-ok($r->header(Content_type) =~ /boundary="?([^"]+)"?/);
+ok($r->header('Content_type') =~ /boundary="?([^"]+)"?/);
 $boundary = $1;
 ok(ref($r->content), "CODE");
 
 ok(length($boundary) > 10);
 
-$code = $r->content;
+my $code = $r->content;
 my $chunk;
 my @chunks;
 while (defined($chunk = &$code) && length $chunk) {

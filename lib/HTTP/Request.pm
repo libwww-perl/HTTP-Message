@@ -1,6 +1,7 @@
 package HTTP::Request;
 
 use strict;
+use warnings;
 
 use base 'HTTP::Message';
 

@@ -1,6 +1,8 @@
 package HTTP::Status;
 
 use strict;
+use warnings;
+
 require 5.002;   # because we use prototypes
 
 use base 'Exporter';

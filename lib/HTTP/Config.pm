@@ -1,6 +1,8 @@
 package HTTP::Config;
 
 use strict;
+use warnings;
+
 use URI;
 
 our $VERSION = "6.07";

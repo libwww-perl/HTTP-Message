@@ -2,8 +2,9 @@
 
 require 5.008001;
 use strict;
-use ExtUtils::MakeMaker;
+use warnings;
 
+use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME => 'HTTP::Message',

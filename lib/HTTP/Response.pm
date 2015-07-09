@@ -1,6 +1,7 @@
 package HTTP::Response;
 
 use strict;
+use warnings;
 
 use base 'HTTP::Message';
 
