@@ -5,7 +5,7 @@ use warnings;
 
 use base 'HTTP::Message';
 
-our $VERSION = "6.07";
+our $VERSION = "6.08";
 
 use HTTP::Status ();
 

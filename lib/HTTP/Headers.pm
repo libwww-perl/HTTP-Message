@@ -5,7 +5,7 @@ use warnings;
 
 use Carp ();
 
-our $VERSION = "6.07";
+our $VERSION = "6.08";
 
 # The $TRANSLATE_UNDERSCORE variable controls whether '_' can be used
 # as a replacement for '-' in header field names.
