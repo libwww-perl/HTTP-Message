@@ -7,7 +7,8 @@ our $VERSION = "6.08";
 
 use HTTP::Headers;
 
-package HTTP::Headers;
+package
+    HTTP::Headers;
 
 BEGIN {
     # we provide a new (and better) implementations below

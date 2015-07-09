@@ -8,7 +8,8 @@ our $VERSION = "6.08";
 require HTTP::Date;
 
 require HTTP::Headers;
-package HTTP::Headers;
+package
+    HTTP::Headers;
 
 sub _etags
 {
