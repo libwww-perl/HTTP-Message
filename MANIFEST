@@ -12,6 +12,7 @@ lib/HTTP/Status.pm
 LICENSE
 Makefile.PL
 MANIFEST			This list of files
+MANIFEST.SKIP
 README
 t/common-req.t
 t/headers-auth.t
