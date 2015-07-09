@@ -1,5 +1,3 @@
-#!perl -w
-
 # Test extra HTTP::Response methods.  Basic operation is tested in the
 # message.t test suite.
 

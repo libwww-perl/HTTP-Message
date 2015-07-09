@@ -1,5 +1,3 @@
-#!perl -w
-
 # This is the old message.t test.  It is not maintained any more,
 # but kept around in case it happens to catch any mistakes.  Please
 # add new tests to message.t instead.

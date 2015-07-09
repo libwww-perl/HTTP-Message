@@ -1,5 +1,3 @@
-#!perl -w
-
 require 5.008001;
 use strict;
 use warnings;
