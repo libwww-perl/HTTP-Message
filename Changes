@@ -17,6 +17,8 @@ Revision history for HTTP-Message
     - Add support for HTTP status 308, defined in RFC 7238 (Olivier Mengué,
       RT#104102)
 
+    - drop the use of "use vars" (Karen Etheridge)
+
 
 _______________________________________________________________________________
 2012-10-21 HTTP-Message 6.06

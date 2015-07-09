@@ -3,13 +3,11 @@ package HTTP::Status;
 use strict;
 require 5.002;   # because we use prototypes
 
-use vars qw(@ISA @EXPORT @EXPORT_OK %EXPORT_TAGS $VERSION);
+use base 'Exporter';
+our @EXPORT = qw(is_info is_success is_redirect is_error status_message);
+our @EXPORT_OK = qw(is_client_error is_server_error);
 
-require Exporter;
-@ISA = qw(Exporter);
-@EXPORT = qw(is_info is_success is_redirect is_error status_message);
-@EXPORT_OK = qw(is_client_error is_server_error);
-$VERSION = "6.07";
+our $VERSION = "6.07";
 
 # Note also addition of mnemonics to @EXPORT below
 
@@ -96,7 +94,7 @@ die if $@;
 *RC_MOVED_TEMPORARILY = \&RC_FOUND;  # 302 was renamed in the standard
 push(@EXPORT, "RC_MOVED_TEMPORARILY");
 
-%EXPORT_TAGS = (
+our %EXPORT_TAGS = (
    constants => [grep /^HTTP_/, @EXPORT_OK],
    is => [grep /^is_/, @EXPORT, @EXPORT_OK],
 );

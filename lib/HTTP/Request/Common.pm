@@ -1,19 +1,18 @@
 package HTTP::Request::Common;
 
 use strict;
-use vars qw(@EXPORT @EXPORT_OK $VERSION $DYNAMIC_FILE_UPLOAD);
 
-$DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
+our $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
 
-require Exporter;
-*import = \&Exporter::import;
-@EXPORT =qw(GET HEAD PUT POST);
-@EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
+use Exporter 5.57 'import';
+
+our @EXPORT =qw(GET HEAD PUT POST);
+our @EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
 
 require HTTP::Request;
 use Carp();
 
-$VERSION = "6.07";
+our $VERSION = "6.07";
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 

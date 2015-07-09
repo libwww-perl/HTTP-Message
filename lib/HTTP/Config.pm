@@ -2,9 +2,8 @@ package HTTP::Config;
 
 use strict;
 use URI;
-use vars qw($VERSION);
 
-$VERSION = "6.07";
+our $VERSION = "6.07";
 
 sub new {
     my $class = shift;

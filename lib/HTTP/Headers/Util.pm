@@ -1,15 +1,12 @@
 package HTTP::Headers::Util;
 
 use strict;
-use vars qw($VERSION @ISA @EXPORT_OK);
 
-$VERSION = "6.07";
+our $VERSION = "6.07";
 
-require Exporter;
-@ISA=qw(Exporter);
+use base 'Exporter';
 
-@EXPORT_OK=qw(split_header_words _split_header_words join_header_words);
-
+our @EXPORT_OK=qw(split_header_words _split_header_words join_header_words);
 
 
 sub split_header_words {

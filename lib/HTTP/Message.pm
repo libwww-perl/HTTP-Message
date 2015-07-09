@@ -1,8 +1,8 @@
 package HTTP::Message;
 
 use strict;
-use vars qw($VERSION $AUTOLOAD);
-$VERSION = "6.07";
+
+our $VERSION = "6.07";
 
 require HTTP::Headers;
 require Carp;
@@ -640,6 +640,7 @@ sub _stale_content {
 
 
 # delegate all other method calls to the headers object.
+our $AUTOLOAD;
 sub AUTOLOAD
 {
     my $method = substr($AUTOLOAD, rindex($AUTOLOAD, '::')+2);

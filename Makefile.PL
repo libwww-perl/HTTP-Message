@@ -29,6 +29,7 @@ WriteMakefile(
         'IO::Uncompress::Inflate'    => 0,
         'IO::Uncompress::RawInflate' => 0,
         'IO::Uncompress::Bunzip2'    => '2.021',
+        'Exporter'                   => '5.57',
     },
     META_MERGE => {
 	resources => {

@@ -1,12 +1,10 @@
 package HTTP::Request;
 
-require HTTP::Message;
-@ISA = qw(HTTP::Message);
-$VERSION = "6.07";
-
 use strict;
 
+use base 'HTTP::Message';
 
+our $VERSION = "6.07";
 
 sub new
 {
