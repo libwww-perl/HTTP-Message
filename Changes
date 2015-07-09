@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
-6.07   2015-xx-xx
+6.07   2015-07-09
+
     - Allow subclasses to override the class of parts - it used to be
       hardcoded to HTTP::Message. (Gisle Aas, RT#79239)
 
