@@ -135,8 +135,7 @@ sub form_data   # RFC1867
     my @data = ref($data) eq "HASH" ? %$data : @$data;  # copy
     my $fhparts;
     my @parts;
-    my($k,$v);
-    while (($k,$v) = splice(@data, 0, 2)) {
+    while (my ($k,$v) = splice(@data, 0, 2)) {
 	if (!ref($v)) {
 	    $k =~ s/([\\\"])/\\$1/g;  # escape quotes and backslashes
 	    push(@parts,
