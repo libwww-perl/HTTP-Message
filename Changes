@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-
+6.08   2015-07-10
     - Resolve new uninitialized warning from
       HTTP::Request::Common::request_type_with_data (RT#105787)
 
