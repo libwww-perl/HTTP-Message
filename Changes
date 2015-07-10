@@ -1,5 +1,10 @@
 Revision history for HTTP-Message
 
+
+    - Resolve new uninitialized warning from
+      HTTP::Request::Common::request_type_with_data (RT#105787)
+
+
 6.07   2015-07-09
 
     - Allow subclasses to override the class of parts - it used to be

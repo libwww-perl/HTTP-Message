@@ -26,6 +26,7 @@ t/message-old.t
 t/message-parts.t
 t/message.t
 t/request.t
+t/request_type_with_data.t
 t/response.t
 t/status-old.t
 t/status.t

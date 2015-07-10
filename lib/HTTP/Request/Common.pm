@@ -138,6 +138,7 @@ sub form_data   # RFC1867
     while (my ($k,$v) = splice(@data, 0, 2)) {
 	if (!ref($v)) {
 	    $k =~ s/([\\\"])/\\$1/g;  # escape quotes and backslashes
+            no warnings 'uninitialized';
 	    push(@parts,
 		 qq(Content-Disposition: form-data; name="$k"$CRLF$CRLF$v));
 	}
