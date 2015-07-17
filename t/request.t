@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test;
-plan tests => 11;
+plan tests => 16;
 
 use HTTP::Request;
 
@@ -31,3 +31,17 @@ ok($r2->method, "DELETE");
 ok($r2->uri, "http:");
 ok($r2->protocol, "HTTP/1.1");
 ok($r2->header("Accept-Encoding"), $req->header("Accept-Encoding"));
+
+my $raw_request = <<'END';
+GET / HTTP/1.1
+Host: example.com
+END
+$req = HTTP::Request->parse($raw_request);
+ok($req->method, 'GET');
+ok($req->uri, 'http://example.com/');
+ok($req->protocol, 'HTTP/1.1');
+my $headers = $req->headers;
+ok($headers->header('Host'), 'example.com');
+
+my $r2_string = $req->as_string;
+ok($r2_string, $raw_request."\n");
