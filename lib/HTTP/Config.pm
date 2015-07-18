@@ -5,7 +5,7 @@ use warnings;
 
 use URI;
 
-our $VERSION = "6.08";
+our $VERSION = "6.09";
 
 sub new {
     my $class = shift;
