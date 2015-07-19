@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 14;
+plan tests => 16;
 
 use HTTP::Config;
 
@@ -69,3 +69,17 @@ is(j($conf->matching_items($response)), "xhtml|html|any");
 
 $response->content_type("text/html");
 is(j($conf->matching_items($response)), "HTML|html|text|any");
+
+
+{
+    my @warnings;
+    local $SIG{__WARN__} = sub { push @warnings, grep { length } @_ };
+
+    my $conf = HTTP::Config->new;
+    $conf->add(owner => undef, callback => sub { 'bleah' });
+    $conf->remove(owner => undef);
+
+    ok(($conf->empty), 'found and removed the config entry');
+    is(scalar(@warnings), 0, 'no warnings')
+        or diag('got warnings: ', explain(\@warnings));
+}

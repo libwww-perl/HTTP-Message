@@ -40,6 +40,7 @@ sub find2 {
  ITEM:
     for my $item (@$self) {
         for my $k (keys %spec) {
+            no warnings 'uninitialized';
             if (!exists $item->{$k} || $spec{$k} ne $item->{$k}) {
                 push(@rest, $item);
                 next ITEM;

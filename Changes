@@ -3,6 +3,8 @@ Revision history for HTTP-Message
 
     - converted all uses of Test.pm to Test::More
 
+    - fix uninitialized warning in HTTP::Config (RT#105929)
+
 
 6.08   2015-07-10
     - Resolve new uninitialized warning from
