@@ -3,3 +3,4 @@
 ^HTTP-Message-.*/
 ^HTTP-Message-.*.tar.gz
 ^\.ackrc$
+^test-
