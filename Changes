@@ -1,5 +1,6 @@
 Revision history for HTTP-Message
 
+6.10   2015-07-19
 
     - fix uses of qr/.../m in tests that do not work in 5.8.x
 
