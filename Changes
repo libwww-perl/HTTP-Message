@@ -1,5 +1,8 @@
 Revision history for HTTP-Message
 
+
+    - fix uses of qr/.../m in tests that do not work in 5.8.x
+
 6.09   2015-07-19
 
     - converted all uses of Test.pm to Test::More

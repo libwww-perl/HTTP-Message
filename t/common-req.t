@@ -117,21 +117,21 @@ note "$c[5]\n";
 is(@c, 7);
 like($c[6], qr/^--\n/);  # 5 parts + header & trailer
 
-like($c[2], qr/^Content-Disposition:\s*form-data;\s*name="email"/m);
-like($c[2], qr/^gisle\@aas.no$/m);
+ok($c[2] =~ /^Content-Disposition:\s*form-data;\s*name="email"/m);
+ok($c[2] =~ /^gisle\@aas.no$/m);
 
-like($c[5], qr/^Content-Disposition:\s*form-data;\s*name="file";\s*filename="$file"/m);
-like($c[5], qr/^Content-Type:\s*text\/plain$/m);
-like($c[5], qr/^foo\nbar\nbaz/m);
+ok($c[5] =~ /^Content-Disposition:\s*form-data;\s*name="file";\s*filename="$file"/m);
+ok($c[5] =~ /^Content-Type:\s*text\/plain$/m);
+ok($c[5] =~ /^foo\nbar\nbaz/m);
 
 $r = POST 'http://www.perl.org/survey.cgi',
       [ file => [ undef, "xxy\"", Content_type => "text/html", Content => "<h1>Hello, world!</h1>" ]],
       Content_type => 'multipart/form-data';
 #note $r->as_string;
 
-like($r->content, qr/^--\S+\015\012Content-Disposition:\s*form-data;\s*name="file";\s*filename="xxy\\"/m);
-like($r->content, qr/^Content-Type: text\/html/m);
-like($r->content, qr/^<h1>Hello, world/m);
+ok($r->content =~ /^--\S+\015\012Content-Disposition:\s*form-data;\s*name="file";\s*filename="xxy\\"/m);
+ok($r->content =~ /^Content-Type: text\/html/m);
+ok($r->content =~ /^<h1>Hello, world/m);
 
 $r = POST 'http://www.perl.org/survey.cgi',
       Content_type => 'multipart/form-data',

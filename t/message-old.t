@@ -20,7 +20,7 @@ $req->header(
 	"if-modified-since" => "Thu, 03 Feb 1994 00:00:00 GMT",
 	"mime-version"      => "1.0");
 
-like($req->as_string, qr/^GET/m);
+ok($req->as_string =~ /^GET/m);
 is($req->header("MIME-Version"), "1.0");
 is($req->if_modified_since, ((760233600 + $offset) || 0));
 
