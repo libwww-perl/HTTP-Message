@@ -31,7 +31,7 @@ my %WriteMakefileArgs = (
         'Exporter'                   => '5.57',
     },
     TEST_REQUIRES => {
-        'Test'                       => '0',
+        'Test::More'                 => '0',
     },
 
     META_MERGE => {

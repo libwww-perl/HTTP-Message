@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test qw(plan ok);
+use Test::More;
 plan tests => 47;
 
 use HTTP::Message;
@@ -9,22 +9,22 @@ use HTTP::Request::Common qw(POST);
 
 my $m = HTTP::Message->new;
 
-ok(ref($m->headers), "HTTP::Headers");
-ok($m->headers_as_string, "");
-ok($m->content, "");
-ok(j($m->parts), "");
-ok($m->as_string, "\n");
+is(ref($m->headers), "HTTP::Headers");
+is($m->headers_as_string, "");
+is($m->content, "");
+is(j($m->parts), "");
+is($m->as_string, "\n");
 
 my $m_clone = $m->clone;
 $m->push_header("Foo", 1);
 $m->add_content("foo");
 
-ok($m_clone->as_string, "\n");
-ok($m->headers_as_string, "Foo: 1\n");
-ok($m->header("Foo"), 1);
-ok($m->as_string, "Foo: 1\n\nfoo\n");
-ok($m->as_string("\r\n"), "Foo: 1\r\n\r\nfoo");
-ok(j($m->parts), "");
+is($m_clone->as_string, "\n");
+is($m->headers_as_string, "Foo: 1\n");
+is($m->header("Foo"), 1);
+is($m->as_string, "Foo: 1\n\nfoo\n");
+is($m->as_string("\r\n"), "Foo: 1\r\n\r\nfoo");
+is(j($m->parts), "");
 
 $m->content_type("message/foo");
 $m->content(<<EOT);
@@ -37,27 +37,27 @@ FooBar
 EOT
 
 my @parts = $m->parts;
-ok(@parts, 1);
+is(@parts, 1);
 my $m2 = $parts[0];
-ok(ref($m2), "HTTP::Message");
+is(ref($m2), "HTTP::Message");
 
-ok($m2->header("h1"), 1);
-ok($m2->header("h2"), "2\n  3");
-ok($m2->header("h3"), " abc");
-ok($m2->content, "FooBar\n");
-ok($m2->as_string, $m->content);
-ok(j($m2->parts), "");
+is($m2->header("h1"), 1);
+is($m2->header("h2"), "2\n  3");
+is($m2->header("h3"), " abc");
+is($m2->content, "FooBar\n");
+is($m2->as_string, $m->content);
+is(j($m2->parts), "");
 
 $m = POST("http://www.example.com",
 	  Content_Type => 'form-data',
 	  Content => [ foo => 1, bar => 2 ]);
-ok($m->content_type, "multipart/form-data");
+is($m->content_type, "multipart/form-data");
 @parts = $m->parts;
-ok(@parts, 2);
-ok($parts[0]->header("Content-Disposition"), 'form-data; name="foo"');
-ok($parts[0]->content, 1);
-ok($parts[1]->header("Content-Disposition"), 'form-data; name="bar"');
-ok($parts[1]->content, 2);
+is(@parts, 2);
+is($parts[0]->header("Content-Disposition"), 'form-data; name="foo"');
+is($parts[0]->content, 1);
+is($parts[1]->header("Content-Disposition"), 'form-data; name="bar"');
+is($parts[1]->content, 2);
 
 $m = HTTP::Message->new;
 $m->content_type("message/http");
@@ -69,36 +69,36 @@ How is this?
 EOT
 
 @parts = $m->parts;
-ok(@parts, 1);
-ok($parts[0]->method, "GET");
-ok($parts[0]->uri, "/");
-ok($parts[0]->protocol, "HTTP/1.0");
-ok($parts[0]->header("Host"), "example.com");
-ok($parts[0]->content, "How is this?\n");
+is(@parts, 1);
+is($parts[0]->method, "GET");
+is($parts[0]->uri, "/");
+is($parts[0]->protocol, "HTTP/1.0");
+is($parts[0]->header("Host"), "example.com");
+is($parts[0]->content, "How is this?\n");
 
 $m = HTTP::Message->new;
 $m->content_type("message/http");
 $m->content(<<EOT);
-HTTP/1.1 200 OK
+HTTP/1.1 200 is
 Content-Type : text/html
 
 <H1>Hello world!</H1>
 EOT
 
 @parts = $m->parts;
-ok(@parts, 1);
-ok($parts[0]->code, 200);
-ok($parts[0]->message, "OK");
-ok($parts[0]->protocol, "HTTP/1.1");
-ok($parts[0]->content_type, "text/html");
-ok($parts[0]->content, "<H1>Hello world!</H1>\n");
+is(@parts, 1);
+is($parts[0]->code, 200);
+is($parts[0]->message, "is");
+is($parts[0]->protocol, "HTTP/1.1");
+is($parts[0]->content_type, "text/html");
+is($parts[0]->content, "<H1>Hello world!</H1>\n");
 
 $m->parts(HTTP::Request->new("GET", "http://www.example.com"));
-ok($m->as_string, "Content-Type: message/http\n\nGET http://www.example.com\r\n\r\n");
+is($m->as_string, "Content-Type: message/http\n\nGET http://www.example.com\r\n\r\n");
 
 $m = HTTP::Request->new("PUT", "http://www.example.com");
 $m->parts(HTTP::Message->new([Foo => 1], "abc\n"), HTTP::Message->new([Bar => 2], "def"));
-ok($m->as_string, <<EOT);
+is($m->as_string, <<EOT);
 PUT http://www.example.com
 Content-Type: multipart/mixed; boundary=xYzZY
 
@@ -123,9 +123,9 @@ abcd
 EOT
 
 @parts = $m->parts;
-ok(@parts, 1);
-ok($parts[0]->content_length, 4);
-ok($parts[0]->content, "abcd");
+is(@parts, 1);
+is($parts[0]->content_length, 4);
+is($parts[0]->content, "abcd");
 
 $m->content("
 
@@ -140,10 +140,10 @@ ijk
 --xYzZY--");
 
 @parts = $m->parts;
-ok(@parts, 2);
-ok($parts[0]->content_length, 4);
-ok($parts[0]->content, "efgh");
-ok($parts[1]->content_length, 3);
-ok($parts[1]->content, "ijk");
+is(@parts, 2);
+is($parts[0]->content_length, 4);
+is($parts[0]->content, "efgh");
+is($parts[1]->content_length, 3);
+is($parts[1]->content, "ijk");
 
 sub j { join(":", @_) }

@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test;
+use Test::More;
 
 use HTTP::Headers::Util qw(split_header_words join_header_words);
 
@@ -35,11 +35,11 @@ for (@s_tests) {
    my @arg = ref($arg) ? @$arg : $arg;
 
    my $res = join_header_words(split_header_words(@arg));
-   ok($res, $expect);
+   is($res, $expect);
 }
 
 
-print "# Extra tests\n";
+note "# Extra tests\n";
 # some extra tests
-ok(join_header_words("foo" => undef, "bar" => "baz"), "foo; bar=baz");
-ok(join_header_words(), "");
+is(join_header_words("foo" => undef, "bar" => "baz"), "foo; bar=baz");
+is(join_header_words(), "");

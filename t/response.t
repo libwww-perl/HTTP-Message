@@ -4,7 +4,7 @@
 use strict;
 use warnings;
 
-use Test;
+use Test::More;
 plan tests => 23;
 
 use HTTP::Date;
@@ -30,11 +30,11 @@ ok($current_age >= 35  && $current_age <= 40);
 
 my $freshness_lifetime = $r->freshness_lifetime;
 ok($freshness_lifetime >= 12 * 3600);
-ok($r->freshness_lifetime(heuristic_expiry => 0), undef);
+is($r->freshness_lifetime(heuristic_expiry => 0), undef);
 
 my $is_fresh = $r->is_fresh;
 ok($is_fresh);
-ok($r->is_fresh(heuristic_expiry => 0), undef);
+is($r->is_fresh(heuristic_expiry => 0), undef);
 
 print "# current_age        = $current_age\n";
 print "# freshness_lifetime = $freshness_lifetime\n";
@@ -51,7 +51,7 @@ $r->expires($time);
 print "\n", $r->dump(prefix => "# ");
 
 $freshness_lifetime = $r->freshness_lifetime;
-ok($freshness_lifetime, 25);
+is($freshness_lifetime, 25);
 $r->remove_header('expires');
 
 # Now we try the 'Age' header and the Cache-Contol:
@@ -68,35 +68,35 @@ print "# current_age        = $current_age\n";
 print "# freshness_lifetime = $freshness_lifetime\n";
 
 ok($current_age >= 300);
-ok($freshness_lifetime, 10);
+is($freshness_lifetime, 10);
 
 ok($r->fresh_until);  # should return something
 ok($r->fresh_until(heuristic_expiry => 0));  # should return something
 
 my $r2 = HTTP::Response->parse($r->as_string);
 my @h = $r2->header('Cache-Control');
-ok(@h, 2);
+is(@h, 2);
 
 $r->remove_header("Cache-Control");
 
 ok($r->fresh_until);  # should still return something
-ok($r->fresh_until(heuristic_expiry => 0), undef);
+is($r->fresh_until(heuristic_expiry => 0), undef);
 
-ok($r->redirects, 0);
+is($r->redirects, 0);
 $r->previous($r2);
-ok($r->previous, $r2);
-ok($r->redirects, 1);
+is($r->previous, $r2);
+is($r->redirects, 1);
 
 $r2->previous($r->clone);
-ok($r->redirects, 2);
+is($r->redirects, 2);
 for ($r->redirects) {
     ok($_->is_success);
 }
 
-ok($r->base, $r->request->uri);
+is($r->base, $r->request->uri);
 $r->push_header("Content-Location", "/1/A/a");
-ok($r->base, "http://www.sn.no/1/A/a");
+is($r->base, "http://www.sn.no/1/A/a");
 $r->push_header("Content-Base", "/2/;a=/foo/bar");
-ok($r->base, "http://www.sn.no/2/;a=/foo/bar");
+is($r->base, "http://www.sn.no/2/;a=/foo/bar");
 $r->push_header("Content-Base", "/3/");
-ok($r->base, "http://www.sn.no/2/;a=/foo/bar");
+is($r->base, "http://www.sn.no/2/;a=/foo/bar");

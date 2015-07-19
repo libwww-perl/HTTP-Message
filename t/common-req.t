@@ -1,44 +1,44 @@
 use strict;
 use warnings;
 
-use Test;
-plan tests => 58;
+use Test::More;
+plan tests => 59;
 
 use HTTP::Request::Common;
 
 my $r = GET 'http://www.sn.no/';
-print $r->as_string;
+note $r->as_string;
 
-ok($r->method, "GET");
-ok($r->uri, "http://www.sn.no/");
+is($r->method, "GET");
+is($r->uri, "http://www.sn.no/");
 
 $r = HEAD "http://www.sn.no/",
      If_Match => 'abc',
      From => 'aas@sn.no';
-print $r->as_string;
+note $r->as_string;
 
-ok($r->method, "HEAD");
+is($r->method, "HEAD");
 ok($r->uri->eq("http://www.sn.no"));
 
-ok($r->header('If-Match'), "abc");
-ok($r->header("from"), "aas\@sn.no");
+is($r->header('If-Match'), "abc");
+is($r->header("from"), "aas\@sn.no");
 
 $r = PUT "http://www.sn.no",
      Content => 'foo';
-print $r->as_string, "\n";
+note $r->as_string, "\n";
 
-ok($r->method, "PUT");
-ok($r->uri->host, "www.sn.no");
+is($r->method, "PUT");
+is($r->uri->host, "www.sn.no");
 
 ok(!defined($r->header("Content")));
 
-ok(${$r->content_ref}, "foo");
-ok($r->content, "foo");
-ok($r->content_length, 3);
+is(${$r->content_ref}, "foo");
+is($r->content, "foo");
+is($r->content_length, 3);
 
 $r = PUT "http://www.sn.no",
      { foo => "bar" };
-ok($r->content, "foo=bar");
+is($r->content, "foo=bar");
 
 #--- Test POST requests ---
 
@@ -49,38 +49,38 @@ $r = POST "http://www.sn.no", [foo => 'bar;baz',
 			       "nl" => "a\nb\r\nc\n",
                               ],
                               bar => 'foo';
-print $r->as_string, "\n";
+note $r->as_string, "\n";
 
-ok($r->method, "POST");
-ok($r->content_type, "application/x-www-form-urlencoded");
-ok($r->content_length, 83);
-ok($r->header("bar"), "foo");
-ok($r->content, "foo=bar%3Bbaz&baz=a&baz=b&baz=c&foo=zoo%3D%26&space+=+%2B+&nl=a%0D%0Ab%0D%0Ac%0D%0A");
+is($r->method, "POST");
+is($r->content_type, "application/x-www-form-urlencoded");
+is($r->content_length, 83);
+is($r->header("bar"), "foo");
+is($r->content, "foo=bar%3Bbaz&baz=a&baz=b&baz=c&foo=zoo%3D%26&space+=+%2B+&nl=a%0D%0Ab%0D%0Ac%0D%0A");
 
 $r = POST "http://example.com";
-ok($r->content_length, 0);
-ok($r->content, "");
+is($r->content_length, 0);
+is($r->content, "");
 
 $r = POST "http://example.com", [];
-ok($r->content_length, 0);
-ok($r->content, "");
+is($r->content_length, 0);
+is($r->content, "");
 
 $r = POST "mailto:gisle\@aas.no",
      Subject => "Heisan",
      Content_Type => "text/plain",
      Content => "Howdy\n";
-#print $r->as_string;
+#note $r->as_string;
 
-ok($r->method, "POST");
-ok($r->header("Subject"), "Heisan");
-ok($r->content, "Howdy\n");
-ok($r->content_type, "text/plain");
+is($r->method, "POST");
+is($r->header("Subject"), "Heisan");
+is($r->content, "Howdy\n");
+is($r->content_type, "text/plain");
 
 {
     my @warnings;
     local $SIG{__WARN__} = sub { push @warnings, @_ };
     $r = POST 'http://unf.ug/', [];
-    ok( "@warnings", '', 'empty POST' );
+    is( "@warnings", '', 'empty POST' );
 }
 
 #
@@ -99,55 +99,56 @@ $r = POST 'http://www.perl.org/survey.cgi',
                          born   => '1964',
                          file   => [$file],
                        ];
-#print $r->as_string;
+#note $r->as_string;
 
 unlink($file) or warn "Can't unlink $file: $!";
 
-ok($r->method, "POST");
-ok($r->uri->path, "/survey.cgi");
-ok($r->content_type, "multipart/form-data");
+is($r->method, "POST");
+is($r->uri->path, "/survey.cgi");
+is($r->content_type, "multipart/form-data");
 ok($r->header('Content_type') =~ /boundary="?([^"]+)"?/);
 my $boundary = $1;
 
 my $c = $r->content;
 $c =~ s/\r//g;
 my @c = split(/--\Q$boundary/, $c);
-print "$c[5]\n";
+note "$c[5]\n";
 
-ok(@c == 7 and $c[6] =~ /^--\n/);  # 5 parts + header & trailer
+is(@c, 7);
+like($c[6], qr/^--\n/);  # 5 parts + header & trailer
 
-ok($c[2] =~ /^Content-Disposition:\s*form-data;\s*name="email"/m);
-ok($c[2] =~ /^gisle\@aas.no$/m);
+like($c[2], qr/^Content-Disposition:\s*form-data;\s*name="email"/m);
+like($c[2], qr/^gisle\@aas.no$/m);
 
-ok($c[5] =~ /^Content-Disposition:\s*form-data;\s*name="file";\s*filename="$file"/m);
-ok($c[5] =~ /^Content-Type:\s*text\/plain$/m);
-ok($c[5] =~ /^foo\nbar\nbaz/m);
+like($c[5], qr/^Content-Disposition:\s*form-data;\s*name="file";\s*filename="$file"/m);
+like($c[5], qr/^Content-Type:\s*text\/plain$/m);
+like($c[5], qr/^foo\nbar\nbaz/m);
 
 $r = POST 'http://www.perl.org/survey.cgi',
       [ file => [ undef, "xxy\"", Content_type => "text/html", Content => "<h1>Hello, world!</h1>" ]],
       Content_type => 'multipart/form-data';
-print $r->as_string;
+#note $r->as_string;
 
-ok($r->content =~ /^--\S+\015\012Content-Disposition:\s*form-data;\s*name="file";\s*filename="xxy\\"/m);
-ok($r->content =~ /^Content-Type: text\/html/m);
-ok($r->content =~ /^<h1>Hello, world/m);
+like($r->content, qr/^--\S+\015\012Content-Disposition:\s*form-data;\s*name="file";\s*filename="xxy\\"/m);
+like($r->content, qr/^Content-Type: text\/html/m);
+like($r->content, qr/^<h1>Hello, world/m);
 
 $r = POST 'http://www.perl.org/survey.cgi',
       Content_type => 'multipart/form-data',
       Content => [ file => [ undef, undef, Content => "foo"]];
-#print $r->as_string;
+#note $r->as_string;
 
-ok($r->content !~ /filename=/);
+unlike($r->content, qr/filename=/);
 
 
 # The POST routine can now also take a hash reference.
 my %hash = (foo => 42, bar => 24);
 $r = POST 'http://www.perl.org/survey.cgi', \%hash;
-#print $r->as_string, "\n";
-ok($r->content =~ /foo=42/);
-ok($r->content =~ /bar=24/);
-ok($r->content_type, "application/x-www-form-urlencoded");
-ok($r->content_length, 13);
+#note $r->as_string, "\n";
+like($r->content, qr/foo=42/);
+like($r->content, qr/bar=24/);
+is($r->content_type, "application/x-www-form-urlencoded");
+is($r->content_length, 13);
 
  
 #
@@ -171,16 +172,16 @@ $r = POST 'http://www.perl.org/survey.cgi',
                          born   => '1964',
                          file   => [$file],
                        ];
-print $r->as_string, "\n";
+#note $r->as_string, "\n";
 
-ok($r->method, "POST");
-ok($r->uri->path, "/survey.cgi");
-ok($r->content_type, "multipart/form-data");
-ok($r->header('Content_type') =~ /boundary="?([^"]+)"?/);
+is($r->method, "POST");
+is($r->uri->path, "/survey.cgi");
+is($r->content_type, "multipart/form-data");
+ok($r->header('Content_type') =~ qr/boundary="?([^"]+)"?/);
 $boundary = $1;
-ok(ref($r->content), "CODE");
+is(ref($r->content), "CODE");
 
-ok(length($boundary) > 10);
+cmp_ok(length($boundary), '>', 10);
 
 my $code = $r->content;
 my $chunk;
@@ -193,14 +194,14 @@ unlink($file) or warn "Can't unlink $file: $!";
 
 $_ = join("", @chunks);
 
-print int(@chunks), " chunks, total size is ", length($_), " bytes\n";
+#note int(@chunks), " chunks, total size is ", length($_), " bytes\n";
 
 # should be close to expected size and number of chunks
-ok(abs(@chunks - 15 < 3));
-ok(abs(length($_) - 26589) < 20);
+cmp_ok(abs(@chunks - 15), '<', 3);
+cmp_ok(abs(length($_) - 26589), '<', 20);
 
 $r = POST 'http://www.example.com';
-ok($r->as_string, <<EOT);
+is($r->as_string, <<EOT);
 POST http://www.example.com
 Content-Length: 0
 Content-Type: application/x-www-form-urlencoded
@@ -208,7 +209,7 @@ Content-Type: application/x-www-form-urlencoded
 EOT
 
 $r = POST 'http://www.example.com', Content_Type => 'form-data', Content => [];
-ok($r->as_string, <<EOT);
+is($r->as_string, <<EOT);
 POST http://www.example.com
 Content-Length: 0
 Content-Type: multipart/form-data; boundary=none
@@ -216,8 +217,8 @@ Content-Type: multipart/form-data; boundary=none
 EOT
 
 $r = POST 'http://www.example.com', Content_Type => 'form-data';
-#print $r->as_string;
-ok($r->as_string, <<EOT);
+#note $r->as_string;
+is($r->as_string, <<EOT);
 POST http://www.example.com
 Content-Length: 0
 Content-Type: multipart/form-data
@@ -225,10 +226,10 @@ Content-Type: multipart/form-data
 EOT
 
 $r = HTTP::Request::Common::DELETE 'http://www.example.com';
-ok($r->method, "DELETE");
+is($r->method, "DELETE");
 
 $r = HTTP::Request::Common::PUT 'http://www.example.com',
     'Content-Type' => 'application/octet-steam',
     'Content' => 'foobarbaz',
     'Content-Length' => 12;   # a slight lie
-ok($r->header('Content-Length'), 9);
+is($r->header('Content-Length'), 9);
