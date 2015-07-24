@@ -65,7 +65,7 @@ sub uri
 	    Carp::croak("A URI can't be a " . ref($uri) . " reference")
 		if ref($uri) eq 'HASH' or ref($uri) eq 'ARRAY';
 	    Carp::croak("Can't use a " . ref($uri) . " object as a URI")
-		unless $uri->can('scheme');
+		unless $uri->can('scheme') && $uri->can('canonical');
 	    $uri = $uri->clone;
 	    unless ($HTTP::URI_CLASS eq "URI") {
 		# Argh!! Hate this... old LWP legacy!
