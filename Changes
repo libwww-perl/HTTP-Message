@@ -1,6 +1,8 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - If an object is passed to HTTP::Request, it must provide a canonical()
+      method (Olaf Alders)
 
 6.11   2015-09-09
     - fix an undefined value warning in HTTP::Headers::as_string
