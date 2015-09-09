@@ -13,7 +13,7 @@ our @EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
 require HTTP::Request;
 use Carp();
 
-our $VERSION = "6.10";
+our $VERSION = "6.11";
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 
