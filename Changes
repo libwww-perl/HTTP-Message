@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+6.11   2015-09-09
+
     - fix an undefined value warning in HTTP::Headers::as_string
 
 6.10   2015-07-19
