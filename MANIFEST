@@ -15,6 +15,7 @@ MANIFEST			This list of files
 MANIFEST.SKIP
 README
 t/common-req.t
+t/distmanifest.t
 t/headers-auth.t
 t/headers-etag.t
 t/headers-util.t
