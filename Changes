@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+    - fix an undefined value warning in HTTP::Headers::as_string
+
 6.10   2015-07-19
 
     - fix uses of qr/.../m in tests that do not work in 5.8.x
