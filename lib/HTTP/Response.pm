@@ -215,7 +215,19 @@ sub dump
 
 
 sub is_info     { HTTP::Status::is_info     (shift->{'_rc'}); }
-sub is_success  { HTTP::Status::is_success  (shift->{'_rc'}); }
+sub is_success {
+    my $self = shift;
+    if ( HTTP::Status::is_success( $self->{'_rc'} )
+        && $self->header( 'X-Died' ) )
+    {
+        my $warning = <<'EOF';
+The HTTP status code implies success, but the X-Died header has been set
+internally. Something has gone wrong: '
+EOF
+        warn $warning . $self->header('X-Died');
+    }
+    return HTTP::Status::is_success( $self->{'_rc'} );
+}
 sub is_redirect { HTTP::Status::is_redirect (shift->{'_rc'}); }
 sub is_error    { HTTP::Status::is_error    (shift->{'_rc'}); }
 sub is_client_error { HTTP::Status::is_client_error (shift->{'_rc'}); }
