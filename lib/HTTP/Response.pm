@@ -1,5 +1,9 @@
 package HTTP::Response;
 
+require HTTP::Message;
+@ISA = qw(HTTP::Message);
+$VERSION = "6.06";
+
 use strict;
 use warnings;
 
