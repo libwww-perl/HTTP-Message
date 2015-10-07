@@ -4,3 +4,5 @@
 ^HTTP-Message-.*.tar.gz
 ^\.ackrc$
 ^test-
+^\.git.*
+^\.travis.yml
