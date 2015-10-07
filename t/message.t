@@ -1,9 +1,11 @@
+#! perl -w
+
 use strict;
 use warnings;
 
 use Test::More;
 
-plan tests => 129;
+plan tests => 131;
 
 require HTTP::Message;
 use Config qw(%Config);
@@ -21,6 +23,17 @@ is($m->content, "");
 
 $m->header("Foo", 1);
 is($m->as_string, "Foo: 1\n\n");
+
+{
+    # A message with an undef set content
+    # will stay consistent and have empty string
+    # as a content
+    my $m = HTTP::Message->new();
+    $m->content(undef);
+    is($m->as_string, "\n");
+    is($m->content, "");
+}
+
 
 $m2 = HTTP::Message->new($m->headers);
 $m2->header(bar => 2);
