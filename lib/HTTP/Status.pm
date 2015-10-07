@@ -116,6 +116,8 @@ sub is_server_error ($) { $_[0] >= 500 && $_[0] < 600; }
 
 __END__
 
+=pod
+
 =head1 NAME
 
 HTTP::Status - HTTP Status code processing
@@ -267,3 +269,5 @@ This function is B<not> exported by default.
 For legacy reasons all the C<HTTP_> constants are exported by default
 with the prefix C<RC_>.  It's recommended to use explicit imports and
 the C<:constants> tag instead of relying on this.
+
+=cut

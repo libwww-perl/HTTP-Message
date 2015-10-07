@@ -308,6 +308,8 @@ sub boundary
 
 __END__
 
+=pod
+
 =head1 NAME
 
 HTTP::Request::Common - Construct common HTTP::Request objects
@@ -509,7 +511,6 @@ $ua->request(POST ...).
 
 L<HTTP::Request>, L<LWP::UserAgent>
 
-
 =head1 COPYRIGHT
 
 Copyright 1997-2004, Gisle Aas
@@ -518,4 +519,3 @@ This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 =cut
-

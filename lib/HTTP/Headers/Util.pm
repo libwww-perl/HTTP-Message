@@ -95,6 +95,8 @@ sub join_header_words
 
 __END__
 
+=pod
+
 =head1 NAME
 
 HTTP::Headers::Util - Header value parsing utility functions
@@ -195,3 +197,4 @@ Copyright 1997-1998, Gisle Aas
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
+=cut

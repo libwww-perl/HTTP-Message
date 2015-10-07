@@ -339,6 +339,8 @@ sub fresh_until
 
 __END__
 
+=pod
+
 =head1 NAME
 
 HTTP::Response - HTTP style response message
@@ -642,3 +644,4 @@ Copyright 1995-2004 Gisle Aas.
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
+=cut

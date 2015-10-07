@@ -237,6 +237,8 @@ sub matching_items {
 
 __END__
 
+=pod
+
 =head1 NAME
 
 HTTP::Config - Configuration for request and response objects

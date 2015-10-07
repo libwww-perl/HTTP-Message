@@ -774,6 +774,8 @@ sub _boundary
 
 __END__
 
+=pod
+
 =head1 NAME
 
 HTTP::Message - HTTP style message (base class)
@@ -1112,3 +1114,4 @@ Copyright 1995-2004 Gisle Aas.
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
+=cut

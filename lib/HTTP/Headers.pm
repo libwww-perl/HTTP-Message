@@ -467,6 +467,8 @@ sub _basic_auth {
 
 __END__
 
+=pod
+
 =head1 NAME
 
 HTTP::Headers - Class encapsulating HTTP Message headers
@@ -871,3 +873,4 @@ Copyright 1995-2005 Gisle Aas.
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
+=cut
