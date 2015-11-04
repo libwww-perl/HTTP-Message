@@ -32,6 +32,7 @@ my %WriteMakefileArgs = (
     },
     TEST_REQUIRES => {
         'Test::More'                 => '0',
+        'Test::DistManifest'         => 0,
     },
 
     META_MERGE => {
