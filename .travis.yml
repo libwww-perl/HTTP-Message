@@ -7,3 +7,5 @@ perl:
   - "5.16"
   - "5.18"
   - "5.20"
+before_script:
+  - cpanm Test::DistManifest    # optional dependency for authors tests
