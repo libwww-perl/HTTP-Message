@@ -304,9 +304,10 @@ like($@, qr/^Illegal field name '' at \Q$file\E line $line/);
 
 #---- old tests below -----
 
-$h = new HTTP::Headers
+$h = HTTP::Headers->new(
 	mime_version  => "1.0",
-	content_type  => "text/html";
+	content_type  => "text/html"
+);
 $h->header(URI => "http://www.oslonett.no/");
 
 is($h->header("MIME-Version"), "1.0");
