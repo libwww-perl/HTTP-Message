@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 10;
+plan tests => 11;
 
 use HTTP::Status qw(:constants :is status_message);
 
@@ -19,3 +19,6 @@ ok(!is_success(HTTP_NOT_FOUND));
 
 is(status_message(0), undef);
 is(status_message(200), "OK");
+
+my %status_code = HTTP::Status::status_code();
+is($status_code{200}, status_message(200));
