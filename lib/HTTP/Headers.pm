@@ -359,7 +359,7 @@ sub content_type_charset {
     my $self = shift;
     require HTTP::Headers::Util;
     my $h = $self->{'content-type'};
-    $h = $h->[0] if ref($h);
+    $h = $h->[0] if ref($h) eq 'ARRAY';
     $h = "" unless defined $h;
     my @v = HTTP::Headers::Util::split_header_words($h);
     if (@v) {
