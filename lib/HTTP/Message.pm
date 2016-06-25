@@ -143,11 +143,11 @@ sub _set_content {
     my $self = $_[0];
     _utf8_downgrade($_[1]);
     if (!ref($_[1]) && ref($self->{_content}) eq "SCALAR") {
-	${$self->{_content}} = $_[1];
+	${$self->{_content}} = defined( $_[1] ) ? $_[1] : '';
     }
     else {
 	die "Can't set content to be a scalar reference" if ref($_[1]) eq "SCALAR";
-	$self->{_content} = $_[1];
+	$self->{_content} = defined( $_[1] ) ? $_[1] : '';
 	delete $self->{_content_ref};
     }
     delete $self->{_parts} unless $_[2];
@@ -834,6 +834,9 @@ but it will make your program a whole character shorter :-)
 The content() method sets the raw content if an argument is given.  If no
 argument is given the content is not touched.  In either case the
 original raw content is returned.
+
+If the C<undef> argument is given, the content is reset to its default value,
+which is an empty string.
 
 Note that the content should be a string of bytes.  Strings in perl
 can contain characters outside the range of a byte.  The C<Encode>
