@@ -350,7 +350,7 @@ HTTP::Response - HTTP style response message
 Response objects are returned by the request() method of the C<LWP::UserAgent>:
 
     # ...
-    $response = $ua->request($request)
+    $response = $ua->request($request);
     if ($response->is_success) {
         print $response->decoded_content;
     }
