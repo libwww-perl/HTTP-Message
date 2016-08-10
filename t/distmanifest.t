@@ -7,5 +7,7 @@ BEGIN {
         unless -d '.git' || $ENV{AUTHOR_TESTING};
 }
 
-use Test::DistManifest;
+eval { require Test::DistManifest; };    ## no critic (ErrorHandling::RequireCheckingReturnValueOfEval)
+plan skip_all => 'Test::DistManifest required' if $@;
+
 manifest_ok();
