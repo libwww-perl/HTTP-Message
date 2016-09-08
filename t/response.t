@@ -16,7 +16,7 @@ my $time = time;
 my $req = HTTP::Request->new(GET => 'http://www.sn.no');
 $req->date($time - 30);
 
-my $r = new HTTP::Response 200, "OK";
+my $r = HTTP::Response->new(200, "OK");
 $r->client_date($time - 20);
 $r->date($time - 25);
 $r->last_modified($time - 5000000);
