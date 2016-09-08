@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 59;
+plan tests => 61;
 
 use HTTP::Request::Common;
 
@@ -37,6 +37,10 @@ is($r->content, "foo");
 is($r->content_length, 3);
 
 $r = PUT "http://www.sn.no",
+     { foo => "bar" };
+is($r->content, "foo=bar");
+
+$r = PATCH "http://www.sn.no",
      { foo => "bar" };
 is($r->content, "foo=bar");
 
@@ -229,6 +233,12 @@ $r = HTTP::Request::Common::DELETE 'http://www.example.com';
 is($r->method, "DELETE");
 
 $r = HTTP::Request::Common::PUT 'http://www.example.com',
+    'Content-Type' => 'application/octet-steam',
+    'Content' => 'foobarbaz',
+    'Content-Length' => 12;   # a slight lie
+is($r->header('Content-Length'), 9);
+
+$r = HTTP::Request::Common::PATCH 'http://www.example.com',
     'Content-Type' => 'application/octet-steam',
     'Content' => 'foobarbaz',
     'Content-Length' => 12;   # a slight lie
