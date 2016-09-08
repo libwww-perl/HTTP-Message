@@ -185,7 +185,7 @@ This constructs a new request object by parsing the given string.
 =item $r->method( $val )
 
 This is used to get/set the method attribute.  The method should be a
-short string like "GET", "HEAD", "PUT" or "POST".
+short string like "GET", "HEAD", "PUT", "PATCH" or "POST".
 
 =item $r->uri
 

@@ -7,7 +7,7 @@ our $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
 
 use Exporter 5.57 'import';
 
-our @EXPORT =qw(GET HEAD PUT POST);
+our @EXPORT =qw(GET HEAD PUT PATCH POST);
 our @EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
 
 require HTTP::Request;
@@ -21,7 +21,7 @@ sub GET  { _simple_req('GET',  @_); }
 sub HEAD { _simple_req('HEAD', @_); }
 sub DELETE { _simple_req('DELETE', @_); }
 
-for my $type (qw(PUT POST)) {
+for my $type (qw(PUT PATCH POST)) {
     no strict 'refs';
     *{ __PACKAGE__ . "::" . $type } = sub {
         return request_type_with_data($type, @_);
@@ -346,8 +346,8 @@ following call
 but is less cluttered.  What is different is that a header named
 C<Content> will initialize the content part of the request instead of
 setting a header field.  Note that GET requests should normally not
-have a content, so this hack makes more sense for the PUT() and POST()
-functions described below.
+have a content, so this hack makes more sense for the PUT(), PATCH()
+ and POST() functions described below.
 
 The get(...) method of C<LWP::UserAgent> exists as a shortcut for
 $ua->request(GET ...).
@@ -374,6 +374,14 @@ pseudo-header.  This steals a bit of the header field namespace as
 there is no way to directly specify a header that is actually called
 "Content".  If you really need this you must update the request
 returned in a separate statement.
+
+=item PATCH $url
+
+=item PATCH $url, Header => Value,...
+
+=item PATCH $url, Header => Value,..., Content => $content
+
+Like PUT() but the method in the request is "PATCH".
 
 =item DELETE $url
 
