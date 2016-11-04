@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+    - fix error where content-type header is ref but not an array
+
 6.11   2015-09-09
 
     - fix an undefined value warning in HTTP::Headers::as_string
