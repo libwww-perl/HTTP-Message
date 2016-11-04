@@ -20,13 +20,9 @@ my $CRLF = "\015\012";   # "\r\n" is not portable
 sub GET  { _simple_req('GET',  @_); }
 sub HEAD { _simple_req('HEAD', @_); }
 sub DELETE { _simple_req('DELETE', @_); }
-
-for my $type (qw(PUT PATCH POST)) {
-    no strict 'refs';
-    *{ __PACKAGE__ . "::" . $type } = sub {
-        return request_type_with_data($type, @_);
-    };
-}
+sub PATCH { request_type_with_data('PATCH', @_); }
+sub POST { request_type_with_data('POST', @_); }
+sub PUT { request_type_with_data('PUT', @_); }
 
 sub request_type_with_data
 {
