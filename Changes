@@ -1,137 +1,78 @@
 Revision history for HTTP-Message
 
-6.11   2015-09-09
+{{$NEXT}}
 
+6.11   2015-09-09
     - fix an undefined value warning in HTTP::Headers::as_string
 
 6.10   2015-07-19
-
     - fix uses of qr/.../m in tests that do not work in 5.8.x
 
 6.09   2015-07-19
-
     - converted all uses of Test.pm to Test::More
-
     - fix uninitialized warning in HTTP::Config (RT#105929)
 
-
 6.08   2015-07-10
-
     - Resolve new uninitialized warning from
       HTTP::Request::Common::request_type_with_data (RT#105787)
 
-
 6.07   2015-07-09
-
-    - Allow subclasses to override the class of parts - it used to be
-      hardcoded to HTTP::Message. (Gisle Aas, RT#79239)
-
+    - Allow subclasses to override the class of parts - it used to be hardcoded
+      to HTTP::Message. (Gisle Aas, RT#79239)
     - Added support for is_client_error, is_server_error to HTTP::Response
       (Karen Etheridge)
-
     - Added flatten interface to HTTP::Headers (Tokuhiro Matsuno, GH#5)
-
     - Allow PUT to pass content data via hashrefs just like with POST (Michael
       Schilli, GH#9)
-
     - Fix for "Content-Encoding: none" header (Gisle Aas, RT#94882)
-
     - Add support for HTTP status 308, defined in RFC 7238 (Olivier Mengué,
       RT#104102)
-
     - drop the use of "use vars" (Karen Etheridge)
 
+6.06    2012-10-21
+    - More forgiving test on croak message [RT#80302] (Gisle Aas)
+    - Added test for multipart parsing (Gisle Aas)
+    - Multipart end boundary doesn't need match a complete line [RT#79239]
+      (Mark Overmeer)
 
-_______________________________________________________________________________
-2012-10-21 HTTP-Message 6.06
+6.05    2012-10-20
+    - Updated ignores (Gisle Aas)
+    - No need to prevent visiting field values starting with '_' (Gisle Aas)
+    - Report the correct croak caller for delegated methods (Gisle Aas)
+    - Disallow empty field names or field names containing ':' (Gisle Aas)
+    - Make the extra std_case entries local to each header (Gisle Aas)
 
-Gisle Aas (2):
-      More forgiving test on croak message [RT#80302]
-      Added test for multipart parsing
+6.04    2012-09-30
+    - Updated repository URL (Gisle Aas)
+    - Avoid undef warning for empty content (Gisle Aas)
+    - Teach $m->content_charset about JSON (Gisle Aas)
+    - Use the canonical charset name for UTF-16LE (and frieds) (Gisle Aas)
+    - Add option to override the "(no content)" marker of $m->dump (Gisle Aas)
+    - Use IO::HTML for <meta> encoding sniffing (Christopher J. Madsen)
+    - mime_name was introduced in Encode 2.21 (Christopher J. Madsen)
+    - Remove an unneeded "require" (Tom Hukins)
+    - Spelling fixes. (Ville Skyttä)
+    - Sanitized PERL_HTTP_URI_CLASS environment variable. (chromatic)
+    - Add test from RT#77466 (Martin H. Sluka)
+    - Fix doc grammo [RT#75831] (Father Chrysostomos)
 
-Mark Overmeer (1):
-      Multipart end boundary doesn't need match a complete line [RT#79239]
+6.03    2012-02-16
+    - Support 'bzip2' as alternative to Content-Encoding: x-bzip2.  Some
+      servers seem to return it.
+    - Make newlines in forms be "\r\n" terminated.
+    - Added some more status codes.
+    - Restore perl-5.8.1 compatibility.
 
+6.02    2011-03-20
+    - Declare dependency on Bunzip2 v2.021 [RT#66593]
 
+6.01    2011-03-07
+    - Avoid loading XML::Simple to avoid test failures.
+    - Eliminate the HTML::Entities dependency.
 
-_______________________________________________________________________________
-2012-10-20 HTTP-Message 6.05
-
-Gisle Aas (5):
-      Updated ignores
-      No need to prevent visiting field values starting with '_'
-      Report the correct croak caller for delegated methods
-      Disallow empty field names or field names containing ':'
-      Make the extra std_case entries local to each header
-
-
-
-_______________________________________________________________________________
-2012-09-30 HTTP-Message 6.04
-
-Gisle Aas (5):
-      Updated repository URL
-      Avoid undef warning for empty content
-      Teach $m->content_charset about JSON
-      Use the canonical charset name for UTF-16LE (and frieds)
-      Add option to override the "(no content)" marker of $m->dump
-
-Christopher J. Madsen (2):
-      Use IO::HTML for <meta> encoding sniffing
-      mime_name was introduced in Encode 2.21
-
-Tom Hukins (1):
-      Remove an unneeded "require"
-
-Ville Skyttä (1):
-      Spelling fixes.
-
-chromatic (1):
-      Sanitized PERL_HTTP_URI_CLASS environment variable.
-
-Martin H. Sluka (1):
-      Add test from RT#77466
-
-Father Chrysostomos (1):
-      Fix doc grammo [RT#75831]
-
-
-
-_______________________________________________________________________________
-2012-02-16 HTTP-Message 6.03
-
-Support 'bzip2' as alternative to Content-Encoding: x-bzip2.  Some
-servers seem to return it.
-
-Make newlines in forms be "\r\n" terminated.
-
-Added some more status codes.
-
-Restore perl-5.8.1 compatibility.
-
-
-
-_______________________________________________________________________________
-2011-03-20 HTTP-Message 6.02
-
-Declare dependency on Bunzip2 v2.021 [RT#66593]
-
-
-
-_______________________________________________________________________________
-2011-03-07 HTTP-Message 6.01
-
-Avoid loading XML::Simple to avoid test failures.
-
-Eliminate the HTML::Entities dependency.
-
-
-
-_______________________________________________________________________________
-2011-02-27 HTTP-Message 6.00
-
-Initial release of HTTP-Message as a separate distribution. There are no code
-changes besides incrementing the version number since libwww-perl-5.837.
-
-The HTTP::Message module with friends used to be bundled with the libwww-perl
-distribution.
+6.00    2011-02-27
+    - Initial release of HTTP-Message as a separate distribution. There are no
+      code changes besides incrementing the version number since
+      libwww-perl-5.837.
+    - The HTTP::Message module with friends used to be bundled with the
+      libwww-perl distribution.

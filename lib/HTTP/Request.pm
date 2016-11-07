@@ -5,8 +5,6 @@ use warnings;
 
 use base 'HTTP::Message';
 
-our $VERSION = "6.12";
-
 sub new
 {
     my($class, $method, $uri, $header, $content) = @_;
@@ -136,10 +134,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Request - HTTP style request message
-
 =head1 SYNOPSIS
 
  require HTTP::Request;
@@ -234,11 +228,7 @@ Method returning a textual representation of the request.
 L<HTTP::Headers>, L<HTTP::Message>, L<HTTP::Request::Common>,
 L<HTTP::Response>
 
-=head1 COPYRIGHT
-
-Copyright 1995-2004 Gisle Aas.
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: HTTP style request message
+
