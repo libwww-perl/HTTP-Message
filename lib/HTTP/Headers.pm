@@ -5,8 +5,6 @@ use warnings;
 
 use Carp ();
 
-our $VERSION = "6.12";
-
 # The $TRANSLATE_UNDERSCORE variable controls whether '_' can be used
 # as a replacement for '-' in header field names.
 our $TRANSLATE_UNDERSCORE = 1 unless defined $TRANSLATE_UNDERSCORE;
@@ -469,10 +467,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Headers - Class encapsulating HTTP Message headers
-
 =head1 SYNOPSIS
 
  require HTTP::Headers;
@@ -866,11 +860,7 @@ These field names are returned with the ':' intact for
 $h->header_field_names and the $h->scan callback, but the colons do
 not show in $h->as_string.
 
-=head1 COPYRIGHT
-
-Copyright 1995-2005 Gisle Aas.
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: Class encapsulating HTTP Message headers
+

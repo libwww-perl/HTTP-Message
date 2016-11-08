@@ -5,8 +5,6 @@ use warnings;
 
 use URI;
 
-our $VERSION = "6.12";
-
 sub new {
     my $class = shift;
     return bless [], $class;
@@ -239,10 +237,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Config - Configuration for request and response objects
-
 =head1 SYNOPSIS
 
  use HTTP::Config;
@@ -430,11 +424,7 @@ Matches if the response object has that key, or the entry has the given value.
 
 L<URI>, L<HTTP::Request>, L<HTTP::Response>
 
-=head1 COPYRIGHT
-
-Copyright 2008, Gisle Aas
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: Configuration for request and response objects
+

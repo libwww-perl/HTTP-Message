@@ -5,8 +5,6 @@ use warnings;
 
 use base 'HTTP::Message';
 
-our $VERSION = "6.12";
-
 use HTTP::Status ();
 
 
@@ -341,10 +339,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Response - HTTP style response message
-
 =head1 SYNOPSIS
 
 Response objects are returned by the request() method of the C<LWP::UserAgent>:
@@ -637,11 +631,7 @@ description of freshness_lifetime().
 
 L<HTTP::Headers>, L<HTTP::Message>, L<HTTP::Status>, L<HTTP::Request>
 
-=head1 COPYRIGHT
-
-Copyright 1995-2004 Gisle Aas.
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: HTTP style response message
+

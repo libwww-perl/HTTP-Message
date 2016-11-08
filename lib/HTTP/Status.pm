@@ -9,8 +9,6 @@ use base 'Exporter';
 our @EXPORT = qw(is_info is_success is_redirect is_error status_message);
 our @EXPORT_OK = qw(is_client_error is_server_error);
 
-our $VERSION = "6.12";
-
 # Note also addition of mnemonics to @EXPORT below
 
 # Unmarked codes are from RFC 2616
@@ -117,10 +115,6 @@ sub is_server_error ($) { $_[0] >= 500 && $_[0] < 600; }
 __END__
 
 =pod
-
-=head1 NAME
-
-HTTP::Status - HTTP Status code processing
 
 =head1 SYNOPSIS
 
@@ -271,3 +265,6 @@ with the prefix C<RC_>.  It's recommended to use explicit imports and
 the C<:constants> tag instead of relying on this.
 
 =cut
+
+#ABSTRACT: HTTP Status code processing
+

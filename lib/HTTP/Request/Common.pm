@@ -13,8 +13,6 @@ our @EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
 require HTTP::Request;
 use Carp();
 
-our $VERSION = "6.12";
-
 my $CRLF = "\015\012";   # "\r\n" is not portable
 
 sub GET  { _simple_req('GET',  @_); }
@@ -306,10 +304,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Request::Common - Construct common HTTP::Request objects
-
 =head1 SYNOPSIS
 
   use HTTP::Request::Common;
@@ -515,11 +509,7 @@ $ua->request(POST ...).
 
 L<HTTP::Request>, L<LWP::UserAgent>
 
-=head1 COPYRIGHT
-
-Copyright 1997-2004, Gisle Aas
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: Construct common HTTP::Request objects
+

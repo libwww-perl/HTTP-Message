@@ -3,8 +3,6 @@ package HTTP::Message;
 use strict;
 use warnings;
 
-our $VERSION = "6.12";
-
 require HTTP::Headers;
 require Carp;
 
@@ -776,10 +774,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Message - HTTP style message (base class)
-
 =head1 SYNOPSIS
 
  use base 'HTTP::Message';
@@ -1110,11 +1104,7 @@ details of these methods:
     $mess->authorization_basic
     $mess->proxy_authorization_basic
 
-=head1 COPYRIGHT
-
-Copyright 1995-2004 Gisle Aas.
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: HTTP style message (base class)
+

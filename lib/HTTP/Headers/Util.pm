@@ -3,8 +3,6 @@ package HTTP::Headers::Util;
 use strict;
 use warnings;
 
-our $VERSION = "6.12";
-
 use base 'Exporter';
 
 our @EXPORT_OK=qw(split_header_words _split_header_words join_header_words);
@@ -97,10 +95,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Headers::Util - Header value parsing utility functions
-
 =head1 SYNOPSIS
 
   use HTTP::Headers::Util qw(split_header_words);
@@ -190,11 +184,7 @@ will both return the string:
 
 =back
 
-=head1 COPYRIGHT
-
-Copyright 1997-1998, Gisle Aas
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: Header value parsing utility functions
+
