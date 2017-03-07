@@ -66,6 +66,7 @@
             "PerlIO::encoding" : "0",
             "Test::More" : "0.88",
             "Time::Local" : "0",
+            "Try::Tiny" : "0",
             "perl" : "5.008001"
          }
       }

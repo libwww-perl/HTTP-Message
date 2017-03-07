@@ -25,6 +25,7 @@ on 'test' => sub {
   requires "PerlIO::encoding" => "0";
   requires "Test::More" => "0.88";
   requires "Time::Local" => "0";
+  requires "Try::Tiny" => "0";
   requires "perl" => "5.008001";
 };
 
