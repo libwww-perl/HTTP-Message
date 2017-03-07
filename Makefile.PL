@@ -42,7 +42,8 @@ my %WriteMakefileArgs = (
   "TEST_REQUIRES" => {
     "PerlIO::encoding" => 0,
     "Test::More" => "0.88",
-    "Time::Local" => 0
+    "Time::Local" => 0,
+    "Try::Tiny" => 0
   },
   "VERSION" => "6.12",
   "test" => {
@@ -72,6 +73,7 @@ my %FallbackPrereqs = (
   "Storable" => 0,
   "Test::More" => "0.88",
   "Time::Local" => 0,
+  "Try::Tiny" => 0,
   "URI" => "1.10",
   "base" => 0,
   "strict" => 0,
