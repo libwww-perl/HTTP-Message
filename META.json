@@ -4,7 +4,7 @@
       "Gisle Aas <gisle@activestate.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 6.007, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "Dist::Zilla version 6.008, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -118,6 +118,7 @@
       "Jerome Eteve <jerome@broadbean.com>",
       "john9art <john9art@yahoo.com>",
       "Karen Etheridge <ether@cpan.org>",
+      "Karen Etheridge <github@froods.org>",
       "Mark Overmeer <mark@overmeer.net>",
       "Mark Stosberg <mark@stosberg.com>",
       "Mark Stosberg <MARKSTOS@cpan.org>",
@@ -125,8 +126,8 @@
       "Martin H. Sluka <fany@cpan.org>",
       "mickey <mickey75@gmail.com>",
       "Mickey Nasriachi <mickey@cpan.org>",
+      "Mike Schilli <github@perlmeister.com>",
       "Mike Schilli <mschilli@yahoo-inc.com>",
-      "mschilli <github@perlmeister.com>",
       "murphy <murphy@genome.chop.edu>",
       "Olaf Alders <olaf@wundersolutions.com>",
       "Olivier Mengu\u00e9 <dolmen@cpan.org>",
@@ -153,6 +154,6 @@
       "Yuri Karaban <tech@askold.net>",
       "Zefram <zefram@fysh.org>"
    ],
-   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0217"
+   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0225"
 }
 

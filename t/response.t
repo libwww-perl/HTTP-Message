@@ -5,11 +5,22 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 23;
+plan tests => 29;
 
 use HTTP::Date;
 use HTTP::Request;
 use HTTP::Response;
+
+# make sure we get no failures from undefined response values
+{
+    my $req = HTTP::Response->new();
+    is($req->is_success(), undef, 'Empty res: is_success');
+    is($req->is_info(), undef, 'Empty res: is_info');
+    is($req->is_redirect(), undef, 'Empty res: is_redirect');
+    is($req->is_error(), undef, 'Empty res: is_error');
+    is($req->is_client_error(), undef, 'Empty res: is_client_error');
+    is($req->is_server_error(), undef, 'Empty res: is_server_error');
+}
 
 my $time = time;
 
