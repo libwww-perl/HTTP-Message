@@ -8,6 +8,8 @@ our $VERSION = '6.41';
 require HTTP::Headers;
 require Carp;
 
+our $MAXIMUM_BODY_SIZE;
+
 my $CRLF = "\015\012";   # "\r\n" is not portable
 unless ($HTTP::URI_CLASS) {
     if ($ENV{PERL_HTTP_URI_CLASS}
@@ -53,9 +55,9 @@ sub new
     bless {
 	'_headers' => $header,
 	'_content' => $content,
+	'_max_body_size' => $HTTP::Message::MAXIMUM_BODY_SIZE,
     }, $class;
 }
-
 
 sub parse
 {
@@ -277,6 +279,17 @@ sub content_charset
     return undef;
 }
 
+sub max_body_size  {
+    my $self = $_[0];
+    my $old = $self->{_max_body_size};
+    $self->_set_max_body_size($_[1]) if @_ > 1;
+    return $old;
+}
+
+sub _set_max_body_size {
+    my $self = $_[0];
+    $self->{_max_body_size} = $_[1];
+}
 
 sub decoded_content
 {
@@ -288,6 +301,14 @@ sub decoded_content
 	$content_ref = $self->content_ref;
 	die "Can't decode ref content" if ref($content_ref) ne "SCALAR";
 
+	my $content_limit = exists $opt{ max_body_size } ? $opt{ max_body_size }
+			: defined $self->max_body_size ? $self->max_body_size
+			: undef
+			;
+	my %limiter_options;
+	if( defined $content_limit ) {
+	    %limiter_options = (LimitOutput => 1, Bufsize => $content_limit);
+	};
 	if (my $h = $self->header("Content-Encoding")) {
 	    $h =~ s/^\s+//;
 	    $h =~ s/\s+$//;
@@ -295,27 +316,70 @@ sub decoded_content
 		next unless $ce;
 		next if $ce eq "identity" || $ce eq "none";
 		if ($ce eq "gzip" || $ce eq "x-gzip") {
-		    require IO::Uncompress::Gunzip;
-		    my $output;
-		    IO::Uncompress::Gunzip::gunzip($content_ref, \$output, Transparent => 0)
-			or die "Can't gunzip content: $IO::Uncompress::Gunzip::GunzipError";
+		    require Compress::Raw::Zlib; # 'WANT_GZIP_OR_ZLIB', 'Z_BUF_ERROR';
+
+		    if( ! $content_ref_iscopy and keys %limiter_options) {
+			# Create a copy of the input because Zlib will overwrite it
+			# :-(
+			my $input = "$$content_ref";
+			$content_ref = \$input;
+			$content_ref_iscopy++;
+		    };
+		    my ($i, $status) = Compress::Raw::Zlib::Inflate->new(
+			%limiter_options,
+			ConsumeInput => 0, # overridden by Zlib if we have %limiter_options :-(
+			WindowBits => Compress::Raw::Zlib::WANT_GZIP_OR_ZLIB(),
+		    );
+		    my $res = $i->inflate( $content_ref, \my $output );
+		    $res == Compress::Raw::Zlib::Z_BUF_ERROR()
+			and Carp::croak("Decoded content would be larger than $content_limit octets");
+		    $res == Compress::Raw::Zlib::Z_OK()
+		    or $res == Compress::Raw::Zlib::Z_STREAM_END()
+		    or die "Can't gunzip content: $res";
 		    $content_ref = \$output;
 		    $content_ref_iscopy++;
 		}
 		elsif ($ce eq 'br') {
 		    require IO::Uncompress::Brotli;
 		    my $bro = IO::Uncompress::Brotli->create;
-		    my $output = eval { $bro->decompress($$content_ref) };
+
+		    my $output;
+		    if( defined $content_limit ) {
+			$output = eval { $bro->decompress( $$content_ref, $content_limit ); }
+		    } else {
+			$output = eval { $bro->decompress($$content_ref) };
+		    }
+
 		    $@ and die "Can't unbrotli content: $@";
 		    $content_ref = \$output;
 		    $content_ref_iscopy++;
 		}
 		elsif ($ce eq "x-bzip2" or $ce eq "bzip2") {
-		    require IO::Uncompress::Bunzip2;
+		    require Compress::Raw::Bzip2;
+
+		    if( ! $content_ref_iscopy ) {
+			# Create a copy of the input because Bzlib2 will overwrite it
+			# :-(
+			my $input = "$$content_ref";
+			$content_ref = \$input;
+			$content_ref_iscopy++;
+		    };
+		    my ($i, $status) = Compress::Raw::Bunzip2->new(
+			1, # appendInput
+			0, # consumeInput
+			0, # small
+			$limiter_options{ LimitOutput } || 0,
+		    );
 		    my $output;
-		    IO::Uncompress::Bunzip2::bunzip2($content_ref, \$output, Transparent => 0)
-			or die "Can't bunzip content: $IO::Uncompress::Bunzip2::Bunzip2Error";
-		    $content_ref = \$output;
+		    $output = "\0" x $limiter_options{ Bufsize }
+			if $limiter_options{ Bufsize };
+		    my $res = $i->bzinflate( $content_ref, \$output );
+		    $res == Compress::Raw::Bzip2::BZ_OUTBUFF_FULL()
+			and Carp::croak("Decoded content would be larger than $content_limit octets");
+		    $res == Compress::Raw::Bzip2::BZ_OK()
+		    or $res == Compress::Raw::Bzip2::BZ_STREAM_END()
+			or die "Can't bunzip content: $res";
+			    $content_ref = \$output;
 		    $content_ref_iscopy++;
 		}
 		elsif ($ce eq "deflate") {
