@@ -6,6 +6,8 @@ use warnings;
 require HTTP::Headers;
 require Carp;
 
+use vars '$MAXIMUM_BODY_SIZE';
+
 my $CRLF = "\015\012";   # "\r\n" is not portable
 unless ($HTTP::URI_CLASS) {
     if ($ENV{PERL_HTTP_URI_CLASS}
@@ -51,9 +53,9 @@ sub new
     bless {
 	'_headers' => $header,
 	'_content' => $content,
+	'_max_body_size' => $HTTP::Message::MAXIMUM_BODY_SIZE,
     }, $class;
 }
-
 
 sub parse
 {
@@ -275,6 +277,25 @@ sub content_charset
     return undef;
 }
 
+sub max_body_size  {
+    my $self = $_[0];
+    if (defined(wantarray)) {
+	my $old = $self->{_max_body_size};
+	&_set_max_body_size if @_ > 1;
+	return $old;
+    }
+    if (@_ > 1) {
+	&_set_max_body_size;
+    }
+    else {
+	Carp::carp("Useless max_body_size call in void context") if $^W;
+    }
+}
+
+sub _set_max_body_size {
+    my $self = $_[0];
+	$self->{_max_body_size} = $_[1];
+}
 
 sub decoded_content
 {
