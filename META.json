@@ -61,6 +61,7 @@
             "IO::Compress::Bzip2" : "2.021",
             "IO::Compress::Deflate" : "0",
             "IO::Compress::Gzip" : "0",
+            "Compress::Raw::Zlib" : "2.061",
             "IO::HTML" : "0",
             "IO::Uncompress::Bunzip2" : "2.021",
             "IO::Uncompress::Gunzip" : "0",
