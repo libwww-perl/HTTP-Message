@@ -511,7 +511,7 @@ sub as_string
 
     # The calculation of content might update the headers
     # so we need to do that first.
-    my $content = $self->content;
+    my $content = defined $self->content ? $self->content : '';
 
     return join("", $self->{'_headers'}->as_string($eol),
 		    $eol,
