@@ -5,7 +5,12 @@ Revision history for HTTP-Message
       method (Olaf Alders)
     - Make sure status messages don't die by checking the status exists before
       checking the value range (Kent Fredric, GH #39)
-    - Added a .mailmap file to clean up the contributors list
+    - Add a .mailmap file to clean up the contributors list
+    - Avoid inconsistent setting of content to undef (Jerome Eteve)
+    - Simplify the way some methods are created (Tom Hukins)
+    - Remove some indirect object notation (Chase Whitener)
+    - Fix example in Pod (Tobias Leich)
+    - Add support for HTTP PATCH method (Mickey Nasriachi)
 
 6.11   2015-09-09
     - fix an undefined value warning in HTTP::Headers::as_string
