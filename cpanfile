@@ -47,4 +47,5 @@ on 'configure' => sub {
 
 on 'develop' => sub {
   requires "Test::CPAN::Changes" => "0.19";
+  requires "Test::More" => "0.96";
 };

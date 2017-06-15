@@ -1,6 +1,8 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+
+6.12      2017-06-15 18:03:50Z (TRIAL RELEASE)
     - If an object is passed to HTTP::Request, it must provide a canonical()
       method (Olaf Alders)
     - Make sure status messages don't die by checking the status exists before
