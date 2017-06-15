@@ -1,4 +1,5 @@
 requires "Carp" => "0";
+requires "Compress::Raw::Zlib" => "0";
 requires "Encode" => "2.21";
 requires "Encode::Locale" => "1";
 requires "Exporter" => "5.57";
@@ -22,11 +23,17 @@ requires "strict" => "0";
 requires "warnings" => "0";
 
 on 'test' => sub {
+  requires "ExtUtils::MakeMaker" => "0";
+  requires "File::Spec" => "0";
   requires "PerlIO::encoding" => "0";
   requires "Test::More" => "0.88";
   requires "Time::Local" => "0";
   requires "Try::Tiny" => "0";
   requires "perl" => "5.008001";
+};
+
+on 'test' => sub {
+  recommends "CPAN::Meta" => "2.120900";
 };
 
 on 'configure' => sub {
