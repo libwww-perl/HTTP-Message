@@ -2,6 +2,9 @@ Revision history for HTTP-Message
 
 {{$NEXT}}
 
+6.13      2017-06-20 01:07:03Z
+    - Non-TRIAL release of changes found in 6.12
+
 6.12      2017-06-15 18:03:50Z (TRIAL RELEASE)
     - If an object is passed to HTTP::Request, it must provide a canonical()
       method (Olaf Alders)
