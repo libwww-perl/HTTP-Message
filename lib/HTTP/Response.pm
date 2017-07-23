@@ -21,8 +21,9 @@ sub new
 sub parse
 {
     my($class, $str) = @_;
+    Carp::carp('Undefined argument to parse()') if $^W && ! defined $str;
     my $status_line;
-    if ($str =~ s/^(.*)\n//) {
+    if (defined $str && $str =~ s/^(.*)\n//) {
 	$status_line = $1;
     }
     else {
@@ -30,19 +31,21 @@ sub parse
 	$str = "";
     }
 
-    $status_line =~ s/\r\z//;
+    $status_line =~ s/\r\z// if defined $status_line;
 
     my $self = $class->SUPER::parse($str);
-    my($protocol, $code, $message);
-    if ($status_line =~ /^\d{3} /) {
-       # Looks like a response created by HTTP::Response->new
-       ($code, $message) = split(' ', $status_line, 2);
-    } else {
-       ($protocol, $code, $message) = split(' ', $status_line, 3);
+    if (defined $status_line) {
+        my($protocol, $code, $message);
+        if ($status_line =~ /^\d{3} /) {
+           # Looks like a response created by HTTP::Response->new
+           ($code, $message) = split(' ', $status_line, 2);
+        } else {
+           ($protocol, $code, $message) = split(' ', $status_line, 3);
+        }
+        $self->protocol($protocol) if $protocol;
+        $self->code($code) if defined($code);
+        $self->message($message) if defined($message);
     }
-    $self->protocol($protocol) if $protocol;
-    $self->code($code) if defined($code);
-    $self->message($message) if defined($message);
     $self;
 }
 

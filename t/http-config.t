@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 16;
+plan tests => 28;
 
 use HTTP::Config;
 
@@ -10,11 +10,26 @@ sub j { join("|", @_) }
 
 my $conf = HTTP::Config->new;
 ok($conf->empty);
+is($conf->entries, 0);
 $conf->add_item(42);
 ok(!$conf->empty);
+is($conf->entries, 1);
 is(j($conf->matching_items("http://www.example.com/foo")), 42);
 is(j($conf->remove_items), 42);
+is(j($conf->remove_items), '');
 is($conf->matching_items("http://www.example.com/foo"), 0);
+is($conf->matching_items('foo', 'bar', 'baz'), 0);
+$conf->add({item => "http://www.example.com/foo", m_uri__HEAD => undef});
+is($conf->entries, 1);
+is($conf->matching_items("http://www.example.com/foo"), 0);
+SKIP: {
+	my $res;
+	eval { $res = $conf->matching_items(0); };
+	skip "can fails on non-object", 2 if $@;
+	is($res, 0);
+	eval { $res = $conf->matching(0); };
+	ok(!defined $res);
+}
 
 $conf = HTTP::Config->new;
 
@@ -27,6 +42,10 @@ $conf->add_item("not secure", m_secure => 0);
 $conf->add_item("slash", m_host_port => "www.example.com:80", m_path_prefix => "/");
 $conf->add_item("u:p", m_host_port => "www.example.com:80", m_path_prefix => "/foo");
 $conf->add_item("success", m_code => "2xx");
+is($conf->find(m_domain => ".com")->{item}, '.com');
+my @found = $conf->find(m_domain => ".com");
+is($#found, 0);
+is($found[0]->{item}, '.com');
 
 use HTTP::Request;
 my $request = HTTP::Request->new(HEAD => "http://www.example.com/foo/bar");
@@ -70,6 +89,8 @@ is(j($conf->matching_items($response)), "xhtml|html|any");
 $response->content_type("text/html");
 is(j($conf->matching_items($response)), "HTML|html|text|any");
 
+$response->request(undef);
+is(j($conf->matching_items($response)), "HTML|html|text|any");
 
 {
     my @warnings;

@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 15;
+plan tests => 35;
 
 use HTTP::Request;
 use Try::Tiny qw( catch try );
@@ -56,6 +56,13 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
 
     1;
 
+    package Foo::URI::WithoutScheme;
+
+    sub new { return bless {}, shift; }
+    sub clone     { return shift }
+
+    1;
+
     package main;
 
     ok( Foo::URI->new->can('scheme'), 'Object can scheme()' );
@@ -85,4 +92,61 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
         },
         'Object with canonical method does not trigger an exception'
     );
+
+    ok( !Foo::URI::WithoutScheme->new->can('scheme'), 'Object cannot scheme()' );
+    ok(
+        !do {
+            try {
+                HTTP::Request->new( GET => Foo::URI::WithoutScheme->new );
+                return 1;
+            }
+            catch { return 0 };
+        },
+        'Object without scheme method triggers an exception'
+    );
 }
+
+eval { $req->uri ({ foo => 'bar'}); };
+like($@, qr/A URI can't be a HASH reference/);
+eval { $req->uri (['foo']); };
+like($@, qr/A URI can't be a ARRAY reference/);
+
+$req = HTTP::Request->new;
+is($req->as_string, "- -\n\n");
+is($req->dump, <<EOT);
+- -
+
+(no content)
+EOT
+$req->protocol("HTTP/1.1");
+is($req->dump, <<EOT);
+- - HTTP/1.1
+
+(no content)
+EOT
+
+{
+	my @warn;
+	local $SIG{__WARN__} = sub { push @warn, @_ };
+	local $^W = 0;
+	$r2 = HTTP::Request->parse( undef );
+	is($#warn, -1);
+	local $^W = 1;
+	$r2 = HTTP::Request->parse( undef );
+	is($#warn, 0);
+	like($warn[0], qr/Undefined argument to parse\(\)/);
+}
+is( $r2->method,                    undef );
+is( $r2->uri,                       undef );
+is( $r2->protocol,                  undef );
+is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
+
+$r2 = HTTP::Request->parse('methonly');
+is( $r2->method,   'methonly' );
+is( $r2->uri,      undef );
+is( $r2->protocol, undef );
+
+$r2 = HTTP::Request->parse('methonly http://www.example.com/');
+is( $r2->method,   'methonly' );
+is( $r2->uri,      'http://www.example.com/' );
+is( $r2->protocol, undef );

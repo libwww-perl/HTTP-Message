@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More;
 
-plan tests => 6;
+plan tests => 9;
 
 use HTTP::Response;
 use HTTP::Headers::Auth;
@@ -39,3 +39,10 @@ my $string = $res->as_string;
 like($string, qr/WWW-Authenticate: Basic realm="foo3", foo=33/);
 like($string, qr/WWW-Authenticate: Digest (nonce=bar, foo=foo|foo=foo, nonce=bar)/);
 
+$res = HTTP::Response->new(401);
+my @auth = $res->proxy_authenticate('foo');
+is_deeply(\@auth, []);
+@auth = $res->proxy_authenticate('foo', 'bar');
+is_deeply(\@auth, ['foo', {}]);
+@auth = $res->proxy_authenticate('foo', {'bar' => '_'});
+is_deeply(\@auth, ['foo', {}, 'bar', {}]);
