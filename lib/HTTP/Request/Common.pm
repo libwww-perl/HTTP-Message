@@ -346,7 +346,7 @@ have a content, so this hack makes more sense for the C<PUT>, C<PATCH>
  and C<POST> functions described below.
 
 The C<get(...)> method of L<LWP::UserAgent> exists as a shortcut for
-C<$ua->request(GET ...)>.
+C<< $ua->request(GET ...) >>.
 
 =item HEAD $url
 
@@ -355,7 +355,7 @@ C<$ua->request(GET ...)>.
 Like GET() but the method in the request is "HEAD".
 
 The C<head(...)>  method of L<LWP::UserAgent> exists as a shortcut for
-C<$ua->request(HEAD ...)>.
+C<< $ua->request(HEAD ...) >>.
 
 =item DELETE $url
 
@@ -520,7 +520,7 @@ the time the Content-Length is calculated and the time that the last
 chunk is delivered, the subroutine will C<Croak>.
 
 The C<post(...)>  method of L<LWP::UserAgent> exists as a shortcut for
-C<$ua->request(POST ...)>.
+C<< $ua->request(POST ...) >>.
 
 =back
 
