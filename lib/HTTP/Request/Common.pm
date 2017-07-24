@@ -386,7 +386,7 @@ The same as C<POST> below, but the method in the request is C<PATCH>.
 
 =item PUT $url, Header => Value,..., Content => $content
 
-The same as C<POST> below, but the method in the request is C<PATCH>
+The same as C<POST> below, but the method in the request is C<PUT>
 
 =item POST $url
 
@@ -406,7 +406,7 @@ C<POST>, C<PATCH> and C<PUT> all work with the same parameters.
   $response = $ua->request($request);
 
 They take a second optional array or hash reference
-parameter $form_ref.  The content can also be specified
+parameter C<$form_ref>.  The content can also be specified
 directly using the C<Content> pseudo-header, and you may also provide
 the C<$form_ref> this way.
 
@@ -442,7 +442,7 @@ name or by passing the value as an array reference.
 The POST method also supports the C<multipart/form-data> content used
 for I<Form-based File Upload> as specified in RFC 1867.  You trigger
 this content format by specifying a content type of C<'form-data'> as
-one of the request headers.  If one of the values in the $form_ref is
+one of the request headers.  If one of the values in the C<$form_ref> is
 an array reference, then it is treated as a file part specification
 with the following interpretation:
 
@@ -516,7 +516,7 @@ upload infinite files like F</dev/audio> if you wish; however, if
 the file is not a plain file, there will be no C<Content-Length> header
 defined for the request.  Not all servers (or server
 applications) like this.  Also, if the file(s) change in size between
-the time the Content-Length is calculated and the time that the last
+the time the C<Content-Length> is calculated and the time that the last
 chunk is delivered, the subroutine will C<Croak>.
 
 The C<post(...)>  method of L<LWP::UserAgent> exists as a shortcut for
