@@ -310,13 +310,18 @@ __END__
   $ua = LWP::UserAgent->new;
   $ua->request(GET 'http://www.sn.no/');
   $ua->request(POST 'http://somewhere/foo', [foo => bar, bar => foo]);
+  $ua->request(PATCH 'http://somewhere/foo', [foo => bar, bar => foo]);
+  $ua->request(PUT 'http://somewhere/foo', [foo => bar, bar => foo]);
 
 =head1 DESCRIPTION
 
 This module provide functions that return newly created C<HTTP::Request>
 objects.  These functions are usually more convenient to use than the
-standard C<HTTP::Request> constructor for the most common requests.  The
-following functions are provided:
+standard C<HTTP::Request> constructor for the most common requests.  
+
+Note that LWP::UserAgent has GET and POST convinience methods.
+
+The following functions are provided:
 
 =over 4
 
@@ -351,34 +356,36 @@ Like GET() but the method in the request is "HEAD".
 The head(...)  method of "LWP::UserAgent" exists as a shortcut for
 $ua->request(HEAD ...).
 
-=item PUT $url
-
-=item PUT $url, Header => Value,...
-
-=item PUT $url, Header => Value,..., Content => $content
-
-Like GET() but the method in the request is "PUT".
-
-The content of the request can be specified using the "Content"
-pseudo-header.  This steals a bit of the header field namespace as
-there is no way to directly specify a header that is actually called
-"Content".  If you really need this you must update the request
-returned in a separate statement.
-
-=item PATCH $url
-
-=item PATCH $url, Header => Value,...
-
-=item PATCH $url, Header => Value,..., Content => $content
-
-Like PUT() but the method in the request is "PATCH".
-
 =item DELETE $url
 
 =item DELETE $url, Header => Value,...
 
 Like GET() but the method in the request is "DELETE".  This function
 is not exported by default.
+
+=item PATCH $url
+
+=item PATCH $url, Header => Value,...
+
+=item PATCH $url, $form_ref, Header => Value,...
+
+=item PATCH $url, Header => Value,..., Content => $form_ref
+
+=item PATCH $url, Header => Value,..., Content => $content
+
+The same as POST() below, but the method in the request is "PATCH".
+
+=item PUT $url
+
+=item PUT $url, Header => Value,...
+
+=item PUT $url, $form_ref, Header => Value,...
+
+=item PUT $url, Header => Value,..., Content => $form_ref
+
+=item PUT $url, Header => Value,..., Content => $content
+
+The same as POST() below, but the method in the request is "PATCH"
 
 =item POST $url
 
@@ -390,11 +397,22 @@ is not exported by default.
 
 =item POST $url, Header => Value,..., Content => $content
 
-This works mostly like PUT() with "POST" as the method, but this
-function also takes a second optional array or hash reference
-parameter $form_ref.  As for PUT() the content can also be specified
+POST, PATCH and PUT all work with the same parameters.
+
+  %data = ( title => 'something', body => something else' );
+  $ua = LWP::UserAgent->new();
+  $request = HTTP::Request::Common::POST( $url, [ %data ] );
+  $response = $ua->request($request);
+
+They take a second optional array or hash reference
+parameter $form_ref.  The content can also be specified
 directly using the "Content" pseudo-header, and you may also provide
 the $form_ref this way.
+
+The "Content" pseudo-header steals a bit of the header field namespace as
+there is no way to directly specify a header that is actually called
+"Content".  If you really need this you must update the request
+returned in a separate statement.
 
 The $form_ref argument can be used to pass key/value pairs for the
 form content.  By default we will initialize a request using the
