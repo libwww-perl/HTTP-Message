@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More;
 
-plan tests => 168;
+plan tests => 188;
 
 my($h, $h2);
 sub j { join("|", @_) }
@@ -189,6 +189,7 @@ is(j($h->header_field_names), "Date|If-Modified-Since|If-Unmodified-Since|Expire
 
 $h->clear;
 is($h->content_type, "");
+is($h->content_type(""), "");
 is($h->content_type("text/html"), "");
 is($h->content_type, "text/html");
 is($h->content_type("   TEXT  / HTML   ") , "text/html");
@@ -201,6 +202,14 @@ is($h->header("content_type"), "text/html;\n charSet = \"ISO-8859-1\"; Foo=1 ");
 ok($h->content_is_html);
 ok(!$h->content_is_xhtml);
 ok(!$h->content_is_xml);
+$h->content_type("application/vnd.wap.xhtml+xml");
+ok($h->content_is_html);
+ok($h->content_is_xhtml);
+ok($h->content_is_xml);
+$h->content_type("text/xml");
+ok(!$h->content_is_html);
+ok(!$h->content_is_xhtml);
+ok($h->content_is_xml);
 $h->content_type("application/xhtml+xml");
 ok($h->content_is_html);
 ok($h->content_is_xhtml);
@@ -452,6 +461,33 @@ Content-Type: text/plain
 content_type: text/html
 foo_bar: 1
 EOT
+
+$h = HTTP::Headers->new;
+ok(!defined $h->warning('foo', 'INIT'));
+is($h->warning('bar'), 'foo');
+is($h->warning('baz', 'GET'), 'bar');
+is($h->as_string, <<EOT);
+Warning: bar
+EOT
+
+$h = HTTP::Headers->new;
+ok(!defined $h->header(':foo', 'bar'));
+ok(!defined $h->header(':zap', 'bang'));
+$h->push_header(':zap', ['kapow', 'shazam']);
+is(j($h->header_field_names), ':foo|:zap');
+is(j($h->header_field_names), ':foo|:zap');
+$h->scan(sub { $_[1] .= '!' });
+is(j($h->header(':zap')), 'bang!|kapow!|shazam!');
+is(j($h->header(':foo')), 'bar');
+is($h->as_string, <<EOT);
+foo: bar
+zap: bang!
+zap: kapow!
+zap: shazam!
+EOT
+is(j($h->remove_header(':zap')), 'bang!|kapow!|shazam!');
+$h->push_header(':zap', 'whomp', ':foo', 'quux');
+is(j($h->header(':foo')), 'bar|quux');
 
 # [RT#30579] IE6 appens "; length = NNNN" on If-Modified-Since (can we handle it)
 $h = HTTP::Headers->new(
