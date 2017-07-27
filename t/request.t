@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 15;
+plan tests => 26;
 
 use HTTP::Request;
 use Try::Tiny qw( catch try );
@@ -56,6 +56,13 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
 
     1;
 
+    package Foo::URI::WithoutScheme;
+
+    sub new { return bless {}, shift; }
+    sub clone     { return shift }
+
+    1;
+
     package main;
 
     ok( Foo::URI->new->can('scheme'), 'Object can scheme()' );
@@ -85,4 +92,41 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
         },
         'Object with canonical method does not trigger an exception'
     );
+
+    ok( !Foo::URI::WithoutScheme->new->can('scheme'), 'Object cannot scheme()' );
+    ok(
+        !do {
+            try {
+                HTTP::Request->new( GET => Foo::URI::WithoutScheme->new );
+                return 1;
+            }
+            catch { return 0 };
+        },
+        'Object without scheme method triggers an exception'
+    );
 }
+
+eval { $req->uri ({ foo => 'bar'}); };
+like($@, qr/A URI can't be a HASH reference/);
+eval { $req->uri (['foo']); };
+like($@, qr/A URI can't be a ARRAY reference/);
+
+$req = HTTP::Request->new;
+is($req->as_string, "- -\n\n");
+is($req->dump, <<EOT);
+- -
+
+(no content)
+EOT
+$req->protocol("HTTP/1.1");
+is($req->dump, <<EOT);
+- - HTTP/1.1
+
+(no content)
+EOT
+
+$r2 = HTTP::Request->parse( undef );
+is( $r2->method,                    undef );
+is( $r2->uri,                       undef );
+is( $r2->protocol,                  undef );
+is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );

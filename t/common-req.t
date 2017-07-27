@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 61;
+plan tests => 64;
 
 use HTTP::Request::Common;
 
@@ -22,6 +22,16 @@ ok($r->uri->eq("http://www.sn.no"));
 
 is($r->header('If-Match'), "abc");
 is($r->header("from"), "aas\@sn.no");
+
+$r = HEAD "http://www.sn.no/",
+	Content => 'foo';
+is($r->content, 'foo');
+
+$r = HEAD "http://www.sn.no/",
+	Content => 'foo',
+	'Content-Length' => 50;
+is($r->content, 'foo');
+is($r->content_length, 50);
 
 $r = PUT "http://www.sn.no",
      Content => 'foo';
