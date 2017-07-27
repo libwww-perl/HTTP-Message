@@ -22,9 +22,14 @@ is($conf->matching_items('foo', 'bar', 'baz'), 0);
 $conf->add({item => "http://www.example.com/foo", m_uri__HEAD => undef});
 is($conf->entries, 1);
 is($conf->matching_items("http://www.example.com/foo"), 0);
-is($conf->matching_items(0), 0);
-my $onematch = $conf->matching(0);
-ok(!defined $onematch);
+SKIP: {
+	my $res;
+	eval { $res = $conf->matching_items(0); };
+	skip "can fails on non-object", 2 if $@;
+	is($res, 0);
+	eval { $res = $conf->matching(0); };
+	ok(!defined $res);
+}
 
 $conf = HTTP::Config->new;
 
