@@ -571,7 +571,10 @@ $m = HTTP::Message->new(['Content-Encoding' => 'zog']);
 is($m->decode, 0);
 $m = HTTP::Message->new;
 ok($m->decode);
-$m->content;
+{
+	local $SIG{__WARN__} = sub {};
+	$m->content;
+}
 is($m->content(undef), '');
 eval { $m->content(\'foo'); };
 like($@, qr/Can't set content to be a scalar reference/);
