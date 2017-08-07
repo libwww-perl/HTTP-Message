@@ -18,6 +18,7 @@ sub new
 sub parse
 {
     my($class, $str) = @_;
+    Carp::carp('Undefined argument to parse()') if $^W && ! defined $str;
     my $request_line;
     if (defined $str && $str =~ s/^(.*)\n//) {
 	$request_line = $1;
@@ -30,7 +31,7 @@ sub parse
     my $self = $class->SUPER::parse($str);
     if (defined $request_line) {
         my($method, $uri, $protocol) = split(' ', $request_line);
-        $self->method($method) if defined($method);
+        $self->method($method);
         $self->uri($uri) if defined($uri);
         $self->protocol($protocol) if $protocol;
     }

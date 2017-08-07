@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 64;
+plan tests => 67;
 
 use HTTP::Date;
 use HTTP::Request;
@@ -113,7 +113,17 @@ is($r->base, "http://www.sn.no/2/;a=/foo/bar");
 $r->push_header("Content-Base", "/3/");
 is($r->base, "http://www.sn.no/2/;a=/foo/bar");
 
-$r2 = HTTP::Response->parse(undef);
+{
+	my @warn;
+	local $SIG{__WARN__} = sub { push @warn, @_ };
+	local $^W = 0;
+	$r2 = HTTP::Response->parse( undef );
+	is($#warn, -1);
+	local $^W = 1;
+	$r2 = HTTP::Response->parse( undef );
+	is($#warn, 0);
+	like($warn[0], qr/Undefined argument to parse\(\)/);
+}
 is($r2->code, undef);
 is($r2->message, undef);
 is($r2->protocol, undef);

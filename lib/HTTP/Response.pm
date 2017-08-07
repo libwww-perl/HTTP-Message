@@ -21,6 +21,7 @@ sub new
 sub parse
 {
     my($class, $str) = @_;
+    Carp::carp('Undefined argument to parse()') if $^W && ! defined $str;
     my $status_line;
     if (defined $str && $str =~ s/^(.*)\n//) {
 	$status_line = $1;

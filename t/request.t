@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 26;
+plan tests => 35;
 
 use HTTP::Request;
 use Try::Tiny qw( catch try );
@@ -125,8 +125,28 @@ is($req->dump, <<EOT);
 (no content)
 EOT
 
-$r2 = HTTP::Request->parse( undef );
+{
+	my @warn;
+	local $SIG{__WARN__} = sub { push @warn, @_ };
+	local $^W = 0;
+	$r2 = HTTP::Request->parse( undef );
+	is($#warn, -1);
+	local $^W = 1;
+	$r2 = HTTP::Request->parse( undef );
+	is($#warn, 0);
+	like($warn[0], qr/Undefined argument to parse\(\)/);
+}
 is( $r2->method,                    undef );
 is( $r2->uri,                       undef );
 is( $r2->protocol,                  undef );
 is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
+
+$r2 = HTTP::Request->parse('methonly');
+is( $r2->method,   'methonly' );
+is( $r2->uri,      undef );
+is( $r2->protocol, undef );
+
+$r2 = HTTP::Request->parse('methonly http://www.example.com/');
+is( $r2->method,   'methonly' );
+is( $r2->uri,      'http://www.example.com/' );
+is( $r2->protocol, undef );

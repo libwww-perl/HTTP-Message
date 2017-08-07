@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-plan tests => 191;
+plan tests => 194;
 
 require HTTP::Message;
 use Config qw(%Config);
@@ -572,8 +572,15 @@ is($m->decode, 0);
 $m = HTTP::Message->new;
 ok($m->decode);
 {
-	local $SIG{__WARN__} = sub {};
+	my @warn;
+	local $SIG{__WARN__} = sub { push @warn, @_ };
+	local $^W = 0;
 	$m->content;
+	is($#warn, -1);
+	local $^W = 1;
+	$m->content;
+	is($#warn, 0);
+	like($warn[0], qr/Useless content call in void context/);
 }
 is($m->content(undef), '');
 eval { $m->content(\'foo'); };
