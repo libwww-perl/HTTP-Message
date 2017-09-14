@@ -30,6 +30,8 @@ sub parse
 	$str = "";
     }
 
+    $status_line =~ s/\r\z//;
+
     my $self = $class->SUPER::parse($str);
     my($protocol, $code, $message);
     if ($status_line =~ /^\d{3} /) {
