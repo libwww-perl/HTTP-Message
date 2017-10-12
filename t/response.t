@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 29;
+plan tests => 30;
 
 use HTTP::Date;
 use HTTP::Request;
@@ -84,7 +84,9 @@ is($freshness_lifetime, 10);
 ok($r->fresh_until);  # should return something
 ok($r->fresh_until(heuristic_expiry => 0));  # should return something
 
-my $r2 = HTTP::Response->parse($r->as_string);
+my $r2 = HTTP::Response->parse($r->as_string( "\x0d\x0a"));
+is( $r2->message(), 'OK', 'message() returns as expected' );
+
 my @h = $r2->header('Cache-Control');
 is(@h, 2);
 
