@@ -31,6 +31,8 @@ sub parse
 	$str = "";
     }
 
+    $status_line =~ s/\r\z//;
+
     my $self = $class->SUPER::parse($str);
     if (defined $status_line) {
         my($protocol, $code, $message);

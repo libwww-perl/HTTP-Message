@@ -289,7 +289,7 @@ You can either pass separate key/value pairs or a hash reference.
 =item $conf->remove( %spec )
 
 Removes (and returns) the entries that have matches for all the key/value pairs in %spec.
-If %spec is empty this will match all entries; so it will empty the configuation object.
+If %spec is empty this will match all entries; so it will empty the configuration object.
 
 =item $conf->matching( $uri, $request, $response )
 
