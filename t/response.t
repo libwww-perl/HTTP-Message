@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 67;
+plan tests => 68;
 
 use HTTP::Date;
 use HTTP::Request;

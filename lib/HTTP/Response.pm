@@ -31,7 +31,7 @@ sub parse
 	$str = "";
     }
 
-    $status_line =~ s/\r\z//;
+    $status_line =~ s/\r\z// if defined $status_line;
 
     my $self = $class->SUPER::parse($str);
     if (defined $status_line) {
