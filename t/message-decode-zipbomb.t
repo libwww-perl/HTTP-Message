@@ -70,7 +70,8 @@ my $lives = eval {
     1;
 };
 my $err = $@;
-is $lives, undef, "We die when trying to decode something larger than our limit of 512k";
+is $lives, undef, "We die when trying to decode something larger than our global limit of 512k"
+    or diag "... using Compress::Raw::Zlib version $Compress::Raw::Zlib::VERSION";
 
 $response->max_body_size(undef);
 is $response->max_body_size, undef, "We can remove the maximum size restriction";
@@ -90,7 +91,8 @@ $lives = eval {
     1;
 };
 $err = $@;
-is $lives, undef, "We die when trying to decode something larger than our limit of 512k";
+is $lives, undef, "We die when trying to decode something larger than our limit of 512k using a parameter"
+    or diag "... using Compress::Raw::Zlib version $Compress::Raw::Zlib::VERSION";
 
 =head1 SEE ALSO
 
