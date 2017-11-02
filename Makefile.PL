@@ -30,6 +30,7 @@ my %WriteMakefileArgs = (
     "IO::Uncompress::Gunzip" => 0,
     "IO::Uncompress::Inflate" => 0,
     "IO::Uncompress::RawInflate" => 0,
+    #"Compress::Raw::Zlib" => 2.061
     "LWP::MediaTypes" => 6,
     "MIME::Base64" => "2.1",
     "MIME::QuotedPrint" => 0,
