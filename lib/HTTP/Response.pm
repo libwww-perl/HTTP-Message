@@ -488,10 +488,10 @@ received some redirect responses first.
 
 If none of these sources provide an absolute URI, undef is returned.
 
-When the LWP protocol modules produce the HTTP::Response object, then
-any base URI embedded in the document (step 1) will already have
-initialized the "Content-Base:" header. This means that this method
-only performs the last 2 steps (the content is not always available
+When the LWP protocol modules produce the HTTP::Response object, then any base
+URI embedded in the document (step 1) will already have initialized the
+"Content-Base:" header. (See L<LWP::UserAgent/parse_head>).  This means that
+this method only performs the last 2 steps (the content is not always available
 either).
 
 =item $r->filename
