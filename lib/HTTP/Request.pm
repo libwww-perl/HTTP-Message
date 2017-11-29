@@ -226,6 +226,91 @@ Method returning a textual representation of the request.
 
 =back
 
+=head1 EXAMPLES
+
+Creating requests to be sent with L<LWP::UserAgent> or others can be easy. Here
+are a few examples.
+
+=head2 Simple POST
+
+Here, we'll create a simple POST request that could be used to send JSON data
+to an endpoint.
+
+    #!/usr/bin/env perl
+
+    use strict;
+    use warnings;
+
+    use Encode qw(encode_utf8);
+    use HTTP::Request ();
+    use JSON::MaybeXS qw(encode_json);
+
+    my $url = 'https://www.example.com/api/user/123';
+    my $header = ['Content-Type' => 'application/json; charset=UTF-8'];
+    my $data = {foo => 'bar', baz => 'quux'};
+    my $encoded_data = encode_utf8(encode_json($data));
+
+    my $r = HTTP::Request->new('POST', $url, $header, $encoded_data);
+    # at this point, we could send it via LWP::UserAgent
+    # my $ua = LWP::UserAgent->new();
+    # my $res = $ua->request($r);
+
+=head2 Batch POST Request
+
+Some services, like Google, allow multiple requests to be sent in one batch.
+L<https://developers.google.com/drive/v3/web/batch> for example. Using the
+C<add_part> method from L<HTTP::Message> makes this simple.
+
+    #!/usr/bin/env perl
+
+    use strict;
+    use warnings;
+
+    use Encode qw(encode_utf8);
+    use HTTP::Request ();
+    use JSON::MaybeXS qw(encode_json);
+
+    my $auth_token = 'auth_token';
+    my $batch_url = 'https://www.googleapis.com/batch';
+    my $url = 'https://www.googleapis.com/drive/v3/files/fileId/permissions?fields=id';
+    my $url_no_email = 'https://www.googleapis.com/drive/v3/files/fileId/permissions?fields=id&sendNotificationEmail=false';
+
+    # generate a JSON post request for one of the batch entries
+    my $req1 = build_json_request($url, {
+        emailAddress => 'example@appsrocks.com',
+        role => "writer",
+        type => "user",
+    });
+
+    # generate a JSON post request for one of the batch entries
+    my $req2 = build_json_request($url_no_email, {
+        domain => "appsrocks.com",
+        role => "reader",
+        type => "domain",
+    });
+
+    # generate a multipart request to send all of the other requests
+    my $r = HTTP::Request->new('POST', $batch_url, [
+        'Accept-Encoding' => 'gzip',
+        # if we don't provide a boundary here, HTTP::Message will generate
+        # one for us. We could use UUID::uuid() here if we wanted.
+        'Content-Type' => 'multipart/mixed; boundary=END_OF_PART'
+    ]);
+
+    # add the two POST requests to the main request
+    $r->add_part($req1, $req2);
+    # at this point, we could send it via LWP::UserAgent
+    # my $ua = LWP::UserAgent->new();
+    # my $res = $ua->request($r);
+    exit();
+
+    sub build_json_request {
+        my ($url, $href) = @_;
+        my $header = ['Authorization' => "Bearer $auth_token", 'Content-Type' => 'application/json; charset=UTF-8'];
+        return HTTP::Request->new('POST', $url, $header, encode_utf8(encode_json($href)));
+    }
+
+
 =head1 SEE ALSO
 
 L<HTTP::Headers>, L<HTTP::Message>, L<HTTP::Request::Common>,
@@ -234,4 +319,3 @@ L<HTTP::Response>
 =cut
 
 #ABSTRACT: HTTP style request message
-
