@@ -1,6 +1,8 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Add some useful examples in HTTP::Request.
+      Batch requests are now explained.
 
 6.13      2017-06-20 01:07:03Z
     - Non-TRIAL release of changes found in 6.12

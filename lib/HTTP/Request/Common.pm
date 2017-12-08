@@ -215,7 +215,7 @@ sub form_data   # RFC1867
 		    # or perhaps a file in the /proc file system where
 		    # stat may return a 0 size even though reading it
 		    # will produce data.  So we cannot make
-		    # a Content-Length header.  
+		    # a Content-Length header.
 		    undef $length;
 		    last;
 		}
@@ -259,7 +259,7 @@ sub form_data   # RFC1867
 		}
 		if ($buflength) {
 		    defined $length && ($length -= $buflength);
-		    return $buf 
+		    return $buf
 	    	}
 	    }
 	};
@@ -317,9 +317,9 @@ __END__
 
 This module provides functions that return newly created C<HTTP::Request>
 objects.  These functions are usually more convenient to use than the
-standard C<HTTP::Request> constructor for the most common requests.  
+standard C<HTTP::Request> constructor for the most common requests.
 
-Note that L<LWP::UserAgent> has several convenience methods, including 
+Note that L<LWP::UserAgent> has several convenience methods, including
 C<get>, C<head>, C<delete>, C<post> and C<put>.
 
 The following functions are provided:
@@ -528,7 +528,9 @@ C<< $ua->request(POST ...) >>.
 
 L<HTTP::Request>, L<LWP::UserAgent>
 
+Also, there are some examples in L<HTTP::Request/"EXAMPLES"> that you might
+find useful. For example, batch requests are explained there.
+
 =cut
 
 #ABSTRACT: Construct common HTTP::Request objects
-
