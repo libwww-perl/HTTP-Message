@@ -18,6 +18,7 @@ my %StatusCode = (
     100 => 'Continue',
     101 => 'Switching Protocols',
     102 => 'Processing',                      # RFC 2518 (WebDAV)
+    103 => 'Early Hints',
     200 => 'OK',
     201 => 'Created',
     202 => 'Accepted',
@@ -144,6 +145,7 @@ tag to import them all.
    HTTP_CONTINUE                        (100)
    HTTP_SWITCHING_PROTOCOLS             (101)
    HTTP_PROCESSING                      (102)
+   HTTP_EARLY_HINTS                     (103)
 
    HTTP_OK                              (200)
    HTTP_CREATED                         (201)
