@@ -1,8 +1,12 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
-    - Add some useful examples in HTTP::Request.
+6.14      2017-12-20 22:28:48Z
+    - Add some useful examples in HTTP::Request (GH #92) (Chase Whitener).
       Batch requests are now explained.
+    - PUT and PATCH docs updated (GH #84) (saturdaywalkers)
+    - Trim trailing \r from status line so message() doesn't return it (GH #87) (Felipe Gasper)
+    - Bring test coverage of HTTP::Config to 100% (GH #85) (Pete Houston)
+    - Add 103 Early Hints to HTTP::Status (GH #94) (Tatsuhiko Miyagawa)
 
 6.13      2017-06-20 01:07:03Z
     - Non-TRIAL release of changes found in 6.12
