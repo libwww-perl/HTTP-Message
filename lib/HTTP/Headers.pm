@@ -3,6 +3,8 @@ package HTTP::Headers;
 use strict;
 use warnings;
 
+our $VERSION = '6.14';
+
 use Carp ();
 
 # The $TRANSLATE_UNDERSCORE variable controls whether '_' can be used

@@ -3,6 +3,8 @@ package HTTP::Status;
 use strict;
 use warnings;
 
+our $VERSION = '6.14';
+
 require 5.002;   # because we use prototypes
 
 use base 'Exporter';

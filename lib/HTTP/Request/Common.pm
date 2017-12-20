@@ -3,6 +3,8 @@ package HTTP::Request::Common;
 use strict;
 use warnings;
 
+our $VERSION = '6.14';
+
 our $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
 
 use Exporter 5.57 'import';

@@ -3,6 +3,8 @@ package HTTP::Request;
 use strict;
 use warnings;
 
+our $VERSION = '6.14';
+
 use base 'HTTP::Message';
 
 sub new

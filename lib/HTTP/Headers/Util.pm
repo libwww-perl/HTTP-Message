@@ -3,6 +3,8 @@ package HTTP::Headers::Util;
 use strict;
 use warnings;
 
+our $VERSION = '6.14';
+
 use base 'Exporter';
 
 our @EXPORT_OK=qw(split_header_words _split_header_words join_header_words);
