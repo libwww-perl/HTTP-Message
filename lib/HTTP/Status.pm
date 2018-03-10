@@ -272,6 +272,15 @@ that it has erred or is incapable of performing the request.
 
 This function is B<not> exported by default.
 
+=item is_cacheable_by_default( $code )
+
+Return TRUE if C<$code> indicates that a response is cacheable by default, and
+it can be reused by a cache with heuristic expiration. All other status codes
+are not cacheable by default. See L<RFC 7231 - HTTP/1.1 Semantics and Content, 
+Section 6.1. Overview of Status Codes>
+
+This function is B<not> exported by default.
+
 =back
 
 =head1 BUGS
