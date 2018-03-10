@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 31;
+plan tests => 36;
 
 use HTTP::Status qw(:constants :is status_message);
 
@@ -34,3 +34,7 @@ ok(!is_redirect(99));
 ok(is_cacheable_by_default($_),
   "Cacheable by default [$_] " . status_message($_)
 ) for (200,203,204,206,300,301,404,405,410,414,501);
+
+ok(!is_cacheable_by_default($_),
+  "... is not cacheable [$_] " . status_message($_)
+) for (100,201,302,400,500);
