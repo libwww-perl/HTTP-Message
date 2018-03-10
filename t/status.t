@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 20;
+plan tests => 31;
 
 use HTTP::Status qw(:constants :is status_message);
 
@@ -30,3 +30,7 @@ ok(!is_server_error(999));
 ok(!is_info(99));
 ok(!is_success(99));
 ok(!is_redirect(99));
+
+ok(is_cacheable_by_default($_),
+  "Cacheable by default [$_] " . status_message($_)
+) for (200,203,204,206,300,301,404,405,410,414,501);
