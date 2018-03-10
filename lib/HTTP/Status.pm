@@ -124,6 +124,7 @@ sub is_cacheable_by_default ($) { $_[0] &&
     || $_[0] == 414 # Request-URI Too Large
     || $_[0] == 501 # Not Implemented
     ); }
+
 1;
 
 
@@ -277,7 +278,7 @@ This function is B<not> exported by default.
 Return TRUE if C<$code> indicates that a response is cacheable by default, and
 it can be reused by a cache with heuristic expiration. All other status codes
 are not cacheable by default. See L<RFC 7231 - HTTP/1.1 Semantics and Content, 
-Section 6.1. Overview of Status Codes>
+Section 6.1. Overview of Status Codes|https://tools.ietf.org/html/rfc7231#section-6.1>.
 
 This function is B<not> exported by default.
 
