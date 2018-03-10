@@ -9,7 +9,7 @@ require 5.002;   # because we use prototypes
 
 use base 'Exporter';
 our @EXPORT = qw(is_info is_success is_redirect is_error status_message);
-our @EXPORT_OK = qw(is_client_error is_server_error);
+our @EXPORT_OK = qw(is_client_error is_server_error is_cacheable_by_default);
 
 # Note also addition of mnemonics to @EXPORT below
 
