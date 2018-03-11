@@ -412,6 +412,13 @@ sub content_is_json {
     return $ct eq 'application/json' || $ct eq 'text/json' || $ct =~ /\+json$/;
 }
 
+sub content_is_javascript {
+    my $ct = shift->content_type;
+    # text/javascript is obsolete in RFC4329 but still used.
+    # No issue including it as well.
+    return $ct eq 'application/javascript' || $ct eq 'text/javascript';
+}
+
 sub referer           {
     my $self = shift;
     if (@_ && $_[0] =~ /#/) {
@@ -748,6 +755,11 @@ content is XML.  This method can't be used to set Content-Type.
 
 Returns TRUE if the Content-Type header field indicate that the
 content is JSON. This method can't be used to set Content-Type.
+
+=item $h->content_is_javascript
+
+Returns TRUE if the Content-Type header field indicate that the
+content is JavaScript. This method can't be used to set Content-Type.
 
 =item $h->content_encoding
 
