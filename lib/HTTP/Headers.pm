@@ -405,6 +405,13 @@ sub content_is_xml {
     return 0;
 }
 
+sub content_is_json {
+    my $ct = shift->content_type;
+    # text/json is not standard but still used by various servers.
+    # No issue including it as well.
+    return $ct eq 'application/json' || $ct eq 'text/json' || $ct =~ /\+json$/;
+}
+
 sub referer           {
     my $self = shift;
     if (@_ && $_[0] =~ /#/) {
@@ -736,6 +743,11 @@ content is XHTML.  This method can't be used to set Content-Type.
 
 Returns TRUE if the Content-Type header field indicate that the
 content is XML.  This method can't be used to set Content-Type.
+
+=item $h->content_is_json
+
+Returns TRUE if the Content-Type header field indicate that the
+content is JSON. This method can't be used to set Content-Type.
 
 =item $h->content_encoding
 

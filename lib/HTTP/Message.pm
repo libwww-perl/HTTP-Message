@@ -351,7 +351,7 @@ sub decoded_content
 	    }
 	}
 
-	if ($self->content_is_text || (my $is_xml = $self->content_is_xml)) {
+	if ($self->content_is_text || (my $is_xml = $self->content_is_xml) || $self->content_is_json) {
 	    my $charset = lc(
 	        $opt{charset} ||
 		$self->content_type_charset ||
@@ -879,9 +879,9 @@ for details about how charset is determined.
 =item $mess->decoded_content( %options )
 
 Returns the content with any C<Content-Encoding> undone and for textual content
-the raw content encoded to Perl's Unicode strings.  If the C<Content-Encoding>
-or C<charset> of the message is unknown this method will fail by returning
-C<undef>.
+(text/*, XML, or JSON) the raw content encoded to Perl's Unicode strings.  If
+the C<Content-Encoding> or C<charset> of the message is unknown this method
+will fail by returning C<undef>.
 
 The following options can be specified.
 

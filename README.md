@@ -104,9 +104,9 @@ The following methods are available:
 - $mess->decoded\_content( %options )
 
     Returns the content with any `Content-Encoding` undone and for textual content
-    the raw content encoded to Perl's Unicode strings.  If the `Content-Encoding`
-    or `charset` of the message is unknown this method will fail by returning
-    `undef`.
+    (text/*, XML, or JSON) the raw content encoded to Perl's Unicode strings.  If
+    the `Content-Encoding` or `charset` of the message is unknown this method will
+    fail by returning `undef`.
 
     The following options can be specified.
 
