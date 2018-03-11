@@ -351,54 +351,52 @@ sub decoded_content
 	    }
 	}
 
-	if ($self->content_is_text || (my $is_xml = $self->content_is_xml)) {
-	    my $charset = lc(
-	        $opt{charset} ||
-		$self->content_type_charset ||
-		$opt{default_charset} ||
-		$self->content_charset ||
-		"ISO-8859-1"
-	    );
-	    if ($charset eq "none") {
-		# leave it as is
-	    }
-	    elsif ($charset eq "us-ascii" || $charset eq "iso-8859-1") {
-		if ($$content_ref =~ /[^\x00-\x7F]/ && defined &utf8::upgrade) {
-		    unless ($content_ref_iscopy) {
-			my $copy = $$content_ref;
-			$content_ref = \$copy;
-			$content_ref_iscopy++;
-		    }
-		    utf8::upgrade($$content_ref);
+	my $charset = lc(
+	    $opt{charset} ||
+	    $self->content_type_charset ||
+	    $opt{default_charset} ||
+	    $self->content_charset ||
+	    "none"
+	);
+	if ($charset eq "none") {
+	    # leave it as is
+	}
+	elsif ($charset eq "us-ascii" || $charset eq "iso-8859-1") {
+	    if ($$content_ref =~ /[^\x00-\x7F]/ && defined &utf8::upgrade) {
+		unless ($content_ref_iscopy) {
+		    my $copy = $$content_ref;
+		    $content_ref = \$copy;
+		    $content_ref_iscopy++;
 		}
+		utf8::upgrade($$content_ref);
 	    }
-	    else {
-		require Encode;
-		eval {
-		    $content_ref = \Encode::decode($charset, $$content_ref,
-			 ($opt{charset_strict} ? Encode::FB_CROAK() : 0) | Encode::LEAVE_SRC());
-		};
-		if ($@) {
-		    my $retried;
-		    if ($@ =~ /^Unknown encoding/) {
-			my $alt_charset = lc($opt{alt_charset} || "");
-			if ($alt_charset && $charset ne $alt_charset) {
-			    # Retry decoding with the alternative charset
-			    $content_ref = \Encode::decode($alt_charset, $$content_ref,
-				 ($opt{charset_strict} ? Encode::FB_CROAK() : 0) | Encode::LEAVE_SRC())
-			        unless $alt_charset eq "none";
-			    $retried++;
-			}
+	}
+	else {
+	    require Encode;
+	    eval {
+		$content_ref = \Encode::decode($charset, $$content_ref,
+		     ($opt{charset_strict} ? Encode::FB_CROAK() : 0) | Encode::LEAVE_SRC());
+	    };
+	    if ($@) {
+		my $retried;
+		if ($@ =~ /^Unknown encoding/) {
+		    my $alt_charset = lc($opt{alt_charset} || "");
+		    if ($alt_charset && $charset ne $alt_charset) {
+			# Retry decoding with the alternative charset
+			$content_ref = \Encode::decode($alt_charset, $$content_ref,
+			     ($opt{charset_strict} ? Encode::FB_CROAK() : 0) | Encode::LEAVE_SRC())
+			    unless $alt_charset eq "none";
+			$retried++;
 		    }
-		    die unless $retried;
 		}
-		die "Encode::decode() returned undef improperly" unless defined $$content_ref;
-		if ($is_xml) {
-		    # Get rid of the XML encoding declaration if present
-		    $$content_ref =~ s/^\x{FEFF}//;
-		    if ($$content_ref =~ /^(\s*<\?xml[^\x00]*?\?>)/) {
-			substr($$content_ref, 0, length($1)) =~ s/\sencoding\s*=\s*(["']).*?\1//;
-		    }
+		die unless $retried;
+	    }
+	    die "Encode::decode() returned undef improperly" unless defined $$content_ref;
+	    if ($self->content_is_xml) {
+		# Get rid of the XML encoding declaration if present
+		$$content_ref =~ s/^\x{FEFF}//;
+		if ($$content_ref =~ /^(\s*<\?xml[^\x00]*?\?>)/) {
+		    substr($$content_ref, 0, length($1)) =~ s/\sencoding\s*=\s*(["']).*?\1//;
 		}
 	    }
 	}
