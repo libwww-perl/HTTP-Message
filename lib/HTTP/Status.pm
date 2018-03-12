@@ -22,6 +22,7 @@ my %StatusCode = (
     101 => 'Switching Protocols',
     102 => 'Processing',                      # RFC 2518: WebDAV
     103 => 'Early Hints',                     # RFC 8297: Indicating Hints
+#   104 .. 199
     200 => 'OK',
     201 => 'Created',
     202 => 'Accepted',
@@ -31,7 +32,9 @@ my %StatusCode = (
     206 => 'Partial Content',                 # RFC 7233: Range Requests
     207 => 'Multi-Status',                    # RFC 4918: WebDAV
     208 => 'Already Reported',                # RFC 5842: WebDAV bindings
+#   209 .. 225
     226 => 'IM used',                         # RFC 3229: Delta encoding
+#   227 .. 299
     300 => 'Multiple Choices',
     301 => 'Moved Permanently',
     302 => 'Found',
@@ -40,6 +43,7 @@ my %StatusCode = (
     305 => 'Use Proxy',
     307 => 'Temporary Redirect',
     308 => 'Permanent Redirect',              # RFC 7528: Permanent Redirect
+#   309 .. 399
     400 => 'Bad Request',
     401 => 'Unauthorized',                    # RFC 7235: Authentication
     402 => 'Payment Required',
@@ -58,15 +62,21 @@ my %StatusCode = (
     415 => 'Unsupported Media Type',
     416 => 'Request Range Not Satisfiable',   # RFC 7233: Range Requests
     417 => 'Expectation Failed',
+#   418 .. 420
     421 => 'Misdirected Request',             # RFC 7540: HTTP/2
     422 => 'Unprocessable Entity',            # RFC 4918: WebDAV
     423 => 'Locked',                          # RFC 4918: WebDAV
     424 => 'Failed Dependency',               # RFC 4918: WebDAV
+#   425
     426 => 'Upgrade Required',
+#   427
     428 => 'Precondition Required',           # RFC 6585: Additional Codes
     429 => 'Too Many Requests',               # RFC 6585: Additional Codes
+#   430
     431 => 'Request Header Fields Too Large', # RFC 6585: Additional Codes
+#   432 .. 450
     451 => 'Unavailable For Legal Reasons',   # RFC 7724: Legal Obstacels
+#   452 .. 499
     500 => 'Internal Server Error',
     501 => 'Not Implemented',
     502 => 'Bad Gateway',
@@ -76,6 +86,7 @@ my %StatusCode = (
     506 => 'Variant Also Negotiates',         # RFC 2295: Transparant Ngttn
     507 => 'Insufficient Storage',            # RFC 4918: WebDAV
     508 => 'Loop Detected',                   # RFC 5842: WebDAV bindings
+#   509
     510 => 'Not Extended',                    # RFC 2774: Extension Framework
     511 => 'Network Authentication Required', # RFC 6585: Additional Codes
 );
