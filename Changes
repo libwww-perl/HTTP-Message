@@ -1,6 +1,8 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.15      2018-03-13 13:02:56Z
+    - Whenever possible, use an absolute four digit year for Time::Local (GH#97)
+    - Add is_cacheable_by_default() (GH#98) (Theo van Hoesel)
 
 6.14      2017-12-20 22:28:48Z
     - Add some useful examples in HTTP::Request (GH #92) (Chase Whitener).
