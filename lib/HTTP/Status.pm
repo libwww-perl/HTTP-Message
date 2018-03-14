@@ -91,6 +91,15 @@ my %StatusCode = (
     511 => 'Network Authentication Required', # RFC 6585: Additional Codes
 );
 
+# keep some unofficial codes that used to be in this distribution
+%StatusCode = (
+    %StatusCode,
+    418 => 'I\'m a teapot',                   # RFC 2324: HTCPC/1.0  1-april
+    425 => 'Unordered Collection',            #           WebDAV Draft
+    449 => 'Retry with',                      #           microsoft
+    509 => 'Bandwidth Limit Exceeded',        #           Apache / cPanel
+);
+
 my $mnemonicCode = '';
 my ($code, $message);
 while (($code, $message) = each %StatusCode) {
@@ -108,6 +117,9 @@ die if $@;
 # backwards compatibility
 *RC_MOVED_TEMPORARILY = \&RC_FOUND;  # 302 was renamed in the standard
 push(@EXPORT, "RC_MOVED_TEMPORARILY");
+
+*RC_NO_CODE = \&RC_UNORDERED_COLLECTION;
+push(@EXPORT, "RC_NO_CODE");
 
 our %EXPORT_TAGS = (
    constants => [grep /^HTTP_/, @EXPORT_OK],
