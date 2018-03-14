@@ -13,70 +13,71 @@ our @EXPORT_OK = qw(is_client_error is_server_error is_cacheable_by_default);
 
 # Note also addition of mnemonics to @EXPORT below
 
-# Unmarked codes are from RFC 2616
-# See also: http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+# Unmarked codes are from RFC 7231 (2017-12-20)
+# See also:
+# https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
 
 my %StatusCode = (
     100 => 'Continue',
     101 => 'Switching Protocols',
-    102 => 'Processing',                      # RFC 2518 (WebDAV)
-    103 => 'Early Hints',                     # RFC 8297
+    102 => 'Processing',                      # RFC 2518: WebDAV
+    103 => 'Early Hints',                     # RFC 8297: Indicating Hints
     200 => 'OK',
     201 => 'Created',
     202 => 'Accepted',
     203 => 'Non-Authoritative Information',
     204 => 'No Content',
     205 => 'Reset Content',
-    206 => 'Partial Content',
-    207 => 'Multi-Status',                    # RFC 2518 (WebDAV)
-    208 => 'Already Reported',		      # RFC 5842
+    206 => 'Partial Content',                 # RFC 7233: Range Requests
+    207 => 'Multi-Status',                    # RFC 4918: WebDAV
+    208 => 'Already Reported',                # RFC 5842: WebDAV bindings
+    226 => 'IM used',                         # RFC 3229: Delta encoding
     300 => 'Multiple Choices',
     301 => 'Moved Permanently',
     302 => 'Found',
     303 => 'See Other',
-    304 => 'Not Modified',
+    304 => 'Not Modified',                    # RFC 7232: Conditional Request
     305 => 'Use Proxy',
     307 => 'Temporary Redirect',
-    308 => 'Permanent Redirect',              # RFC 7238
+    308 => 'Permanent Redirect',              # RFC 7528: Permanent Redirect
     400 => 'Bad Request',
-    401 => 'Unauthorized',
+    401 => 'Unauthorized',                    # RFC 7235: Authentication
     402 => 'Payment Required',
     403 => 'Forbidden',
     404 => 'Not Found',
     405 => 'Method Not Allowed',
     406 => 'Not Acceptable',
-    407 => 'Proxy Authentication Required',
+    407 => 'Proxy Authentication Required',   # RFC 7235: Authentication
     408 => 'Request Timeout',
     409 => 'Conflict',
     410 => 'Gone',
     411 => 'Length Required',
-    412 => 'Precondition Failed',
+    412 => 'Precondition Failed',             # RFC 7232: Conditional Request
     413 => 'Request Entity Too Large',
     414 => 'Request-URI Too Large',
     415 => 'Unsupported Media Type',
-    416 => 'Request Range Not Satisfiable',
+    416 => 'Request Range Not Satisfiable',   # RFC 7233: Range Requests
     417 => 'Expectation Failed',
-    418 => 'I\'m a teapot',		      # RFC 2324
-    422 => 'Unprocessable Entity',            # RFC 2518 (WebDAV)
-    423 => 'Locked',                          # RFC 2518 (WebDAV)
-    424 => 'Failed Dependency',               # RFC 2518 (WebDAV)
-    425 => 'No code',                         # WebDAV Advanced Collections
-    426 => 'Upgrade Required',                # RFC 2817
-    428 => 'Precondition Required',
-    429 => 'Too Many Requests',
-    431 => 'Request Header Fields Too Large',
-    449 => 'Retry with',                      # unofficial Microsoft
+    421 => 'Misdirected Request',             # RFC 7540: HTTP/2
+    422 => 'Unprocessable Entity',            # RFC 4918: WebDAV
+    423 => 'Locked',                          # RFC 4918: WebDAV
+    424 => 'Failed Dependency',               # RFC 4918: WebDAV
+    426 => 'Upgrade Required',
+    428 => 'Precondition Required',           # RFC 6585: Additional Codes
+    429 => 'Too Many Requests',               # RFC 6585: Additional Codes
+    431 => 'Request Header Fields Too Large', # RFC 6585: Additional Codes
+    451 => 'Unavailable For Legal Reasons',   # RFC 7724: Legal Obstacels
     500 => 'Internal Server Error',
     501 => 'Not Implemented',
     502 => 'Bad Gateway',
     503 => 'Service Unavailable',
     504 => 'Gateway Timeout',
     505 => 'HTTP Version Not Supported',
-    506 => 'Variant Also Negotiates',         # RFC 2295
-    507 => 'Insufficient Storage',            # RFC 2518 (WebDAV)
-    509 => 'Bandwidth Limit Exceeded',        # unofficial
-    510 => 'Not Extended',                    # RFC 2774
-    511 => 'Network Authentication Required',
+    506 => 'Variant Also Negotiates',         # RFC 2295: Transparant Ngttn
+    507 => 'Insufficient Storage',            # RFC 4918: WebDAV
+    508 => 'Loop Detected',                   # RFC 5842: WebDAV bindings
+    510 => 'Not Extended',                    # RFC 2774: Extension Framework
+    511 => 'Network Authentication Required', # RFC 6585: Additional Codes
 );
 
 my $mnemonicCode = '';
