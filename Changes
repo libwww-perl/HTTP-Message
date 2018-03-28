@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.16      2018-03-28 14:09:17Z
     - Update status codes to official IANA list (GH#100) (Theo van Hoesel)
 
