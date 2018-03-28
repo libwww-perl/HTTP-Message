@@ -92,7 +92,7 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.15",
+   "version" : "6.16",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026001"
@@ -219,7 +219,7 @@
          {
             "class" : "Dist::Zilla::Plugin::InstallGuide",
             "name" : "@Author::OALDERS/InstallGuide",
-            "version" : "1.200007"
+            "version" : "1.200009"
          },
          {
             "class" : "Dist::Zilla::Plugin::ExecDir",
@@ -556,7 +556,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.15",
+                  "tag" : "v6.16",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
