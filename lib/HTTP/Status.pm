@@ -194,7 +194,9 @@ tag to import them all.
    HTTP_RESET_CONTENT                   (205)
    HTTP_PARTIAL_CONTENT                 (206)
    HTTP_MULTI_STATUS                    (207)
-   HTTP_ALREADY_REPORTED		(208)
+   HTTP_ALREADY_REPORTED                (208)
+
+   HTTP_IM_USED                         (226)
 
    HTTP_MULTIPLE_CHOICES                (300)
    HTTP_MOVED_PERMANENTLY               (301)
@@ -223,16 +225,14 @@ tag to import them all.
    HTTP_UNSUPPORTED_MEDIA_TYPE          (415)
    HTTP_REQUEST_RANGE_NOT_SATISFIABLE   (416)
    HTTP_EXPECTATION_FAILED              (417)
-   HTTP_I_AM_A_TEAPOT			(418)
+   HTTP_MISDIRECTED REQUEST             (421)
    HTTP_UNPROCESSABLE_ENTITY            (422)
    HTTP_LOCKED                          (423)
    HTTP_FAILED_DEPENDENCY               (424)
-   HTTP_NO_CODE                         (425)
    HTTP_UPGRADE_REQUIRED                (426)
-   HTTP_PRECONDITION_REQUIRED		(428)
-   HTTP_TOO_MANY_REQUESTS		(429)
+   HTTP_PRECONDITION_REQUIRED           (428)
+   HTTP_TOO_MANY_REQUESTS               (429)
    HTTP_REQUEST_HEADER_FIELDS_TOO_LARGE (431)
-   HTTP_RETRY_WITH                      (449)
 
    HTTP_INTERNAL_SERVER_ERROR           (500)
    HTTP_NOT_IMPLEMENTED                 (501)
@@ -242,7 +242,7 @@ tag to import them all.
    HTTP_HTTP_VERSION_NOT_SUPPORTED      (505)
    HTTP_VARIANT_ALSO_NEGOTIATES         (506)
    HTTP_INSUFFICIENT_STORAGE            (507)
-   HTTP_BANDWIDTH_LIMIT_EXCEEDED        (509)
+   HTTP_LOOP_DETECTED                   (508)
    HTTP_NOT_EXTENDED                    (510)
    HTTP_NETWORK_AUTHENTICATION_REQUIRED (511)
 
@@ -301,7 +301,7 @@ This function is B<not> exported by default.
 
 Return TRUE if C<$code> indicates that a response is cacheable by default, and
 it can be reused by a cache with heuristic expiration. All other status codes
-are not cacheable by default. See L<RFC 7231 - HTTP/1.1 Semantics and Content, 
+are not cacheable by default. See L<RFC 7231 - HTTP/1.1 Semantics and Content,
 Section 6.1. Overview of Status Codes|https://tools.ietf.org/html/rfc7231#section-6.1>.
 
 This function is B<not> exported by default.
