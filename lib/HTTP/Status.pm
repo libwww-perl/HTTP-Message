@@ -75,7 +75,7 @@ my %StatusCode = (
 #   430
     431 => 'Request Header Fields Too Large', # RFC 6585: Additional Codes
 #   432 .. 450
-    451 => 'Unavailable For Legal Reasons',   # RFC 7724: Legal Obstacels
+    451 => 'Unavailable For Legal Reasons',   # RFC 7724: Legal Obstacles
 #   452 .. 499
     500 => 'Internal Server Error',
     501 => 'Not Implemented',
