@@ -135,20 +135,23 @@ sub is_redirect             ($) { $_[0] && $_[0] >= 300 && $_[0] < 400; }
 sub is_error                ($) { $_[0] && $_[0] >= 400 && $_[0] < 600; }
 sub is_client_error         ($) { $_[0] && $_[0] >= 400 && $_[0] < 500; }
 sub is_server_error         ($) { $_[0] && $_[0] >= 500 && $_[0] < 600; }
-sub is_cacheable_by_default ($) { $_[0] &&
-    (  $_[0] == 200 # OK
-    || $_[0] == 203 # Non-Authoritative Information
-    || $_[0] == 204 # No Content
-    || $_[0] == 206 # Not Acceptable
-    || $_[0] == 300 # Multiple Choices
-    || $_[0] == 301 # Moved Permanently
-    || $_[0] == 404 # Not Found
-    || $_[0] == 405 # Method Not Allowed
-    || $_[0] == 410 # Gone
-    || $_[0] == 414 # Request-URI Too Large
-    || $_[0] == 451 # Unavailable For Legal Reasons
-    || $_[0] == 501 # Not Implemented
-    ); }
+sub is_cacheable_by_default ($) {
+    $_[0]
+      && (
+        $_[0] == 200       # OK
+        || $_[0] == 203    # Non-Authoritative Information
+        || $_[0] == 204    # No Content
+        || $_[0] == 206    # Not Acceptable
+        || $_[0] == 300    # Multiple Choices
+        || $_[0] == 301    # Moved Permanently
+        || $_[0] == 404    # Not Found
+        || $_[0] == 405    # Method Not Allowed
+        || $_[0] == 410    # Gone
+        || $_[0] == 414    # Request-URI Too Large
+        || $_[0] == 451    # Unavailable For Legal Reasons
+        || $_[0] == 501    # Not Implemented
+      );
+}
 
 1;
 
