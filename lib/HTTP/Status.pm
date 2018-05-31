@@ -146,6 +146,7 @@ sub is_cacheable_by_default ($) { $_[0] &&
     || $_[0] == 405 # Method Not Allowed
     || $_[0] == 410 # Gone
     || $_[0] == 414 # Request-URI Too Large
+    || $_[0] == 451 # Unavailable For Legal Reasons
     || $_[0] == 501 # Not Implemented
     ); }
 
