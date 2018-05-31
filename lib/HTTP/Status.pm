@@ -126,8 +126,14 @@ our %EXPORT_TAGS = (
    is => [grep /^is_/, @EXPORT, @EXPORT_OK],
 );
 
-
-sub status_message  ($) { $StatusCode{$_[0]}; }
+sub status_message ($) {
+    $StatusCode{ $_[0] } || is_info( $_[0] ) ? 'OK'
+      : is_success( $_[0] )      ? 'OK'
+      : is_redirect( $_[0] )     ? 'Redirect'
+      : is_client_error( $_[0] ) ? 'Client Error'
+      : is_server_error( $_[0] ) ? 'Server Error'
+      :                            undef;
+}
 
 sub is_info                 ($) { $_[0] && $_[0] >= 100 && $_[0] < 200; }
 sub is_success              ($) { $_[0] && $_[0] >= 200 && $_[0] < 300; }
