@@ -75,7 +75,7 @@ my %StatusCode = (
 #   430
     431 => 'Request Header Fields Too Large', # RFC 6585: Additional Codes
 #   432 .. 450
-    451 => 'Unavailable For Legal Reasons',   # RFC 7724: Legal Obstacels
+    451 => 'Unavailable For Legal Reasons',   # RFC 7724: Legal Obstacles
 #   452 .. 499
     500 => 'Internal Server Error',
     501 => 'Not Implemented',
@@ -141,19 +141,23 @@ sub is_redirect             ($) { $_[0] && $_[0] >= 300 && $_[0] < 400; }
 sub is_error                ($) { $_[0] && $_[0] >= 400 && $_[0] < 600; }
 sub is_client_error         ($) { $_[0] && $_[0] >= 400 && $_[0] < 500; }
 sub is_server_error         ($) { $_[0] && $_[0] >= 500 && $_[0] < 600; }
-sub is_cacheable_by_default ($) { $_[0] &&
-    (  $_[0] == 200 # OK
-    || $_[0] == 203 # Non-Authoritative Information
-    || $_[0] == 204 # No Content
-    || $_[0] == 206 # Not Acceptable
-    || $_[0] == 300 # Multiple Choices
-    || $_[0] == 301 # Moved Permanently
-    || $_[0] == 404 # Not Found
-    || $_[0] == 405 # Method Not Allowed
-    || $_[0] == 410 # Gone
-    || $_[0] == 414 # Request-URI Too Large
-    || $_[0] == 501 # Not Implemented
-    ); }
+sub is_cacheable_by_default ($) {
+    $_[0]
+      && (
+        $_[0] == 200       # OK
+        || $_[0] == 203    # Non-Authoritative Information
+        || $_[0] == 204    # No Content
+        || $_[0] == 206    # Not Acceptable
+        || $_[0] == 300    # Multiple Choices
+        || $_[0] == 301    # Moved Permanently
+        || $_[0] == 404    # Not Found
+        || $_[0] == 405    # Method Not Allowed
+        || $_[0] == 410    # Gone
+        || $_[0] == 414    # Request-URI Too Large
+        || $_[0] == 451    # Unavailable For Legal Reasons
+        || $_[0] == 501    # Not Implemented
+      );
+}
 
 1;
 
@@ -239,6 +243,7 @@ tag to import them all.
    HTTP_PRECONDITION_REQUIRED           (428)
    HTTP_TOO_MANY_REQUESTS               (429)
    HTTP_REQUEST_HEADER_FIELDS_TOO_LARGE (431)
+   HTTP_UNAVAILABLE_FOR_LEGAL_REASONS   (451)
 
    HTTP_INTERNAL_SERVER_ERROR           (500)
    HTTP_NOT_IMPLEMENTED                 (501)

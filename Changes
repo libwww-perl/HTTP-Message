@@ -1,6 +1,8 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Documented status code 451 in the list of constants (Robert Rothenberg)
+    - Status code 451 is cachable by default, as per RFC 7725 (Robert Rothenberg)
     - Add default status_message for unknown status codes (GH#105) (Robert Rothenberg)
 
 6.16      2018-03-28 14:09:17Z
