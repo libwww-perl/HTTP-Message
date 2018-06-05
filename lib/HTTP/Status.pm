@@ -126,14 +126,8 @@ our %EXPORT_TAGS = (
    is => [grep /^is_/, @EXPORT, @EXPORT_OK],
 );
 
-sub status_message ($) {
-    $StatusCode{ $_[0] } || is_info( $_[0] ) ? 'OK'
-      : is_success( $_[0] )      ? 'OK'
-      : is_redirect( $_[0] )     ? 'Redirect'
-      : is_client_error( $_[0] ) ? 'Client Error'
-      : is_server_error( $_[0] ) ? 'Server Error'
-      :                            undef;
-}
+
+sub status_message  ($) { $StatusCode{$_[0]}; }
 
 sub is_info                 ($) { $_[0] && $_[0] >= 100 && $_[0] < 200; }
 sub is_success              ($) { $_[0] && $_[0] >= 200 && $_[0] < 300; }
@@ -141,23 +135,20 @@ sub is_redirect             ($) { $_[0] && $_[0] >= 300 && $_[0] < 400; }
 sub is_error                ($) { $_[0] && $_[0] >= 400 && $_[0] < 600; }
 sub is_client_error         ($) { $_[0] && $_[0] >= 400 && $_[0] < 500; }
 sub is_server_error         ($) { $_[0] && $_[0] >= 500 && $_[0] < 600; }
-sub is_cacheable_by_default ($) {
-    $_[0]
-      && (
-        $_[0] == 200       # OK
-        || $_[0] == 203    # Non-Authoritative Information
-        || $_[0] == 204    # No Content
-        || $_[0] == 206    # Not Acceptable
-        || $_[0] == 300    # Multiple Choices
-        || $_[0] == 301    # Moved Permanently
-        || $_[0] == 404    # Not Found
-        || $_[0] == 405    # Method Not Allowed
-        || $_[0] == 410    # Gone
-        || $_[0] == 414    # Request-URI Too Large
-        || $_[0] == 451    # Unavailable For Legal Reasons
-        || $_[0] == 501    # Not Implemented
-      );
-}
+sub is_cacheable_by_default ($) { $_[0] &&
+    (  $_[0] == 200 # OK
+    || $_[0] == 203 # Non-Authoritative Information
+    || $_[0] == 204 # No Content
+    || $_[0] == 206 # Not Acceptable
+    || $_[0] == 300 # Multiple Choices
+    || $_[0] == 301 # Moved Permanently
+    || $_[0] == 404 # Not Found
+    || $_[0] == 405 # Method Not Allowed
+    || $_[0] == 410 # Gone
+    || $_[0] == 414 # Request-URI Too Large
+    || $_[0] == 451 # Unavailable For Legal Reasons
+    || $_[0] == 501 # Not Implemented
+    ); }
 
 1;
 
@@ -269,7 +260,9 @@ the classification functions.
 
 The status_message() function will translate status codes to human
 readable strings. The string is the same as found in the constant
-names above.  If the $code is unknown, then C<undef> is returned.
+names above. If the $code is not registered in the L<list of IANA HTTP Status
+Codes|https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml>
+then C<undef> is returned. 
 
 =item is_info( $code )
 
@@ -318,6 +311,10 @@ Section 6.1. Overview of Status Codes|https://tools.ietf.org/html/rfc7231#sectio
 This function is B<not> exported by default.
 
 =back
+
+=head1 SEE ALSO
+
+L<IANA HTTP Status Codes|https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml>
 
 =head1 BUGS
 
