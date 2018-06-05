@@ -127,7 +127,7 @@ our %EXPORT_TAGS = (
 );
 
 sub status_message ($) {
-    $StatusCode{ $_[0] } || is_info( $_[0] ) ? 'OK'
+    $StatusCode{ $_[0] } or is_info( $_[0] ) ? 'OK'
       : is_success( $_[0] )      ? 'OK'
       : is_redirect( $_[0] )     ? 'Redirect'
       : is_client_error( $_[0] ) ? 'Client Error'
