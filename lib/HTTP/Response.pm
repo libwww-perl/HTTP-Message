@@ -3,7 +3,7 @@ package HTTP::Response;
 use strict;
 use warnings;
 
-our $VERSION = '6.17';
+our $VERSION = '6.18';
 
 use base 'HTTP::Message';
 

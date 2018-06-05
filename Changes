@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.17      2018-06-05 01:55:34Z
     - Documented status code 451 in the list of constants (GH #104) (Robert Rothenberg)
     - Status code 451 is cachable by default, as per RFC 7725 (GH #104) (Robert Rothenberg)

@@ -3,7 +3,7 @@ package HTTP::Status;
 use strict;
 use warnings;
 
-our $VERSION = '6.17';
+our $VERSION = '6.18';
 
 require 5.002;   # because we use prototypes
 
