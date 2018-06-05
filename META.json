@@ -92,7 +92,7 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.17",
+   "version" : "6.18",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026001"
@@ -556,7 +556,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.17",
+                  "tag" : "v6.18",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
@@ -720,6 +720,7 @@
       "Gavin Peters <gpeters@deepsky.com>",
       "Gisle Aas <gisle@aas.no>",
       "Graeme Thompson <Graeme.Thompson@mobilecohesion.com>",
+      "Graham Knop <haarg@haarg.org>",
       "Hans-H. Froehlich <hfroehlich@co-de-co.de>",
       "Ian Kilgore <iank@cpan.org>",
       "Jacob J <waif@chaos2.org>",
