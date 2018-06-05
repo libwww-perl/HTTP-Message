@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.18      2018-06-05 16:29:15Z
     - Revert status_message to original code (GH#111) (Theo van Hoesel)
 
