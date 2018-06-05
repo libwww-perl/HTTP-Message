@@ -15,3 +15,11 @@ before_install:
   - source ~/travis-perl-helpers/init
   - build-perl
   - perl -V
+script:
+  - perl Makefile.PL
+  - make
+  - make test
+  - make install
+  - cpanm --test-only LWP
+  - cpanm --test-only Plack
+  - cpanm --test-only WWW::Mechanize
