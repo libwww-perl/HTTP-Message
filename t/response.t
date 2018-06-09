@@ -1,11 +1,12 @@
 # Test extra HTTP::Response methods.  Basic operation is tested in the
 # message.t test suite.
 
+use utf8;
 use strict;
 use warnings;
 
 use Test::More;
-plan tests => 68;
+plan tests => 69;
 
 use HTTP::Date;
 use HTTP::Request;
@@ -183,3 +184,47 @@ is($r2->filename(), 'baz.txt');
 $r2->remove_header ('Content-Location');
 $req->uri('http://www.example.com/bar.txt');
 is($r2->filename(), 'bar.txt');
+
+subtest 'RFC 8187: tests from Content-Disposition test suite' => sub {
+
+    # Test labels from the HTTP Content-Disposition header field test suite at
+    # <http://purl.org/NET/http/content-disposition-tests>.
+
+    eval {
+        require Encode;
+        require Encode::Locale;
+    } or plan skip_all => 'Need Encode module';
+
+    ## Encoding: See <http://purl.org/NET/http/content-disposition-tests#encoding-2231-char>.
+    $r2->header( 'Content-Disposition' =>
+            "attachment; filename*=iso-8859-1''foo-%E4.html\n" );
+    is(
+        Encode::decode( 'locale_fs', $r2->filename() ),
+        'foo-ä.html',
+        'attwithisofn2231iso: Attachment with ISO-8859-1 charset'
+    );
+    $r2->header( 'Content-Disposition' =>
+            "attachment; filename*=UTF-8''foo-%c3%a4-%e2%82%ac.html\n" );
+    is(
+        Encode::decode( 'locale_fs', $r2->filename() ),
+        'foo-ä-€.html', 'attwithfn2231utf8: Attachment with UTF-8 charset'
+    );
+
+    ## Fallback: See <http://purl.org/NET/http/content-disposition-tests#encoding-2231-fb>.
+    $r2->header( 'Content-Disposition' =>
+            qq|attachment; filename="foo-ae.html"; filename*=UTF-8''foo-%c3%a4.html\n|
+    );
+    is(
+        Encode::decode( 'locale_fs', $r2->filename() ),
+        'foo-ä.html',
+        'attfnboth: Attachment with both "filename" parameter and "filename*" parameter. The "filename*" parameter is preferred.'
+    );
+    $r2->header( 'Content-Disposition' =>
+            qq|attachment; filename*=UTF-8''foo-%c3%a4.html; filename="foo-ae.html"\n|
+    );
+    is(
+        Encode::decode( 'locale_fs', $r2->filename() ),
+        'foo-ä.html',
+        'attfnboth2: Attachment with both parameters, but swapped order. The "filename*" parameter is still preferred.'
+    );
+};
