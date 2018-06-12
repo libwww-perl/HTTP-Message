@@ -20,6 +20,10 @@ before_install:
   - source ~/travis-perl-helpers/init
   - build-perl
   - perl -V
+  - build-dist
+  - cd $BUILD_DIR             # $BUILD_DIR is set by the build-dist command
+install:
+  - cpan-install --deps       # installs prereqs, including recommends
 script:
   - perl Makefile.PL
   - make
