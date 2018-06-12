@@ -29,7 +29,7 @@ script:
   - make
   - make test
   - make install
-  - unset AUTHOR_TESTING
+  - unset AUTHOR_TESTING; unset AUTOMATED_TESTING; unset RELEASE_TESTING
   - cpanm --test-only LWP || ( cat ~/.cpanm/build.log; false )
   - cpanm --test-only Plack || ( cat ~/.cpanm/build.log; false )
   - cpanm --test-only WWW::Mechanize || ( cat ~/.cpanm/build.log; false )
