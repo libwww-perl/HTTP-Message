@@ -43,7 +43,9 @@ as this is an old distribution and styling has changed somewhat over the years,
 please keep your tidying constrained to the portion of code or function in which
 you're patching.
 
-    $ perltidy lib/HTTP/Status.pm -o my_tidy_copy.pm
+    $ perltidy -pro=perltidyrc lib/HTTP/Status.pm -o my_tidy_copy.pm
+    ...
+    $ rm my_tidy_copy.pm
 
 The above command, for example, would provide you with a copy of `Status.pm`
 that has been cleaned according to our `.perltidyrc` settings. You'd then look
