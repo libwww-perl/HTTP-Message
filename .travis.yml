@@ -27,7 +27,7 @@ install:
 script:
   - perl Makefile.PL
   - make
-  - make test
+  - prove -b -r -s -j$(test-jobs) $(test-files)
   - make install
   - unset AUTHOR_TESTING; unset AUTOMATED_TESTING; unset RELEASE_TESTING
   - cpanm --test-only LWP || ( cat ~/.cpanm/build.log; false )
