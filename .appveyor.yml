@@ -6,6 +6,7 @@ matrix:
 
 environment:
   matrix:
+    - perl_type: cygwin
     - perl_type: strawberry
       perl_version: 5.26.2.1
     - perl_type: strawberry
@@ -29,4 +30,7 @@ install:
 build: off
 
 test_script:
-  - '%cpanm% --test-only -v .'
+  - '%cpanm% -v .'
+  - '%cpanm% --test-only -v LWP'
+  - '%cpanm% --test-only -v Plack'
+  - '%cpanm% --test-only -v WWW::Mechanize'
