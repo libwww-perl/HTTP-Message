@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Add support for RFC 8187 encoded filenames (GH#115) (Zaki Mughal)
     - Add status_message_with_fallback function that returns default status messages for unknown status codes. (GH#105,#114) (Robert Rothenberg)
 
 6.18      2018-06-05 16:29:15Z
