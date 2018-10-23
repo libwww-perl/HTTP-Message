@@ -417,6 +417,7 @@ sub decodable
     # should match the Content-Encoding values that decoded_content can deal with
     my $self = shift;
     my @enc;
+    local $@;
     # XXX preferably we should determine if the modules are available without loading
     # them here
     eval {
