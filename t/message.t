@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-plan tests => 194;
+plan tests => 195;
 
 require HTTP::Message;
 use Config qw(%Config);
@@ -596,3 +596,11 @@ $m->content("\xFF\xFEaa/");
 is($m->content_charset, "UTF-16LE");
 $m->content("\xFE\xFFaa/");
 is($m->content_charset, "UTF-16BE");
+
+{
+  $m = HTTP::Message->new;
+  local $@ = 'pre-existing error';
+  $m->decodable;
+  is($@, 'pre-existing error', 'decodable() does not overwrite $@');
+}
+
