@@ -8,6 +8,8 @@ environment:
   matrix:
     - perl_type: cygwin
     - perl_type: strawberry
+      perl_version: 5.28.0.1
+    - perl_type: strawberry
       perl_version: 5.26.2.1
     - perl_type: strawberry
       perl_version: 5.24.3.1
@@ -31,6 +33,8 @@ build: off
 
 test_script:
   - '%cpanm% -v .'
+  - '%cpanm% --installdeps -n LWP'
+  - '%cpanm% --installdeps -n WWW::Mechanize'
   - '%cpanm% --test-only -v LWP'
   - '%cpanm% --test-only -v WWW::Mechanize'
 # plack currently fails on CygWin and is slow to test.
