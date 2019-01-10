@@ -92,7 +92,17 @@ sub uri
 sub uri_canonical
 {
     my $self = shift;
-    return $self->{'_uri_canonical'} ||= $self->{'_uri'}->canonical;
+
+    my $uri = $self->{_uri};
+
+    if (defined (my $canon = $self->{_uri_canonical})) {
+        # early bailout if these are the exact same string; try to use
+        # the cheapest comparison method possible
+        return $canon if $$canon eq $$uri;
+    }
+
+    # otherwise we need to refresh the memoized value
+    $self->{_uri_canonical} = $uri->canonical;
 }
 
 
