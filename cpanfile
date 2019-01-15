@@ -23,10 +23,14 @@ requires "strict" => "0";
 requires "warnings" => "0";
 
 on 'test' => sub {
+  requires "Cwd" => "0";
   requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
+  requires "File::Temp" => "0";
   requires "PerlIO::encoding" => "0";
   requires "Test::More" => "0.88";
+  requires "Test::Needs" => "0";
+  requires "Test::Warnings" => "0";
   requires "Time::Local" => "0";
   requires "Try::Tiny" => "0";
   requires "perl" => "5.008001";
