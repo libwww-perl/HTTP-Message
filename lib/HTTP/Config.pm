@@ -3,7 +3,7 @@ package HTTP::Config;
 use strict;
 use warnings;
 
-our $VERSION = '6.19';
+our $VERSION = '6.20';
 
 use URI;
 

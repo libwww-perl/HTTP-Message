@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.19      2019-01-16 15:17:35Z (TRIAL RELEASE)
     - Add support for RFC 8187 encoded filenames (GH#115) (Zaki Mughal)
     - Fix memoized _uri_canonical #121 (GH#123) (Dorian Taylor)
