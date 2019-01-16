@@ -16,7 +16,9 @@ requires "LWP::MediaTypes" => "6";
 requires "MIME::Base64" => "2.1";
 requires "MIME::QuotedPrint" => "0";
 requires "Storable" => "0";
+requires "Try::Tiny" => "0";
 requires "URI" => "1.10";
+requires "URI::Escape" => "0";
 requires "base" => "0";
 requires "perl" => "5.008001";
 requires "strict" => "0";
@@ -28,8 +30,8 @@ on 'test' => sub {
   requires "PerlIO::encoding" => "0";
   requires "Test::More" => "0.88";
   requires "Time::Local" => "0";
-  requires "Try::Tiny" => "0";
   requires "perl" => "5.008001";
+  requires "utf8" => "0";
 };
 
 on 'test' => sub {
@@ -46,6 +48,14 @@ on 'configure' => sub {
 };
 
 on 'develop' => sub {
+  requires "File::Spec" => "0";
+  requires "IO::Handle" => "0";
+  requires "IPC::Open3" => "0";
   requires "Test::CPAN::Changes" => "0.19";
+  requires "Test::Mojibake" => "0";
   requires "Test::More" => "0.96";
+  requires "Test::Pod" => "1.41";
+  requires "Test::Portability::Files" => "0";
+  requires "Test::Version" => "1";
+  requires "perl" => "5.006";
 };

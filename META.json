@@ -32,8 +32,16 @@
       },
       "develop" : {
          "requires" : {
+            "File::Spec" : "0",
+            "IO::Handle" : "0",
+            "IPC::Open3" : "0",
             "Test::CPAN::Changes" : "0.19",
-            "Test::More" : "0.96"
+            "Test::Mojibake" : "0",
+            "Test::More" : "0.96",
+            "Test::Pod" : "1.41",
+            "Test::Portability::Files" : "0",
+            "Test::Version" : "1",
+            "perl" : "5.006"
          }
       },
       "runtime" : {
@@ -56,7 +64,9 @@
             "MIME::Base64" : "2.1",
             "MIME::QuotedPrint" : "0",
             "Storable" : "0",
+            "Try::Tiny" : "0",
             "URI" : "1.10",
+            "URI::Escape" : "0",
             "base" : "0",
             "perl" : "5.008001",
             "strict" : "0",
@@ -73,12 +83,12 @@
             "PerlIO::encoding" : "0",
             "Test::More" : "0.88",
             "Time::Local" : "0",
-            "Try::Tiny" : "0",
-            "perl" : "5.008001"
+            "perl" : "5.008001",
+            "utf8" : "0"
          }
       }
    },
-   "release_status" : "stable",
+   "release_status" : "testing",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/libwww-perl/HTTP-Message/issues"
@@ -92,7 +102,7 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.18",
+   "version" : "6.19",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026001"
@@ -149,7 +159,7 @@
          {
             "class" : "Dist::Zilla::Plugin::MAXMIND::TidyAll",
             "name" : "@Author::OALDERS/MAXMIND::TidyAll",
-            "version" : "0.13"
+            "version" : "0.83"
          },
          {
             "class" : "Dist::Zilla::Plugin::AutoPrereqs",
@@ -219,11 +229,16 @@
          {
             "class" : "Dist::Zilla::Plugin::InstallGuide",
             "name" : "@Author::OALDERS/InstallGuide",
-            "version" : "1.200009"
+            "version" : "1.200012"
          },
          {
             "class" : "Dist::Zilla::Plugin::ExecDir",
             "name" : "@Author::OALDERS/ExecDir",
+            "version" : "6.012"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::PodSyntaxTests",
+            "name" : "@Author::OALDERS/PodSyntaxTests",
             "version" : "6.012"
          },
          {
@@ -431,7 +446,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.17.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                }
             },
@@ -442,7 +457,7 @@
             "class" : "Dist::Zilla::Plugin::Git::Contributors",
             "config" : {
                "Dist::Zilla::Plugin::Git::Contributors" : {
-                  "git_version" : "2.17.1",
+                  "git_version" : "2.20.1",
                   "include_authors" : 0,
                   "include_releaser" : 1,
                   "order_by" : "name",
@@ -450,7 +465,7 @@
                }
             },
             "name" : "@Author::OALDERS/Git::Contributors",
-            "version" : "0.034"
+            "version" : "0.035"
          },
          {
             "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
@@ -539,7 +554,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.17.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -556,12 +571,12 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.18",
+                  "tag" : "v6.19",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.17.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -611,7 +626,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.17.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -631,12 +646,65 @@
                   "remotes_must_exist" : 1
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.17.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                }
             },
             "name" : "@Author::OALDERS/Git::Push",
             "version" : "2.045"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MojibakeTests",
+            "name" : "MojibakeTests",
+            "version" : "0.8"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Version",
+            "name" : "Test::Version",
+            "version" : "1.09"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Compile",
+            "config" : {
+               "Dist::Zilla::Plugin::Test::Compile" : {
+                  "bail_out_on_fail" : "1",
+                  "fail_on_warning" : "author",
+                  "fake_home" : 0,
+                  "filename" : "xt/author/00-compile.t",
+                  "module_finder" : [
+                     ":InstallModules"
+                  ],
+                  "needs_display" : 0,
+                  "phase" : "develop",
+                  "script_finder" : [
+                     ":PerlExecFiles"
+                  ],
+                  "skips" : [],
+                  "switch" : []
+               }
+            },
+            "name" : "Test::Compile",
+            "version" : "2.058"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Portability",
+            "config" : {
+               "Dist::Zilla::Plugin::Test::Portability" : {
+                  "options" : ""
+               }
+            },
+            "name" : "Test::Portability",
+            "version" : "2.001000"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::ChangesHasContent",
+            "name" : "Test::ChangesHasContent",
+            "version" : "0.011"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Substitute",
+            "name" : "Substitute",
+            "version" : "0.006"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
@@ -692,7 +760,7 @@
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : 0
+            "is_trial" : 1
          },
          "version" : "6.012"
       }
@@ -714,6 +782,7 @@
       "David E. Wheeler <david@justatheory.com>",
       "DAVIDRW <davidrw@cpan.org>",
       "David Steinbrunner <dsteinbrunner@MountainBook-Pro.local>",
+      "Dorian Taylor <dorian.taylor.lists@gmail.com>",
       "Father Chrysostomos <sprout@cpan.org>",
       "Felipe Gasper <felipe@felipegasper.com>",
       "FWILES <FWILES@cpan.org>",
@@ -724,6 +793,7 @@
       "Hans-H. Froehlich <hfroehlich@co-de-co.de>",
       "Ian Kilgore <iank@cpan.org>",
       "Jacob J <waif@chaos2.org>",
+      "Jakub Wilk <jwilk@jwilk.net>",
       "jefflee <shaohua@gmail.com>",
       "Jerome Eteve <jerome@broadbean.com>",
       "john9art <john9art@yahoo.com>",
@@ -732,6 +802,7 @@
       "Mark Overmeer <mark@overmeer.net>",
       "Mark Stosberg <mark@stosberg.com>",
       "Martin H. Sluka <fany@cpan.org>",
+      "Matthew Chae <mschae@cpan.org>",
       "Mickey Nasriachi <mickey@cpan.org>",
       "Mike Schilli <github@perlmeister.com>",
       "murphy <murphy@genome.chop.edu>",
@@ -764,9 +835,10 @@
       "uid39246 <uid39246>",
       "Ville Skytt\u00e4 <ville.skytta@iki.fi>",
       "Yuri Karaban <tech@askold.net>",
+      "Zakariyya Mughal <zaki.mughal@gmail.com>",
       "Zefram <zefram@fysh.org>"
    ],
    "x_generated_by_perl" : "v5.26.1",
-   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0239"
+   "x_serialization_backend" : "Cpanel::JSON::XS version 4.04"
 }
 

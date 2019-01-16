@@ -35,7 +35,9 @@ my %WriteMakefileArgs = (
     "MIME::Base64" => "2.1",
     "MIME::QuotedPrint" => 0,
     "Storable" => 0,
+    "Try::Tiny" => 0,
     "URI" => "1.10",
+    "URI::Escape" => 0,
     "base" => 0,
     "strict" => 0,
     "warnings" => 0
@@ -46,7 +48,7 @@ my %WriteMakefileArgs = (
     "PerlIO::encoding" => 0,
     "Test::More" => "0.88",
     "Time::Local" => 0,
-    "Try::Tiny" => 0
+    "utf8" => 0
   },
   "VERSION" => "6.19",
   "test" => {
@@ -81,8 +83,10 @@ my %FallbackPrereqs = (
   "Time::Local" => 0,
   "Try::Tiny" => 0,
   "URI" => "1.10",
+  "URI::Escape" => 0,
   "base" => 0,
   "strict" => 0,
+  "utf8" => 0,
   "warnings" => 0
 );
 
