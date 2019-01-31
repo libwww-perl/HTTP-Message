@@ -198,33 +198,33 @@ subtest 'RFC 8187: tests from Content-Disposition test suite' => sub {
     ## Encoding: See <http://purl.org/NET/http/content-disposition-tests#encoding-2231-char>.
     $r2->header( 'Content-Disposition' =>
             "attachment; filename*=iso-8859-1''foo-%E4.html\n" );
-    is(
-        Encode::decode( 'locale_fs', $r2->filename() ),
-        'foo-ä.html',
+    like(
+        Encode::decode( 'locale_fs', $r2->filename(), sub { URI::Escape::uri_escape(chr shift) } ),
+        qr'foo-(?:ä|%C3%A4).html',
         'attwithisofn2231iso: Attachment with ISO-8859-1 charset'
     );
     $r2->header( 'Content-Disposition' =>
             "attachment; filename*=UTF-8''foo-%c3%a4-%e2%82%ac.html\n" );
-    is(
-        Encode::decode( 'locale_fs', $r2->filename() ),
-        'foo-ä-€.html', 'attwithfn2231utf8: Attachment with UTF-8 charset'
+    like(
+        Encode::decode( 'locale_fs', $r2->filename(), sub { URI::Escape::uri_escape_utf8(chr shift) } ),
+        qr'foo-(?:ä|%C3%A4)-(?:€|%E2%82%AC).html', 'attwithfn2231utf8: Attachment with UTF-8 charset'
     );
 
     ## Fallback: See <http://purl.org/NET/http/content-disposition-tests#encoding-2231-fb>.
     $r2->header( 'Content-Disposition' =>
             qq|attachment; filename="foo-ae.html"; filename*=UTF-8''foo-%c3%a4.html\n|
     );
-    is(
-        Encode::decode( 'locale_fs', $r2->filename() ),
-        'foo-ä.html',
+    like(
+        Encode::decode( 'locale_fs', $r2->filename(), sub { URI::Escape::uri_escape_utf8(chr shift) } ),
+        qr'foo-(?:ä|%C3%A4).html',
         'attfnboth: Attachment with both "filename" parameter and "filename*" parameter. The "filename*" parameter is preferred.'
     );
     $r2->header( 'Content-Disposition' =>
             qq|attachment; filename*=UTF-8''foo-%c3%a4.html; filename="foo-ae.html"\n|
     );
-    is(
-        Encode::decode( 'locale_fs', $r2->filename() ),
-        'foo-ä.html',
+    like(
+        Encode::decode( 'locale_fs', $r2->filename(), sub { URI::Escape::uri_escape_utf8(chr shift) } ),
+        qr'foo-(?:ä|%C3%A4).html',
         'attfnboth2: Attachment with both parameters, but swapped order. The "filename*" parameter is still preferred.'
     );
 };
