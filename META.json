@@ -102,7 +102,7 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.19",
+   "version" : "6.20",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026001"
@@ -571,7 +571,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.19",
+                  "tag" : "v6.20",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
@@ -799,6 +799,7 @@
       "john9art <john9art@yahoo.com>",
       "jonasbn <jonasbn@gmail.com>",
       "Karen Etheridge <ether@cpan.org>",
+      "Lars D\u026a\u1d07\u1d04\u1d0b\u1d0f\u1d21 \u8fea\u62c9\u65af <daxim@cpan.org>",
       "Mark Overmeer <mark@overmeer.net>",
       "Mark Stosberg <mark@stosberg.com>",
       "Martin H. Sluka <fany@cpan.org>",

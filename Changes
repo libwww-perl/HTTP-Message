@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.20      2019-02-05 01:46:39Z (TRIAL RELEASE)
+    - Fix encoded file names when LC_ALL=C (GH#125) (Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯)
 
 6.19      2019-01-16 15:17:35Z (TRIAL RELEASE)
     - Add support for RFC 8187 encoded filenames (GH#115) (Zaki Mughal)
