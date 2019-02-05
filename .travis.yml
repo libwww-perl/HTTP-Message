@@ -1,15 +1,34 @@
+---
+addons:
+  apt:
+    packages:
+      - aspell
+      - aspell-en
 language: perl
 perl:
-  - "5.26"
-  - "5.24"
-  - "5.22"
-  - "5.20"
-  - "5.18"
-  - "5.16"
-  - "5.14"
-  - "5.12"
-  - "5.10"
-  - "5.8"
+  - blead
+  - dev
+  - '5.28'
+  - '5.26'
+  - '5.24'
+  - '5.22'
+  - '5.20'
+  - '5.18'
+  - '5.16'
+  - '5.14'
+  - '5.12'
+  - '5.10'
+  - '5.8'
+cache:
+  directories:
+    - $HOME/perl5
+matrix:
+  allow_failures:
+    - perl: blead
+  fast_finish: 1
+  include:
+    - env: COVERAGE=1
+      perl: '5.28'
 env:
   global:
     - AUTHOR_TESTING=1
@@ -33,3 +52,9 @@ script:
   - cpanm --test-only LWP || ( cat ~/.cpanm/build.log; false )
   - cpanm --test-only Plack || ( cat ~/.cpanm/build.log; false )
   - cpanm --test-only WWW::Mechanize || ( cat ~/.cpanm/build.log; false )
+### __app_cisetup__
+# ---
+# force_threaded_perls: 0
+# perl_caching: 1
+
+### __app_cisetup__
