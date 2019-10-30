@@ -253,14 +253,13 @@ to an endpoint.
     use strict;
     use warnings;
 
-    use Encode qw(encode_utf8);
     use HTTP::Request ();
     use JSON::MaybeXS qw(encode_json);
 
     my $url = 'https://www.example.com/api/user/123';
     my $header = ['Content-Type' => 'application/json; charset=UTF-8'];
     my $data = {foo => 'bar', baz => 'quux'};
-    my $encoded_data = encode_utf8(encode_json($data));
+    my $encoded_data = encode_json($data);
 
     my $r = HTTP::Request->new('POST', $url, $header, $encoded_data);
     # at this point, we could send it via LWP::UserAgent
@@ -278,7 +277,6 @@ C<add_part> method from L<HTTP::Message> makes this simple.
     use strict;
     use warnings;
 
-    use Encode qw(encode_utf8);
     use HTTP::Request ();
     use JSON::MaybeXS qw(encode_json);
 
@@ -319,7 +317,7 @@ C<add_part> method from L<HTTP::Message> makes this simple.
     sub build_json_request {
         my ($url, $href) = @_;
         my $header = ['Authorization' => "Bearer $auth_token", 'Content-Type' => 'application/json; charset=UTF-8'];
-        return HTTP::Request->new('POST', $url, $header, encode_utf8(encode_json($href)));
+        return HTTP::Request->new('POST', $url, $header, encode_json($href));
     }
 
 
