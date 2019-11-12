@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Fix JSON request encoding examples in POD (GH#126) (Michael Schout)
 
 6.20      2019-02-05 01:46:39Z (TRIAL RELEASE)
     - Fix encoded file names when LC_ALL=C (GH#125) (Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯)
