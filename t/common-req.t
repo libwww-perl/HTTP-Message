@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 64;
+plan tests => 71;
 
 use HTTP::Request::Common;
 
