@@ -50,6 +50,23 @@ $r = PUT "http://www.sn.no",
      { foo => "bar" };
 is($r->content, "foo=bar");
 
+$r = OPTIONS "http://www.sn.no",
+     Content => 'foo';
+note $r->as_string, "\n";
+
+is($r->method, "OPTIONS");
+is($r->uri->host, "www.sn.no");
+
+ok(!defined($r->header("Content")));
+
+is(${$r->content_ref}, "foo");
+is($r->content, "foo");
+is($r->content_length, 3);
+
+$r = OPTIONS "http://www.sn.no",
+     { foo => "bar" };
+is($r->content, "foo=bar");
+
 $r = PATCH "http://www.sn.no",
      { foo => "bar" };
 is($r->content, "foo=bar");
