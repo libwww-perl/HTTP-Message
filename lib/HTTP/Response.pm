@@ -143,11 +143,7 @@ sub filename {
                     require Encode;
                     require Encode::Locale;
                     $fs_encfile = URI::Escape::uri_unescape($fs_encfile);
-                    # try hard to make a usable file name,
-                    # see <https://dwheeler.com/encodef/>
-                    Encode::from_to( $fs_encfile, $fs_charset, "locale_fs",
-                        sub { URI::Escape::uri_escape_utf8(chr shift) }
-                    );
+                    Encode::from_to( $fs_encfile, $fs_charset, "locale_fs" );
 
                     $file = $fs_encfile;
                 }
