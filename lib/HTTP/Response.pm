@@ -8,7 +8,7 @@ our $VERSION = '6.21';
 use base 'HTTP::Message';
 
 use HTTP::Status ();
-use Try::Tiny;
+
 
 sub new
 {
@@ -116,99 +116,74 @@ sub redirects {
     return reverse @r;
 }
 
-sub filename {
+
+sub filename
+{
     my $self = shift;
     my $file;
 
     my $cd = $self->header('Content-Disposition');
     if ($cd) {
-        require HTTP::Headers::Util;
-        if ( my @cd = HTTP::Headers::Util::split_header_words($cd) ) {
-            my ( $disposition, undef, %cd_param ) = @{ $cd[-1] };
+	require HTTP::Headers::Util;
+	if (my @cd = HTTP::Headers::Util::split_header_words($cd)) {
+	    my ($disposition, undef, %cd_param) = @{$cd[-1]};
+	    $file = $cd_param{filename};
 
-            $file = $cd_param{filename};
+	    # RFC 2047 encoded?
+	    if ($file && $file =~ /^=\?(.+?)\?(.+?)\?(.+)\?=$/) {
+		my $charset = $1;
+		my $encoding = uc($2);
+		my $encfile = $3;
 
-            if (
-                exists $cd_param{'filename*'}
-                && ( my ( $fs_charset, $fs_lang, $fs_encfile )
-                    = $cd_param{'filename*'} =~ m/^([^']+)'(.*)'(.+)$/ )
-            ) {
-                # RFC 8187 encoded? Takes precedence.
-                warn
-                    q|Producers should use either UTF-8 or ISO-8859-1 character encoding.|
-                    unless $fs_charset =~ /^(utf-8|iso-8859-1)$/i;
+		if ($encoding eq 'Q' || $encoding eq 'B') {
+		    local($SIG{__DIE__});
+		    eval {
+			if ($encoding eq 'Q') {
+			    $encfile =~ s/_/ /g;
+			    require MIME::QuotedPrint;
+			    $encfile = MIME::QuotedPrint::decode($encfile);
+			}
+			else { # $encoding eq 'B'
+			    require MIME::Base64;
+			    $encfile = MIME::Base64::decode($encfile);
+			}
 
-                try {
-                    require URI::Escape;
-                    require Encode;
-                    require Encode::Locale;
-                    $fs_encfile = URI::Escape::uri_unescape($fs_encfile);
-                    Encode::from_to( $fs_encfile, $fs_charset, "locale_fs" );
+			require Encode;
+			require Encode::Locale;
+			Encode::from_to($encfile, $charset, "locale_fs");
+		    };
 
-                    $file = $fs_encfile;
-                }
-                catch {
-                    warn
-                        "Caught error while processing RFC 8187 'filename*' parameter: $_";
-                };
-            }
-            elsif (
-                $file
-                && ( my ( $charset, $encoding, $encfile )
-                    = $file =~ /^=\?(.+?)\?(.+?)\?(.+)\?=$/ )
-            ) {
-                # RFC 2047 encoded?
-                if ( $encoding eq 'Q' || $encoding eq 'B' ) {
-                    try {
-                        if ( $encoding eq 'Q' ) {
-                            $encfile =~ s/_/ /g;
-                            require MIME::QuotedPrint;
-                            $encfile = MIME::QuotedPrint::decode($encfile);
-                        }
-                        else {    # $encoding eq 'B'
-                            require MIME::Base64;
-                            $encfile = MIME::Base64::decode($encfile);
-                        }
-
-                        require Encode;
-                        require Encode::Locale;
-                        Encode::from_to( $encfile, $charset, "locale_fs" );
-
-                        $file = $encfile;
-                    }
-                    catch {
-                        warn
-                            "Caught error while processing RFC 2047 'filename' parameter: $_";
-                    };
-                }
-            }
-        }
+		    $file = $encfile unless $@;
+		}
+	    }
+	}
     }
 
-    unless ( defined($file) && length($file) ) {
-        my $uri;
-        if ( my $cl = $self->header('Content-Location') ) {
-            $uri = URI->new($cl);
-        }
-        elsif ( my $request = $self->request ) {
-            $uri = $request->uri;
-        }
+    unless (defined($file) && length($file)) {
+	my $uri;
+	if (my $cl = $self->header('Content-Location')) {
+	    $uri = URI->new($cl);
+	}
+	elsif (my $request = $self->request) {
+	    $uri = $request->uri;
+	}
 
-        if ($uri) {
-            $file = ( $uri->path_segments )[-1];
-        }
+	if ($uri) {
+	    $file = ($uri->path_segments)[-1];
+	}
     }
 
     if ($file) {
-        $file =~ s,.*[\\/],,;    # basename
+	$file =~ s,.*[\\/],,;  # basename
     }
 
-    if ( $file && !length($file) ) {
-        $file = undef;
+    if ($file && !length($file)) {
+	$file = undef;
     }
 
     $file;
 }
+
 
 sub as_string
 {
@@ -537,20 +512,9 @@ order):
 
 =item 1.
 
-A "Content-Disposition:" header in the response.
-
-This uses the C<filename> or the C<filename*> parameter. If both are
-present, C<filename*> is preferred.
-
-Proper decoding of RFC 2047 encoded filenames in the C<filename>
-parameter requires the C<MIME::QuotedPrint> (for "Q" encoding),
-C<MIME::Base64> (for "B" encoding), and C<Encode> modules.
-
-Proper decoding of RFC 8187 encoded filenames in the C<filename*>
-parameter requires the L<URI::Escape> and L<Encode> modules.
-
-If the content needs to be decoded, it will be returned as a string encoded
-using the C<locale_fs> encoding as defined in the L<Encode::Locale> module.
+A "Content-Disposition:" header in the response.  Proper decoding of
+RFC 2047 encoded filenames requires the C<MIME::QuotedPrint> (for "Q"
+encoding), C<MIME::Base64> (for "B" encoding), and C<Encode> modules.
 
 =item 2.
 
