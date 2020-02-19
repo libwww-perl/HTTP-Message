@@ -1,6 +1,6 @@
 requires "Carp" => "0";
 requires "Compress::Raw::Zlib" => "0";
-requires "Encode" => "2.21";
+requires "Encode" => "3.01";
 requires "Encode::Locale" => "1";
 requires "Exporter" => "5.57";
 requires "HTTP::Date" => "6";
@@ -16,9 +16,7 @@ requires "LWP::MediaTypes" => "6";
 requires "MIME::Base64" => "2.1";
 requires "MIME::QuotedPrint" => "0";
 requires "Storable" => "0";
-requires "Try::Tiny" => "0";
 requires "URI" => "1.10";
-requires "URI::Escape" => "0";
 requires "base" => "0";
 requires "perl" => "5.008001";
 requires "strict" => "0";
@@ -30,8 +28,8 @@ on 'test' => sub {
   requires "PerlIO::encoding" => "0";
   requires "Test::More" => "0.88";
   requires "Time::Local" => "0";
+  requires "Try::Tiny" => "0";
   requires "perl" => "5.008001";
-  requires "utf8" => "0";
 };
 
 on 'test' => sub {

@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.21      2020-02-19 14:35:09Z (TRIAL RELEASE)
     - Bump Encode to latest version (3.01) (GH#129) (Olaf Alders)
     - Revert #115 (GH#131) (Olaf Alders)
     - Revert (GH#125) "try hard to make a usable file name" (GH#130) (Olaf
