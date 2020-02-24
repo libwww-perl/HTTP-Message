@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Full release.  No changes since TRIAL release 6.21
 
 6.21      2020-02-19 14:35:09Z (TRIAL RELEASE)
     - Bump Encode to latest version (3.01) (GH#129) (Olaf Alders)
