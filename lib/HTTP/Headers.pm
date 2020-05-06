@@ -299,8 +299,8 @@ sub _process_newline {
 
 
 
-if (eval { require Storable; 1 }) {
-    *clone = \&Storable::dclone;
+if (eval { require Clone; 1 }) {
+    *clone = \&Clone::clone;
 } else {
     *clone = sub {
 	my $self = shift;
@@ -527,7 +527,8 @@ means that you can update several fields with a single invocation.
 The $value argument may be a plain string or a reference to an array
 of strings for a multi-valued field. If the $value is provided as
 C<undef> then the field is removed.  If the $value is not given, then
-that header field will remain unchanged.
+that header field will remain unchanged. In addition to being a string,
+$value may be something that stringifies.
 
 The old value (or values) of the last of the header fields is returned.
 If no such field exists C<undef> will be returned.

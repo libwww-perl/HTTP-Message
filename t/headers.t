@@ -1,9 +1,12 @@
 use strict;
 use warnings;
 
+use lib 't/lib';
+
+use Secret ();
 use Test::More;
 
-plan tests => 188;
+plan tests => 189;
 
 my($h, $h2);
 sub j { join("|", @_) }
@@ -515,3 +518,9 @@ is_deeply(
     ],
 );
 
+subtest 'object that stringifies is a valid value' => sub {
+    my $h = HTTP::Headers->new;
+    $h->header('X-Password' => Secret->new('hunter2'));
+    my $h2 = $h->clone;
+    is($h2->as_string, "X-Password: hunter2\n", 'correct headers');
+};
