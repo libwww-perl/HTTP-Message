@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Add GitHub workflows to CI
 
 6.23      2020-05-07 17:57:18Z (TRIAL RELEASE)
     - Enable static install (GH#134) (Olaf Alders)
