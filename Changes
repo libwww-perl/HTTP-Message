@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.23      2020-05-07 17:57:18Z (TRIAL RELEASE)
     - Enable static install (GH#134) (Olaf Alders)
     - Support non-string header values that stringify (GH#137) (Will Storey)
