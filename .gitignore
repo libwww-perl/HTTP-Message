@@ -11,6 +11,7 @@
 /MANIFEST.bak
 /MANIFEST.SKIP.bak
 /MYMETA.*
+.perl-version
 /pm_to_blib
 *.sw*
 .tidyall.d
