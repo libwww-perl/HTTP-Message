@@ -21,6 +21,9 @@ jobs:
       image: perldocker/perl-tester:5.30
     steps:
       - uses: actions/checkout@v2
+      - name: Maybe skip Changes test
+        if: github.ref == 'refs/heads/master'
+        run: cat dist.ini | grep -v ChangesHasContent > less.ini && mv less.ini dist.ini
       - name: Get latest author bundle
         run: >
           cpm install -g
