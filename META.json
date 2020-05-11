@@ -91,7 +91,7 @@
          }
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/libwww-perl/HTTP-Message/issues"
@@ -105,7 +105,7 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.23",
+   "version" : "6.24",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.030002"
@@ -189,7 +189,7 @@
             "class" : "Dist::Zilla::Plugin::MakeMaker",
             "config" : {
                "Dist::Zilla::Role::TestRunner" : {
-                  "default_jobs" : 1
+                  "default_jobs" : "4"
                }
             },
             "name" : "@Author::OALDERS/MakeMaker",
@@ -305,7 +305,7 @@
             "class" : "Dist::Zilla::Plugin::RunExtraTests",
             "config" : {
                "Dist::Zilla::Role::TestRunner" : {
-                  "default_jobs" : 1
+                  "default_jobs" : "4"
                }
             },
             "name" : "@Author::OALDERS/RunExtraTests",
@@ -627,7 +627,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.23",
+                  "tag" : "v6.24",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -796,7 +796,7 @@
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : 1
+            "is_trial" : 0
          },
          "version" : "6.014"
       }

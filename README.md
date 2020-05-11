@@ -6,7 +6,7 @@ HTTP::Message - HTTP style message (base class)
 
 # VERSION
 
-version 6.23
+version 6.24
 
 # SYNOPSIS
 
