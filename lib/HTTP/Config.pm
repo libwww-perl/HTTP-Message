@@ -23,14 +23,11 @@ sub empty {
 }
 
 sub add {
-    if (@_ == 2) {
-        my $self = shift;
-        push(@$self, shift);
-        return;
-    }
-    my($self, %spec) = @_;
-    push(@$self, \%spec);
-    return;
+	my $self = shift;
+
+	push @$self, @_ == 1 ? @_ : { @_ };
+
+	return $self;
 }
 
 sub find2 {
@@ -287,6 +284,14 @@ This is just a shorthand for C<< not $conf->entries >>.
 
 Adds a new entry to the configuration.
 You can either pass separate key/value pairs or a hash reference.
+
+Method supports chaining:
+
+	my $conf = HTTP::Config->new
+		->add (... spec 1 ...)
+		->add (... spec 2 ...)
+		->add (... spec 3 ...)
+		;
 
 =item $conf->remove( %spec )
 
