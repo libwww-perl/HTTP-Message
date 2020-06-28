@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.25      2020-06-28 17:52:12Z
     - Don't run Changes test on master in GH actions
     - move Clone from required to suggests prerequisite, to re-enable
