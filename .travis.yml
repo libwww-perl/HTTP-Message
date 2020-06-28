@@ -6,8 +6,8 @@ addons:
       - aspell-en
 language: perl
 perl:
-  - blead
-  - dev
+  - '5.32'
+  - '5.30'
   - '5.28'
   - '5.26'
   - '5.24'
@@ -19,6 +19,8 @@ perl:
   - '5.12'
   - '5.10'
   - '5.8'
+  - blead
+  - dev
 cache:
   directories:
     - $HOME/perl5
