@@ -18,49 +18,19 @@ jobs:
     strategy:
       max-parallel: 1
     container:
-      image: perldocker/perl-tester:5.30
+      image: perldocker/perl-tester:5.32
     steps:
       - uses: actions/checkout@v2
-      - name: Maybe skip Changes test
-        if: github.ref == 'refs/heads/master'
-        run: cat dist.ini | grep -v ChangesHasContent > less.ini && mv less.ini dist.ini
-      - name: Get latest author bundle
-        run: >
-          cpm install -g
-          --show-build-log-on-failure
-          Dist::Zilla::PluginBundle::Author::OALDERS
-      - name: Install author deps
-        run: dzil authordeps | xargs cpm install -g --show-build-log-on-failure
-      - name: Build
-        run: dzil build --no-tgz --in dzil_build_dir
-      - uses: actions/upload-artifact@master
-        with:
-          name: build_dir
-          path: dzil_build_dir
-      - name: Install deps
-        if: success()
-        run: >
-          cd dzil_build_dir
-          && cpm install -g
-          --cpanfile cpanfile
-          --with-develop
-          --with-recommends
-          --with-suggests
-          --show-build-log-on-failure
       - name: Run Tests with coverage
-        if: success()
         env:
           AUTHOR_TESTING: 1
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
-          HARNESS_PERL_SWITCHES: "-MDevel::Cover=+ignore,^local/|^t/|^xt"
           RELEASE_TESTING: 1
-        run: >
-          cpm install -g
-          --show-build-log-on-failure
-          Devel::Cover::Report::Codecov &&
-          cd dzil_build_dir
-          && prove -lr --jobs 2 t xt
-          && cover -report codecov
+        run: auto-build-and-test-dist
+      - uses: actions/upload-artifact@master
+        with:
+          name: build_dir
+          path: build_dir
   test_linux:
     runs-on: ubuntu-latest
     name: Perl ${{ matrix.perl-version }} on ubuntu-latest
@@ -79,6 +49,7 @@ jobs:
           - "5.26"
           - "5.28"
           - "5.30"
+          - "5.32"
     container:
       image: perldocker/perl-tester:${{ matrix.perl-version }}
       env:
@@ -144,7 +115,7 @@ jobs:
   test_windows:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: ["windows-latest"]
         perl-version:
@@ -168,6 +139,7 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1.3.0
         with:
           perl-version: ${{ matrix.perl-version }}
+          distribution: strawberry
       - uses: actions/download-artifact@master
         with:
           name: build_dir
