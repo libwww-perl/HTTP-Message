@@ -121,11 +121,11 @@ jobs:
           # https://github.com/shogo82148/actions-setup-perl/issues/223
           #- "5.10"
           #- "5.12"
-          #- "5.14"
-          #- "5.16"
-          #- "5.18"
-          #- "5.20"
-          #- "5.22"
+          - "5.14"
+          - "5.16"
+          - "5.18"
+          - "5.20"
+          - "5.22"
           - "5.24"
           - "5.26"
           - "5.28"
@@ -135,7 +135,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set Up Perl
-        uses: shogo82148/actions-setup-perl@v1.3.0
+        uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl-version }}
           distribution: strawberry
