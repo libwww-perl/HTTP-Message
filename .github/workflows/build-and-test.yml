@@ -106,8 +106,7 @@ jobs:
         uses: perl-actions/install-with-cpm@v1.3
         with:
           cpanfile: "cpanfile"
-          args: "--with-develop --with-recommends --with-suggests --with-test"
-          sudo: false
+          args: "--with-develop --with-recommends --with-suggests --with-test --mirror https://cpan.metacpan.org --mirror http://cpan.cpantesters.org"
       - run: prove -l t xt
         env:
           AUTHOR_TESTING: 1
@@ -148,7 +147,7 @@ jobs:
         uses: perl-actions/install-with-cpanm@v1.1
         with:
           cpanfile: "cpanfile"
-          sudo: false
+          args: "--mirror https://cpan.metacpan.org --mirror http://cpan.cpantesters.org"
       - run: perl -V
       - run: prove -l t xt
         env:
