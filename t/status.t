@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 39;
+plan tests => 47;
 
 use HTTP::Status qw(:constants :is status_message);
 
@@ -14,6 +14,16 @@ ok(is_error(HTTP_BAD_REQUEST));
 ok(is_client_error(HTTP_I_AM_A_TEAPOT));
 ok(is_redirect(HTTP_MOVED_PERMANENTLY));
 ok(is_redirect(HTTP_PERMANENT_REDIRECT));
+
+# renamed status constants
+ok(is_error(HTTP_REQUEST_ENTITY_TOO_LARGE));
+ok(is_error(HTTP_PAYLOAD_TOO_LARGE));
+ok(is_error(HTTP_REQUEST_URI_TOO_LARGE));
+ok(is_error(HTTP_URI_TOO_LONG));
+ok(is_error(HTTP_REQUEST_RANGE_NOT_SATISFIABLE));
+ok(is_error(HTTP_RANGE_NOT_SATISFIABLE));
+ok(is_error(HTTP_NO_CODE));
+ok(is_error(HTTP_UNORDERED_COLLECTION));
 
 ok(!is_success(HTTP_NOT_FOUND));
 

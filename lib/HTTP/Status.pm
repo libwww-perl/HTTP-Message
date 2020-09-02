@@ -33,7 +33,7 @@ my %StatusCode = (
     207 => 'Multi-Status',                    # RFC 4918: WebDAV
     208 => 'Already Reported',                # RFC 5842: WebDAV bindings
 #   209 .. 225
-    226 => 'IM used',                         # RFC 3229: Delta encoding
+    226 => 'IM Used',                         # RFC 3229: Delta encoding
 #   227 .. 299
     300 => 'Multiple Choices',
     301 => 'Moved Permanently',
@@ -57,10 +57,10 @@ my %StatusCode = (
     410 => 'Gone',
     411 => 'Length Required',
     412 => 'Precondition Failed',             # RFC 7232: Conditional Request
-    413 => 'Request Entity Too Large',
-    414 => 'Request-URI Too Large',
+    413 => 'Payload Too Large',
+    414 => 'URI Too Long',
     415 => 'Unsupported Media Type',
-    416 => 'Request Range Not Satisfiable',   # RFC 7233: Range Requests
+    416 => 'Range Not Satisfiable',           # RFC 7233: Range Requests
     417 => 'Expectation Failed',
 #   418 .. 420
     421 => 'Misdirected Request',             # RFC 7540: HTTP/2
@@ -118,8 +118,29 @@ die if $@;
 *RC_MOVED_TEMPORARILY = \&RC_FOUND;  # 302 was renamed in the standard
 push(@EXPORT, "RC_MOVED_TEMPORARILY");
 
+*RC_REQUEST_ENTITY_TOO_LARGE = \&RC_PAYLOAD_TOO_LARGE;
+push(@EXPORT, "RC_REQUEST_ENTITY_TOO_LARGE");
+
+*RC_REQUEST_URI_TOO_LARGE = \&RC_URI_TOO_LONG;
+push(@EXPORT, "RC_REQUEST_URI_TOO_LARGE");
+
+*RC_REQUEST_RANGE_NOT_SATISFIABLE = \&RC_RANGE_NOT_SATISFIABLE;
+push(@EXPORT, "RC_REQUEST_RANGE_NOT_SATISFIABLE");
+
 *RC_NO_CODE = \&RC_UNORDERED_COLLECTION;
 push(@EXPORT, "RC_NO_CODE");
+
+*HTTP_REQUEST_ENTITY_TOO_LARGE = \&HTTP_PAYLOAD_TOO_LARGE;
+push(@EXPORT_OK, "HTTP_REQUEST_ENTITY_TOO_LARGE");
+
+*HTTP_REQUEST_URI_TOO_LARGE = \&HTTP_URI_TOO_LONG;
+push(@EXPORT_OK, "HTTP_REQUEST_URI_TOO_LARGE");
+
+*HTTP_REQUEST_RANGE_NOT_SATISFIABLE = \&HTTP_RANGE_NOT_SATISFIABLE;
+push(@EXPORT_OK, "HTTP_REQUEST_RANGE_NOT_SATISFIABLE");
+
+*HTTP_NO_CODE = \&HTTP_UNORDERED_COLLECTION;
+push(@EXPORT_OK, "HTTP_NO_CODE");
 
 our %EXPORT_TAGS = (
    constants => [grep /^HTTP_/, @EXPORT_OK],
@@ -221,10 +242,10 @@ tag to import them all.
    HTTP_GONE                            (410)
    HTTP_LENGTH_REQUIRED                 (411)
    HTTP_PRECONDITION_FAILED             (412)
-   HTTP_REQUEST_ENTITY_TOO_LARGE        (413)
-   HTTP_REQUEST_URI_TOO_LARGE           (414)
+   HTTP_PAYLOAD_TOO_LARGE               (413)
+   HTTP_URI_TOO_LONG                    (414)
    HTTP_UNSUPPORTED_MEDIA_TYPE          (415)
-   HTTP_REQUEST_RANGE_NOT_SATISFIABLE   (416)
+   HTTP_RANGE_NOT_SATISFIABLE           (416)
    HTTP_EXPECTATION_FAILED              (417)
    HTTP_MISDIRECTED REQUEST             (421)
    HTTP_UNPROCESSABLE_ENTITY            (422)
