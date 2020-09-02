@@ -67,7 +67,7 @@ my %StatusCode = (
     422 => 'Unprocessable Entity',            # RFC 4918: WebDAV
     423 => 'Locked',                          # RFC 4918: WebDAV
     424 => 'Failed Dependency',               # RFC 4918: WebDAV
-#   425
+    425 => 'Too Early',                       # RFC 8470: Using Early Data in HTTP
     426 => 'Upgrade Required',
 #   427
     428 => 'Precondition Required',           # RFC 6585: Additional Codes
@@ -95,7 +95,6 @@ my %StatusCode = (
 %StatusCode = (
     %StatusCode,
     418 => 'I\'m a teapot',                   # RFC 2324: HTCPC/1.0  1-april
-    425 => 'Unordered Collection',            #           WebDAV Draft
     449 => 'Retry with',                      #           microsoft
     509 => 'Bandwidth Limit Exceeded',        #           Apache / cPanel
 );
@@ -127,8 +126,11 @@ push(@EXPORT, "RC_REQUEST_URI_TOO_LARGE");
 *RC_REQUEST_RANGE_NOT_SATISFIABLE = \&RC_RANGE_NOT_SATISFIABLE;
 push(@EXPORT, "RC_REQUEST_RANGE_NOT_SATISFIABLE");
 
-*RC_NO_CODE = \&RC_UNORDERED_COLLECTION;
+*RC_NO_CODE = \&RC_TOO_EARLY;
 push(@EXPORT, "RC_NO_CODE");
+
+*RC_UNORDERED_COLLECTION = \&RC_TOO_EARLY;
+push(@EXPORT, "RC_UNORDERED_COLLECTION");
 
 *HTTP_REQUEST_ENTITY_TOO_LARGE = \&HTTP_PAYLOAD_TOO_LARGE;
 push(@EXPORT_OK, "HTTP_REQUEST_ENTITY_TOO_LARGE");
@@ -139,8 +141,11 @@ push(@EXPORT_OK, "HTTP_REQUEST_URI_TOO_LARGE");
 *HTTP_REQUEST_RANGE_NOT_SATISFIABLE = \&HTTP_RANGE_NOT_SATISFIABLE;
 push(@EXPORT_OK, "HTTP_REQUEST_RANGE_NOT_SATISFIABLE");
 
-*HTTP_NO_CODE = \&HTTP_UNORDERED_COLLECTION;
+*HTTP_NO_CODE = \&HTTP_TOO_EARLY;
 push(@EXPORT_OK, "HTTP_NO_CODE");
+
+*HTTP_UNORDERED_COLLECTION = \&HTTP_TOO_EARLY;
+push(@EXPORT_OK, "HTTP_UNORDERED_COLLECTION");
 
 our %EXPORT_TAGS = (
    constants => [grep /^HTTP_/, @EXPORT_OK],
@@ -251,6 +256,7 @@ tag to import them all.
    HTTP_UNPROCESSABLE_ENTITY            (422)
    HTTP_LOCKED                          (423)
    HTTP_FAILED_DEPENDENCY               (424)
+   HTTP_TOO_EARLY                       (425)
    HTTP_UPGRADE_REQUIRED                (426)
    HTTP_PRECONDITION_REQUIRED           (428)
    HTTP_TOO_MANY_REQUESTS               (429)
