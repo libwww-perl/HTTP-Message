@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.26      2020-09-10 02:34:25Z
     - Update comment which explains in which RFC 451 is defined (GH#143) (Olaf
       Alders). Reported by Toby Inkster.
     - Fix HTTP status descriptions and add 425 Too Early (GH#145) (Dan Book)
