@@ -94,7 +94,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set Up Perl
-        uses: shogo82148/actions-setup-perl@v1.3.0
+        uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl-version }}
       - uses: actions/download-artifact@master
@@ -103,7 +103,7 @@ jobs:
           path: .
       - run: perl -V
       - name: install deps using cpanm
-        uses: perl-actions/install-with-cpm@v1.3
+        uses: perl-actions/install-with-cpm@v1
         with:
           cpanfile: "cpanfile"
           args: "--with-develop --with-recommends --with-suggests --with-test --mirror https://cpan.metacpan.org --mirror http://cpan.cpantesters.org"
