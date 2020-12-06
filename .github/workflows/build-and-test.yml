@@ -144,7 +144,7 @@ jobs:
           name: build_dir
           path: .
       - name: install deps using cpanm
-        uses: perl-actions/install-with-cpanm@v1.1
+        uses: perl-actions/install-with-cpanm@v1
         with:
           cpanfile: "cpanfile"
           args: "--mirror https://cpan.metacpan.org --mirror http://cpan.cpantesters.org"
