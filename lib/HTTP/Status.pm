@@ -153,6 +153,7 @@ sub is_cacheable_by_default ($) { $_[0] && ( $_[0] == 200 # OK
                                           || $_[0] == 206 # Not Acceptable
                                           || $_[0] == 300 # Multiple Choices
                                           || $_[0] == 301 # Moved Permanently
+                                          || $_[0] == 308 # Permanent Redirect
                                           || $_[0] == 404 # Not Found
                                           || $_[0] == 405 # Method Not Allowed
                                           || $_[0] == 410 # Gone
@@ -275,7 +276,7 @@ The status_message() function will translate status codes to human
 readable strings. The string is the same as found in the constant
 names above. If the $code is not registered in the L<list of IANA HTTP Status
 Codes|https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml>
-then C<undef> is returned. 
+then C<undef> is returned.
 
 =item is_info( $code )
 
