@@ -2,11 +2,9 @@
 
 HTTP::Message - HTTP style message (base class)
 
-[![Build Status](https://travis-ci.org/libwww-perl/HTTP-Message.png?branch=master)](https://travis-ci.org/libwww-perl/HTTP-Message)
-
 # VERSION
 
-version 6.26
+version 6.27
 
 # SYNOPSIS
 

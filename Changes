@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.27      2021-01-05 03:02:01Z
     - Clean up backcompat code (GH#148) (Dan Book)
     - Add "308 Permanent Redirect" to is_cacheable_by_default (GH#150) (simbabque)
 
