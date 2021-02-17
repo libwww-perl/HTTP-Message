@@ -155,8 +155,12 @@ my %MATCH = (
     m_header__ => sub {
         my($v, $k, $uri, $request, $response) = @_;
         return unless $request;
-        return 1 if $request->header($k) eq $v;
-        return 1 if $response && $response->header($k) eq $v;
+        my $req_header = $request->header($k);
+        return 1 if defined($req_header) && $req_header eq $v;
+        if ($response) {
+            my $res_header = $response->header($k);
+            return 1 if defined($res_header) && $res_header eq $v;
+        }
         return 0;
     },
     m_response_attr__ => sub {
