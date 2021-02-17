@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 28;
+plan tests => 30;
 
 use HTTP::Config;
 
@@ -103,4 +103,13 @@ is(j($conf->matching_items($response)), "HTML|html|text|any");
     ok(($conf->empty), 'found and removed the config entry');
     is(scalar(@warnings), 0, 'no warnings')
         or diag('got warnings: ', explain(\@warnings));
+
+    @warnings = ();
+    $conf->add_item("bond", m_header__user_agent => 'james/0.0.7');
+    my $request2 = HTTP::Request->new(HEAD => "http://www.example.com/foo/bar");
+    is(j($conf->matching_items($request2)), '');
+
+    is(scalar(@warnings), 0, 'no warnings')
+        or diag('got warnings: ', explain(\@warnings));
+
 }

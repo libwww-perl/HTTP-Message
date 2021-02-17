@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - fix warnings during HTTP::Config->match #62 (GH#152) (Viťas Strádal)
 
 6.27      2021-01-05 03:02:01Z
     - Clean up backcompat code (GH#148) (Dan Book)
