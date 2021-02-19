@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.28      2021-02-19 16:22:13Z
     - fix warnings during HTTP::Config->match #62 (GH#152) (Viťas Strádal)
 
 6.27      2021-01-05 03:02:01Z
