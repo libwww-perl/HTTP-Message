@@ -96,9 +96,9 @@ sub uri_canonical
     my $uri = $self->{_uri};
 
     if (defined (my $canon = $self->{_uri_canonical})) {
-        # early bailout if these are the exact same string; try to use
-        # the cheapest comparison method possible
-        return $canon if $$canon eq $$uri;
+        # early bailout if these are the exact same string;
+        # rely on stringification of the URI objects
+        return $canon if $canon eq $uri;
     }
 
     # otherwise we need to refresh the memoized value

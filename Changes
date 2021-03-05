@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - fix issue with HTTP::Request internal cache for canonical url when using URI::URL (GH#146) (andrew-grechkin)
 
 6.28      2021-02-19 16:22:13Z
     - fix warnings during HTTP::Config->match #62 (GH#152) (Viťas Strádal)
