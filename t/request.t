@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 35;
+plan tests => 39;
 
 use HTTP::Request;
 use Try::Tiny qw( catch try );
@@ -104,6 +104,22 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
         },
         'Object without scheme method triggers an exception'
     );
+
+    # test uri_canonical cache
+    {
+        my $url = 'https://localhost/';
+        my $r   = HTTP::Request->new(GET => $url);
+        is($r->uri_canonical, $url, 'Works when canonical uri not yet cached');
+        is($r->uri_canonical, $url, 'Works when canonical uri has been cached');
+    }
+
+    {
+        require URI::URL;
+        my $url = 'https://localhost/';
+        my $r   = HTTP::Request->new(GET => URI::URL->new($url));
+        is($r->uri_canonical, $url, 'Works when canonical uri not yet cached with URI::URL');
+        is($r->uri_canonical, $url, 'Works when canonical uri has been cached with URI::URL');
+    }
 }
 
 eval { $req->uri ({ foo => 'bar'}); };
