@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.29      2021-03-06 04:50:34Z
     - fix issue with HTTP::Request internal cache for canonical url when using
       URI::URL (GH#146) (andrew-grechkin)
