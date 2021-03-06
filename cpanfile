@@ -32,6 +32,7 @@ on 'test' => sub {
   requires "Test::More" => "0.88";
   requires "Time::Local" => "0";
   requires "Try::Tiny" => "0";
+  requires "URI::URL" => "0";
   requires "lib" => "0";
   requires "overload" => "0";
   requires "perl" => "5.008001";

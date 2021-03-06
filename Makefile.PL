@@ -46,6 +46,7 @@ my %WriteMakefileArgs = (
     "Test::More" => "0.88",
     "Time::Local" => 0,
     "Try::Tiny" => 0,
+    "URI::URL" => 0,
     "lib" => 0,
     "overload" => 0
   },
@@ -81,6 +82,7 @@ my %FallbackPrereqs = (
   "Time::Local" => 0,
   "Try::Tiny" => 0,
   "URI" => "1.10",
+  "URI::URL" => 0,
   "base" => 0,
   "lib" => 0,
   "overload" => 0,

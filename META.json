@@ -85,6 +85,7 @@
             "Test::More" : "0.88",
             "Time::Local" : "0",
             "Try::Tiny" : "0",
+            "URI::URL" : "0",
             "lib" : "0",
             "overload" : "0",
             "perl" : "5.008001"
@@ -105,10 +106,10 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.28",
+   "version" : "6.29",
    "x_Dist_Zilla" : {
       "perl" : {
-         "version" : "5.030003"
+         "version" : "5.030002"
       },
       "plugins" : [
          {
@@ -233,7 +234,7 @@
             "class" : "Dist::Zilla::Plugin::InstallGuide",
             "config" : {
                "Dist::Zilla::Role::ModuleMetadata" : {
-                  "Module::Metadata" : "1.000037",
+                  "Module::Metadata" : "1.000036",
                   "version" : "0.006"
                }
             },
@@ -612,7 +613,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.28",
+                  "tag" : "v6.29",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -811,6 +812,7 @@
       "Alex Kapranoff <ka@nadoby.ru>",
       "amire80 <amir.aharoni@gmail.com>",
       "Andreas J. Koenig <andreas.koenig@anima.de>",
+      "Andrei Grechkin <andrei.grechkin@booking.com>",
       "Bill Mann <wfmann@alum.mit.edu>",
       "Brendan Byrd <GitHub@ResonatorSoft.org>",
       "Bron Gondwana <brong@fastmail.fm>",
@@ -884,7 +886,7 @@
       "Zakariyya Mughal <zaki.mughal@gmail.com>",
       "Zefram <zefram@fysh.org>"
    ],
-   "x_generated_by_perl" : "v5.30.3",
+   "x_generated_by_perl" : "v5.30.2",
    "x_serialization_backend" : "Cpanel::JSON::XS version 4.19",
    "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later",
    "x_static_install" : 1
