@@ -1,6 +1,9 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Don't inherit from Exporter anymore (Max Maischein)
+    - Remove superfluous Perl version requirement. This module requires
+      Perl 5.6 or newer. (Max Maischein)
 
 6.29      2021-03-06 04:50:34Z
     - fix issue with HTTP::Request internal cache for canonical url when using
