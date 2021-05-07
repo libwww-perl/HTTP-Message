@@ -5,7 +5,7 @@ use warnings;
 
 our $VERSION = '6.30';
 
-use base 'Exporter';
+use Exporter 5.57 'import';
 
 our @EXPORT_OK=qw(split_header_words _split_header_words join_header_words);
 
