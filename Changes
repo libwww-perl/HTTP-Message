@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.30      2021-05-10 14:55:55Z
     - Don't inherit from Exporter anymore (GH#155) (Max Maischein)
     - Remove superfluous Perl version requirement. This module requires Perl
       5.6 or newer. (GH#155) (Max Maischein)

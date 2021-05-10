@@ -106,10 +106,10 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.29",
+   "version" : "6.30",
    "x_Dist_Zilla" : {
       "perl" : {
-         "version" : "5.030002"
+         "version" : "5.030003"
       },
       "plugins" : [
          {
@@ -234,7 +234,7 @@
             "class" : "Dist::Zilla::Plugin::InstallGuide",
             "config" : {
                "Dist::Zilla::Role::ModuleMetadata" : {
-                  "Module::Metadata" : "1.000036",
+                  "Module::Metadata" : "1.000037",
                   "version" : "0.006"
                }
             },
@@ -476,7 +476,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.1",
+                  "git_version" : "2.31.1",
                   "repo_root" : "."
                }
             },
@@ -487,7 +487,7 @@
             "class" : "Dist::Zilla::Plugin::Git::Contributors",
             "config" : {
                "Dist::Zilla::Plugin::Git::Contributors" : {
-                  "git_version" : "2.30.1",
+                  "git_version" : "2.31.1",
                   "include_authors" : 0,
                   "include_releaser" : 1,
                   "order_by" : "name",
@@ -596,7 +596,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.1",
+                  "git_version" : "2.31.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -613,12 +613,12 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.29",
+                  "tag" : "v6.30",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.1",
+                  "git_version" : "2.31.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -669,7 +669,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.1",
+                  "git_version" : "2.31.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -689,7 +689,7 @@
                   "remotes_must_exist" : 1
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.1",
+                  "git_version" : "2.31.1",
                   "repo_root" : "."
                }
             },
@@ -846,6 +846,7 @@
       "Mark Stosberg <mark@stosberg.com>",
       "Martin H. Sluka <fany@cpan.org>",
       "Matthew Chae <mschae@cpan.org>",
+      "Max Maischein <corion@corion.net>",
       "Michael Schout <mschout@gkg.net>",
       "Mickey Nasriachi <mickey@cpan.org>",
       "Mike Schilli <github@perlmeister.com>",
@@ -886,7 +887,7 @@
       "Zakariyya Mughal <zaki.mughal@gmail.com>",
       "Zefram <zefram@fysh.org>"
    ],
-   "x_generated_by_perl" : "v5.30.2",
+   "x_generated_by_perl" : "v5.30.3",
    "x_serialization_backend" : "Cpanel::JSON::XS version 4.19",
    "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later",
    "x_static_install" : 1
