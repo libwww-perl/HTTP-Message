@@ -28,6 +28,7 @@ suggests "Clone" => "0";
 on 'test' => sub {
   requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
+  requires "File::Temp" => "0";
   requires "PerlIO::encoding" => "0";
   requires "Test::More" => "0.88";
   requires "Time::Local" => "0";

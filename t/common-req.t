@@ -4,6 +4,8 @@ use warnings;
 use Test::More;
 plan tests => 71;
 
+use File::Spec;
+use File::Temp qw(tempfile);
 use HTTP::Request::Common;
 
 my $r = GET 'http://www.sn.no/';
@@ -117,7 +119,8 @@ is($r->content_type, "text/plain");
 #
 # POST for File upload
 #
-my $file = "test-$$";
+my (undef, $file) = tempfile();
+my $form_file = (File::Spec->splitpath($file))[-1];
 open(FILE, ">$file") or die "Can't create $file: $!";
 print FILE "foo\nbar\nbaz\n";
 close(FILE);
@@ -151,7 +154,7 @@ like($c[6], qr/^--\n/);  # 5 parts + header & trailer
 ok($c[2] =~ /^Content-Disposition:\s*form-data;\s*name="email"/m);
 ok($c[2] =~ /^gisle\@aas.no$/m);
 
-ok($c[5] =~ /^Content-Disposition:\s*form-data;\s*name="file";\s*filename="$file"/m);
+ok($c[5] =~ /^Content-Disposition:\s*form-data;\s*name="file";\s*filename="$form_file"/m);
 ok($c[5] =~ /^Content-Type:\s*text\/plain$/m);
 ok($c[5] =~ /^foo\nbar\nbaz/m);
 
@@ -187,7 +190,7 @@ is($r->content_length, 13);
 #
 use HTTP::Request::Common qw($DYNAMIC_FILE_UPLOAD);
 
-$file = "test-$$";
+(undef, $file) = tempfile();
 open(FILE, ">$file") or die "Can't create $file: $!";
 for (1..1000) {
    print FILE "a" .. "z";
