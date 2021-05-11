@@ -107,10 +107,10 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.30",
+   "version" : "6.31",
    "x_Dist_Zilla" : {
       "perl" : {
-         "version" : "5.030003"
+         "version" : "5.030002"
       },
       "plugins" : [
          {
@@ -240,7 +240,7 @@
                }
             },
             "name" : "@Author::OALDERS/InstallGuide",
-            "version" : "1.200013"
+            "version" : "1.200014"
          },
          {
             "class" : "Dist::Zilla::Plugin::ExecDir",
@@ -614,7 +614,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.30",
+                  "tag" : "v6.31",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -849,6 +849,7 @@
       "Matthew Chae <mschae@cpan.org>",
       "Max Maischein <corion@corion.net>",
       "Michael Schout <mschout@gkg.net>",
+      "Michal Josef \u0160pa\u010dek <mspacek@redhat.com>",
       "Mickey Nasriachi <mickey@cpan.org>",
       "Mike Schilli <github@perlmeister.com>",
       "murphy <murphy@genome.chop.edu>",
@@ -888,8 +889,8 @@
       "Zakariyya Mughal <zaki.mughal@gmail.com>",
       "Zefram <zefram@fysh.org>"
    ],
-   "x_generated_by_perl" : "v5.30.3",
-   "x_serialization_backend" : "Cpanel::JSON::XS version 4.19",
+   "x_generated_by_perl" : "v5.30.2",
+   "x_serialization_backend" : "Cpanel::JSON::XS version 4.26",
    "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later",
    "x_static_install" : 1
 }
