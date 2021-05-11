@@ -3,7 +3,7 @@ package HTTP::Request::Common;
 use strict;
 use warnings;
 
-our $VERSION = '6.31';
+our $VERSION = '6.32';
 
 our $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
 

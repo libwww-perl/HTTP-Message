@@ -3,7 +3,7 @@ package HTTP::Headers::Auth;
 use strict;
 use warnings;
 
-our $VERSION = '6.31';
+our $VERSION = '6.32';
 
 use HTTP::Headers;
 
