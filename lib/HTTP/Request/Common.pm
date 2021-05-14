@@ -14,6 +14,7 @@ our @EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
 
 require HTTP::Request;
 use Carp();
+use File::Spec;
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 
@@ -143,7 +144,7 @@ sub form_data   # RFC1867
 	    my($file, $usename, @headers) = @$v;
 	    unless (defined $usename) {
 		$usename = $file;
-		$usename =~ s,.*/,, if defined($usename);
+		$usename = (File::Spec->splitpath($usename))[-1] if defined($usename);
 	    }
             $k =~ s/([\\\"])/\\$1/g;
 	    my $disp = qq(form-data; name="$k");
