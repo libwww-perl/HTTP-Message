@@ -3,7 +3,7 @@ package HTTP::Headers::Util;
 use strict;
 use warnings;
 
-our $VERSION = '6.32';
+our $VERSION = '6.33';
 
 use Exporter 5.57 'import';
 

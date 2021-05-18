@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.32      2021-05-18 18:54:27Z
     - Use File::Spec for MSWin32 on Content-Disposition filename (GH#157)
       (tzccinct)
