@@ -6,6 +6,7 @@ requires "Compress::Raw::Zlib" => "0";
 requires "Encode" => "3.01";
 requires "Encode::Locale" => "1";
 requires "Exporter" => "5.57";
+requires "File::Spec" => "0";
 requires "HTTP::Date" => "6";
 requires "IO::Compress::Bzip2" => "2.021";
 requires "IO::Compress::Deflate" => "0";

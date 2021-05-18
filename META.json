@@ -52,6 +52,7 @@
             "Encode" : "3.01",
             "Encode::Locale" : "1",
             "Exporter" : "5.57",
+            "File::Spec" : "0",
             "HTTP::Date" : "6",
             "IO::Compress::Bzip2" : "2.021",
             "IO::Compress::Deflate" : "0",
@@ -107,7 +108,7 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.31",
+   "version" : "6.32",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.030002"
@@ -235,12 +236,12 @@
             "class" : "Dist::Zilla::Plugin::InstallGuide",
             "config" : {
                "Dist::Zilla::Role::ModuleMetadata" : {
-                  "Module::Metadata" : "1.000037",
+                  "Module::Metadata" : "1.000036",
                   "version" : "0.006"
                }
             },
             "name" : "@Author::OALDERS/InstallGuide",
-            "version" : "1.200014"
+            "version" : "1.200013"
          },
          {
             "class" : "Dist::Zilla::Plugin::ExecDir",
@@ -614,7 +615,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.31",
+                  "tag" : "v6.32",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -881,6 +882,7 @@
       "Tom Hukins <tom@eborcom.com>",
       "Tony Finch <dot@dotat.at>",
       "Toru Yamaguchi <zigorou@cpan.org>",
+      "tzccinct <tzccinct@gmail.com>",
       "uid39246 <uid39246>",
       "Ville Skytt\u00e4 <ville.skytta@iki.fi>",
       "V\u00edt Str\u00e1dal <vit.stradal@gooddata.com>",

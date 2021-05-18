@@ -22,6 +22,7 @@ my %WriteMakefileArgs = (
     "Encode" => "3.01",
     "Encode::Locale" => 1,
     "Exporter" => "5.57",
+    "File::Spec" => 0,
     "HTTP::Date" => 6,
     "IO::Compress::Bzip2" => "2.021",
     "IO::Compress::Deflate" => 0,
