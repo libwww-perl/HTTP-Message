@@ -645,13 +645,10 @@ sub _stale_content {
 our $AUTOLOAD;
 sub AUTOLOAD
 {
-    my $method = substr($AUTOLOAD, rindex($AUTOLOAD, '::')+2);
-
-    # We create the function here so that it will not need to be
-    # autoloaded the next time.
-    no strict 'refs';
-    *$method = sub { local $Carp::Internal{+__PACKAGE__} = 1; shift->headers->$method(@_) };
-    goto &$method;
+    my($package, $method) = $AUTOLOAD =~ m/\A(.+)::([^:]*)\z/;
+    my $code = $_[0]->can($method);
+    Carp::croak(qq(Can't locate object method "$method" via package "$package")) unless $code;
+    goto &$code;
 }
 
 sub can
@@ -665,7 +662,7 @@ sub can
     my $headers = ref($self) ? $self->headers : 'HTTP::Headers';
     if ($headers->can($method)) {
 	# We create the function here so that it will not need to be
-	# recreated the next time.
+	# autoloaded or recreated the next time.
 	no strict 'refs';
 	*$method = sub { local $Carp::Internal{+__PACKAGE__} = 1; shift->headers->$method(@_) };
 	return \&$method;
