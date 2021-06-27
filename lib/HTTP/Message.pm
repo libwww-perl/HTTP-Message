@@ -654,6 +654,25 @@ sub AUTOLOAD
     goto &$method;
 }
 
+sub can
+{
+    my($self, $method) = @_;
+
+    if (my $own_method = $self->SUPER::can($method)) {
+	return $own_method;
+    }
+
+    my $headers = ref($self) ? $self->headers : 'HTTP::Headers';
+    if ($headers->can($method)) {
+	# We create the function here so that it will not need to be
+	# recreated the next time.
+	no strict 'refs';
+	*$method = sub { local $Carp::Internal{+__PACKAGE__} = 1; shift->headers->$method(@_) };
+	return \&$method;
+    }
+
+    return undef;
+}
 
 sub DESTROY {}  # avoid AUTOLOADing it
 
