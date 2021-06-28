@@ -3,7 +3,7 @@ package HTTP::Status;
 use strict;
 use warnings;
 
-our $VERSION = '6.33';
+our $VERSION = '6.34';
 
 use Exporter 5.57 'import';
 
