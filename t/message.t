@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-plan tests => 195;
+plan tests => 208;
 
 require HTTP::Message;
 use Config qw(%Config);
@@ -604,3 +604,24 @@ is($m->content_charset, "UTF-16BE");
   is($@, 'pre-existing error', 'decodable() does not overwrite $@');
 }
 
+$m = HTTP::Message->new(["User-Agent" => "Mozilla/5.0", "Referer" => "https://example.com/"]);
+ok($m->can('content'));
+my $method = $m->can('user_agent');
+is(ref($method), 'CODE');
+is(HTTP::Message->can('user_agent'), $method);
+is($m->$method, "Mozilla/5.0");
+
+ok(HTTP::Message->can('content'));
+$method = HTTP::Message->can('referrer');
+is(ref($method), 'CODE');
+is($m->can('referrer'), $method);
+is($m->$method, "https://example.com/");
+
+eval { $m->unknown_method; };
+like $@, qr/Can't locate object method "unknown_method" via package "HTTP::Message"/;
+is($m->can('unknown_method'), undef);
+eval { HTTP::Message->unknown_method; };
+like $@, qr/Can't locate object method "unknown_method" via package "HTTP::Message"/;
+is(HTTP::Message->can('unknown_method'), undef);
+eval { my $empty = ""; $m->$empty; };
+like $@, qr/Can't locate object method "" via package "HTTP::Message"/;
