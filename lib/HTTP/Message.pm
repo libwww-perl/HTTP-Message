@@ -302,6 +302,14 @@ sub decoded_content
 		    $content_ref = \$output;
 		    $content_ref_iscopy++;
 		}
+		elsif ($ce eq 'br') {
+		    require IO::Uncompress::Brotli;
+		    my $bro = IO::Uncompress::Brotli->create;
+		    my $output = eval { $bro->decompress($$content_ref) };
+		    $@ and die "Can't unbrotli content: $@";
+		    $content_ref = \$output;
+		    $content_ref_iscopy++;
+		}
 		elsif ($ce eq "x-bzip2" or $ce eq "bzip2") {
 		    require IO::Uncompress::Bunzip2;
 		    my $output;
@@ -432,6 +440,10 @@ sub decodable
     eval {
         require IO::Uncompress::Bunzip2;
         push(@enc, "x-bzip2", "bzip2");
+    };
+    eval {
+        require IO::Uncompress::Brotli;
+        push(@enc, 'br');
     };
     # we don't care about announcing the 'identity', 'base64' and
     # 'quoted-printable' stuff
