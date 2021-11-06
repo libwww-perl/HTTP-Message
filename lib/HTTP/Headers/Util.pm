@@ -50,7 +50,7 @@ sub _split_header_words
 		push(@res, [@cur]) if @cur;
 		@cur = ();
 	    }
-	    elsif (s/^\s*;// || s/^\s+//) {
+	    elsif (s/^\s*;// || s/^\s+// || s/^=//) {
 		# continue
 	    }
 	    else {
