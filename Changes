@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.34      2021-11-08 14:27:36Z
     - Catch case of empty name/value in header words split. (GH#168) (Galen Huntington)
 
