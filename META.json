@@ -108,7 +108,7 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.34",
+   "version" : "6.35",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.030002"
@@ -615,7 +615,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.34",
+                  "tag" : "v6.35",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -827,6 +827,7 @@
       "DAVIDRW <davidrw@cpan.org>",
       "David Steinbrunner <dsteinbrunner@MountainBook-Pro.local>",
       "Dorian Taylor <dorian.taylor.lists@gmail.com>",
+      "Eric Wastl <topaz.github@lt3.us>",
       "Father Chrysostomos <sprout@cpan.org>",
       "Felipe Gasper <felipe@felipegasper.com>",
       "FWILES <FWILES@cpan.org>",

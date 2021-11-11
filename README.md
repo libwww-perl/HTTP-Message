@@ -4,7 +4,7 @@ HTTP::Message - HTTP style message (base class)
 
 # VERSION
 
-version 6.34
+version 6.35
 
 # SYNOPSIS
 
@@ -101,9 +101,14 @@ The following methods are available:
 
 - $mess->decoded\_content( %options )
 
-    Returns the content with any `Content-Encoding` undone and for textual content
-    the raw content encoded to Perl's Unicode strings.  If the `Content-Encoding`
-    or `charset` of the message is unknown this method will fail by returning
+    Returns the content with any `Content-Encoding` undone and, for textual content
+    (`Content-Type` values starting with `text/`, exactly matching
+    `application/xml`, or ending with `+xml`), the raw content's character set
+    decoded into Perl's Unicode string format. Note that this
+    [does not currently](https://github.com/libwww-perl/HTTP-Message/pull/99)
+    attempt to decode declared character sets for any other content types like
+    `application/json` or `application/javascript`.  If the `Content-Encoding`
+    or `charset` of the message is unknown, this method will fail by returning
     `undef`.
 
     The following options can be specified.
