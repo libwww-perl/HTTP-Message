@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.35      2021-11-11 22:10:31Z
     - Clarify documentation for decoded_content (GH#166) (Eric Wastl)
 
