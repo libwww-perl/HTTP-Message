@@ -313,10 +313,10 @@ __END__
   use HTTP::Request::Common;
   $ua = LWP::UserAgent->new;
   $ua->request(GET 'http://www.sn.no/');
-  $ua->request(POST 'http://somewhere/foo', [foo => bar, bar => foo]);
-  $ua->request(PATCH 'http://somewhere/foo', [foo => bar, bar => foo]);
-  $ua->request(PUT 'http://somewhere/foo', [foo => bar, bar => foo]);
-  $ua->request(OPTIONS 'http://somewhere/foo', [foo => bar, bar => foo]);
+  $ua->request(POST 'http://somewhere/foo', foo => bar, bar => foo);
+  $ua->request(PATCH 'http://somewhere/foo', foo => bar, bar => foo);
+  $ua->request(PUT 'http://somewhere/foo', foo => bar, bar => foo);
+  $ua->request(OPTIONS 'http://somewhere/foo', foo => bar, bar => foo);
 
 =head1 DESCRIPTION
 
