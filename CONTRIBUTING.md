@@ -6,7 +6,7 @@ contains instructions that will help you work with the source code.
 The distribution is managed with [Dist::Zilla](https://metacpan.org/pod/Dist::Zilla).
 This means that many of the usual files you might expect are not in the
 repository, but are generated at release time.  Some generated files are kept
-in the repository as a convenience (e.g. Build.PL/Makefile.PL and META.json).
+in the repository as a convenience (Makefile.PL, META.json, and cpanfile).
 
 Generally, **you do not need Dist::Zilla to contribute patches**.  You may need
 Dist::Zilla to create a tarball.  See below for guidance.
@@ -96,8 +96,8 @@ You can learn more about Dist::Zilla at http://dzil.org/
 
 ## Other notes
 
-This distribution maintains the generated `META.json` and either `Makefile.PL`
-or `Build.PL` in the repository. This allows two things:
+This distribution maintains the generated `META.json` and `Makefile.PL`
+in the repository. This allows two things:
 [Travis CI](https://travis-ci.org/) can build and test the distribution without
 requiring Dist::Zilla, and the distribution can be installed directly from
 Github or a local git repository using `cpanm` for testing (again, not
