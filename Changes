@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.36      2022-01-05 14:39:42Z
     - Fix examples in HTTP::Request::Common synopsis: HTTP::Request::Common
       does not put headers in an arrayref, unlike HTTP::Request (GH#170) (Karen
       Etheridge)
