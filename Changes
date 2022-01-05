@@ -1,7 +1,10 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
-    - fixed examples in HTTP::Request::Common synopsis
+    - Fix examples in HTTP::Request::Common synopsis: HTTP::Request::Common
+      does not put headers in an arrayref, unlike HTTP::Request (GH#170) (Karen
+      Etheridge)
+    - Update to contributing information (GH#171) (Håkon Hægland)
 
 6.35      2021-11-11 22:10:31Z
     - Clarify documentation for decoded_content (GH#166) (Eric Wastl)
