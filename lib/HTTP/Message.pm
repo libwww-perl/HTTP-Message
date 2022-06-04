@@ -503,6 +503,13 @@ sub encode
 		or die "Can't bzip2 content: $IO::Compress::Bzip2::Bzip2Error";
 	    $content = $output;
 	}
+	elsif ($encoding eq "br") {
+		require IO::Compress::Brotli;
+		my $output;
+		eval { $output = IO::Compress::Brotli::bro($content) }
+		or die "Can't brotli content: $@";
+		$content = $output;
+	}
 	elsif ($encoding eq "rot13") {  # for the fun of it
 	    $content =~ tr/A-Za-z/N-ZA-Mn-za-m/;
 	}
@@ -991,7 +998,7 @@ want to process its content as a string.
 Apply the given encodings to the content of the message.  Returns TRUE
 if successful. The "identity" (non-)encoding is always supported; other
 currently supported encodings, subject to availability of required
-additional modules, are "gzip", "deflate", "x-bzip2" and "base64".
+additional modules, are "gzip", "deflate", "x-bzip2", "base64" and "br".
 
 A successful call to this function will set the C<Content-Encoding>
 header.
