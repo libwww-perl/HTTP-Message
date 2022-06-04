@@ -69,6 +69,7 @@ jobs:
           cpm install -g
           --cpanfile cpanfile
           --with-develop
+          --with-recommends
           --with-suggests
           --show-build-log-on-failure
       - name: Run Tests
