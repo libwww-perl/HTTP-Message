@@ -57,7 +57,6 @@ jobs:
       image: perldocker/perl-tester:${{ matrix.perl-version }}
       env:
         AUTHOR_TESTING: 1
-        RELEASE_TESTING: 1
     steps:
       - uses: actions/download-artifact@master
         with:
@@ -117,7 +116,6 @@ jobs:
       - run: prove -l t xt
         env:
           AUTHOR_TESTING: 1
-          RELEASE_TESTING: 1
   test_windows:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -163,4 +161,3 @@ jobs:
       - run: prove -l t xt
         env:
           AUTHOR_TESTING: 1
-          RELEASE_TESTING: 1
