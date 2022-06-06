@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Don't test Perl > 5.32 on Windows in GH Actions (GH#174) (Olaf Alders)
 
 6.36      2022-01-05 14:39:42Z
     - Fix examples in HTTP::Request::Common synopsis: HTTP::Request::Common
