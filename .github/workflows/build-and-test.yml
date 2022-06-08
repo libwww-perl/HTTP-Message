@@ -58,6 +58,10 @@ jobs:
       env:
         AUTHOR_TESTING: 1
     steps:
+      - name: Decide if we need to install recommended modules
+        id: with-recommends
+        if: matrix.perl-version >= 5.14
+        run: echo '::set-output name=flag::--with-recommends'
       - uses: actions/download-artifact@master
         with:
           name: build_dir
@@ -68,7 +72,7 @@ jobs:
           cpm install -g
           --cpanfile cpanfile
           --with-develop
-          --with-recommends
+          ${{ steps.with-recommends.outputs.flag }}
           --with-suggests
           --show-build-log-on-failure
       - name: Run Tests
@@ -103,6 +107,10 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl-version }}
+      - name: Decide if we need to install recommended modules
+        id: with-recommends
+        if: matrix.perl-version >= 5.14
+        run: echo '::set-output name=flag::--with-recommends'
       - uses: actions/download-artifact@master
         with:
           name: build_dir
@@ -112,7 +120,13 @@ jobs:
         uses: perl-actions/install-with-cpm@v1
         with:
           cpanfile: "cpanfile"
-          args: "--with-develop --with-recommends --with-suggests --with-test --mirror https://cpan.metacpan.org --mirror http://cpan.cpantesters.org"
+          args: > 
+            --with-develop
+            ${{ steps.with-recommends.outputs.flag }}
+            --with-suggests
+            --with-test
+            --mirror https://cpan.metacpan.org
+            --mirror http://cpan.cpantesters.org
       - run: prove -l t xt
         env:
           AUTHOR_TESTING: 1
