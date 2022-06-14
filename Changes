@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.37      2022-06-14 14:08:55Z
     - Support for Brotli "br" encoding (GH#163) (trizen and Julien Fiegehenn)
     - Don't test Perl > 5.32 on Windows in GH Actions (GH#174) (Olaf Alders)
 

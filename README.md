@@ -4,7 +4,7 @@ HTTP::Message - HTTP style message (base class)
 
 # VERSION
 
-version 6.36
+version 6.37
 
 # SYNOPSIS
 
@@ -177,7 +177,7 @@ The following methods are available:
     Apply the given encodings to the content of the message.  Returns TRUE
     if successful. The "identity" (non-)encoding is always supported; other
     currently supported encodings, subject to availability of required
-    additional modules, are "gzip", "deflate", "x-bzip2" and "base64".
+    additional modules, are "gzip", "deflate", "x-bzip2", "base64" and "br".
 
     A successful call to this function will set the `Content-Encoding`
     header.
