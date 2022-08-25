@@ -8,7 +8,7 @@ version 6.37
 
 # SYNOPSIS
 
-    use base 'HTTP::Message';
+    use parent 'HTTP::Message';
 
 # DESCRIPTION
 

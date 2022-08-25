@@ -817,7 +817,7 @@ __END__
 
 =head1 SYNOPSIS
 
- use base 'HTTP::Message';
+ use parent 'HTTP::Message';
 
 =head1 DESCRIPTION
 

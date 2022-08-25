@@ -36,7 +36,7 @@ my %WriteMakefileArgs = (
     "MIME::Base64" => "2.1",
     "MIME::QuotedPrint" => 0,
     "URI" => "1.10",
-    "base" => 0,
+    "parent" => 0,
     "strict" => 0,
     "warnings" => 0
   },
@@ -88,9 +88,9 @@ my %FallbackPrereqs = (
   "Try::Tiny" => 0,
   "URI" => "1.10",
   "URI::URL" => 0,
-  "base" => 0,
   "lib" => 0,
   "overload" => 0,
+  "parent" => 0,
   "strict" => 0,
   "warnings" => 0
 );
