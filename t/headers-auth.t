@@ -28,7 +28,7 @@ $res->www_authenticate("Basic realm=foo1");
 note $res->as_string;
 
 $res->www_authenticate(Basic => {realm => "foo2"});
-print $res->as_string;
+note $res->as_string;
 
 $res->www_authenticate(Basic => [realm => "foo3", foo=>33],
                        Digest => {nonce=>"bar", foo=>'foo'});
