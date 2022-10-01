@@ -34,7 +34,7 @@ $r->date($time - 25);
 $r->last_modified($time - 5000000);
 $r->request($req);
 
-#print $r->as_string;
+#note $r->as_string;
 
 my $current_age = $r->current_age;
 
@@ -48,19 +48,15 @@ my $is_fresh = $r->is_fresh;
 ok($is_fresh);
 is($r->is_fresh(heuristic_expiry => 0), undef);
 
-print "# current_age        = $current_age\n";
-print "# freshness_lifetime = $freshness_lifetime\n";
-print "# response is ";
-print " not " unless $is_fresh;
-print "fresh\n";
-
-print "# it will be fresh for ";
-print $freshness_lifetime - $current_age;
-print " more seconds\n";
+note "current_age        = $current_age";
+note "freshness_lifetime = $freshness_lifetime";
+note "response is ", "not " x !$is_fresh, "fresh";
+note "it will be fresh for ", $freshness_lifetime - $current_age,
+     " more seconds";
 
 # OK, now we add an Expires header
 $r->expires($time);
-print "\n", $r->dump(prefix => "# ");
+note "\n", $r->dump;
 
 $freshness_lifetime = $r->freshness_lifetime;
 is($freshness_lifetime, 25);
@@ -71,13 +67,13 @@ $r->header('Age', 300);
 $r->push_header('Cache-Control', 'junk');
 $r->push_header(Cache_Control => 'max-age = 10');
 
-#print $r->as_string;
+#note $r->as_string;
 
 $current_age = $r->current_age;
 $freshness_lifetime = $r->freshness_lifetime;
 
-print "# current_age        = $current_age\n";
-print "# freshness_lifetime = $freshness_lifetime\n";
+note "current_age        = $current_age";
+note "freshness_lifetime = $freshness_lifetime";
 
 ok($current_age >= 300);
 is($freshness_lifetime, 10);
