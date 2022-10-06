@@ -3,6 +3,8 @@ Revision history for HTTP-Message
 {{$NEXT}}
     - Replace "base" with "parent" (GH#176) (James Raspass)
     - Replace "print" with "note" in tests (GH#178) (James Raspass)
+    - Noted that OPTIONS supported was added in 6.1, to the doc
+      for HTTP::Request::Common. Addresses GH#177.
 
 6.37      2022-06-14 14:08:55Z
     - Support for Brotli "br" encoding (GH#163) (trizen and Julien Fiegehenn)
@@ -73,6 +75,7 @@ Revision history for HTTP-Message
     - Revert (GH#125) "try hard to make a usable file name" (GH#130) (Olaf
       Alders)
     - Fix JSON request encoding examples in POD (GH#126) (Michael Schout)
+    - Added support for OPTIONS requests.
 
 6.20      2019-02-05 01:46:39Z (TRIAL RELEASE)
     - Fix encoded file names when LC_ALL=C (GH#125) (Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯)
