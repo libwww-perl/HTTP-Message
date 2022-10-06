@@ -115,7 +115,7 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.37",
+   "version" : "6.38",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.036000"
@@ -278,7 +278,7 @@
                }
             },
             "name" : "@Author::OALDERS/Test::Portability",
-            "version" : "2.001000"
+            "version" : "2.001001"
          },
          {
             "class" : "Dist::Zilla::Plugin::TestRelease",
@@ -480,7 +480,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.36.1",
+                  "git_version" : "2.38.0",
                   "repo_root" : "."
                }
             },
@@ -491,7 +491,7 @@
             "class" : "Dist::Zilla::Plugin::Git::Contributors",
             "config" : {
                "Dist::Zilla::Plugin::Git::Contributors" : {
-                  "git_version" : "2.36.1",
+                  "git_version" : "2.38.0",
                   "include_authors" : 0,
                   "include_releaser" : 1,
                   "order_by" : "name",
@@ -600,7 +600,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.36.1",
+                  "git_version" : "2.38.0",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -617,12 +617,12 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.37",
+                  "tag" : "v6.38",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.36.1",
+                  "git_version" : "2.38.0",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -673,7 +673,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.36.1",
+                  "git_version" : "2.38.0",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -693,7 +693,7 @@
                   "remotes_must_exist" : 1
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.36.1",
+                  "git_version" : "2.38.0",
                   "repo_root" : "."
                }
             },
@@ -862,6 +862,7 @@
       "Ian Kilgore <iank@cpan.org>",
       "Jacob J <waif@chaos2.org>",
       "Jakub Wilk <jwilk@jwilk.net>",
+      "James Raspass <jraspass@gmail.com>",
       "jefflee <shaohua@gmail.com>",
       "Jerome Eteve <jerome@broadbean.com>",
       "john9art <john9art@yahoo.com>",
@@ -880,6 +881,7 @@
       "Mike Schilli <github@perlmeister.com>",
       "murphy <murphy@genome.chop.edu>",
       "nanto_vi, TOYAMA Nao <nanto@moon.email.ne.jp>",
+      "Neil Bowers <neilb@neilb.org>",
       "Olaf Alders <olaf@wundersolutions.com>",
       "Olivier Mengu\u00e9 <dolmen@cpan.org>",
       "Ondrej Hanak <ondrej.hanak@ubs.com>",
