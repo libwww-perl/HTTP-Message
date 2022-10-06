@@ -405,6 +405,10 @@ The same as C<POST> below, but the method in the request is C<PUT>
 
 The same as C<POST> below, but the method in the request is C<OPTIONS>
 
+This was added in version 6.21, so you should require that in your code:
+
+ use HTTP::Request::Common 6.21;
+
 =item POST $url
 
 =item POST $url, Header => Value,...
