@@ -301,14 +301,14 @@ sub decoded_content
 	$content_ref = $self->content_ref;
 	die "Can't decode ref content" if ref($content_ref) ne "SCALAR";
 
-    my $content_limit = exists $opt{ max_body_size } ? $opt{ max_body_size }
-                      : defined $self->max_body_size ? $self->max_body_size
-                      : undef
-                      ;
-    my %limiter_options;
-    if( defined $content_limit ) {
-        %limiter_options = (LimitOutput => 1, Bufsize => $content_limit);
-    };
+	my $content_limit = exists $opt{ max_body_size } ? $opt{ max_body_size }
+			: defined $self->max_body_size ? $self->max_body_size
+			: undef
+			;
+	my %limiter_options;
+	if( defined $content_limit ) {
+	    %limiter_options = (LimitOutput => 1, Bufsize => $content_limit);
+	};
 	if (my $h = $self->header("Content-Encoding")) {
 	    $h =~ s/^\s+//;
 	    $h =~ s/\s+$//;
@@ -316,27 +316,27 @@ sub decoded_content
 		next unless $ce;
 		next if $ce eq "identity" || $ce eq "none";
 		if ($ce eq "gzip" || $ce eq "x-gzip") {
-            require Compress::Raw::Zlib; # 'WANT_GZIP_OR_ZLIB', 'Z_BUF_ERROR';
+		    require Compress::Raw::Zlib; # 'WANT_GZIP_OR_ZLIB', 'Z_BUF_ERROR';
 
-            if( ! $content_ref_iscopy and keys %limiter_options) {
-                # Create a copy of the input because Zlib will overwrite it
-                # :-(
-                my $input = "$$content_ref";
-                $content_ref = \$input;
-                $content_ref_iscopy++;
-            };
-            my ($i, $status) = Compress::Raw::Zlib::Inflate->new(
-                %limiter_options,
-                ConsumeInput => 0, # overridden by Zlib if we have %limiter_options :-(
-                WindowBits => Compress::Raw::Zlib::WANT_GZIP_OR_ZLIB(),
-            );
-            #warn "Foo: $status";
-            my $res = $i->inflate( $content_ref, \my $output );
-            $res == Compress::Raw::Zlib::Z_BUF_ERROR()
-                and Carp::croak("Decoded content would be larger than $content_limit octets");
-               $res == Compress::Raw::Zlib::Z_OK()
-            or $res == Compress::Raw::Zlib::Z_STREAM_END()
-                or die "Can't gunzip content: $res";
+		    if( ! $content_ref_iscopy and keys %limiter_options) {
+			# Create a copy of the input because Zlib will overwrite it
+			# :-(
+			my $input = "$$content_ref";
+			$content_ref = \$input;
+			$content_ref_iscopy++;
+		    };
+		    my ($i, $status) = Compress::Raw::Zlib::Inflate->new(
+			%limiter_options,
+			ConsumeInput => 0, # overridden by Zlib if we have %limiter_options :-(
+			WindowBits => Compress::Raw::Zlib::WANT_GZIP_OR_ZLIB(),
+		    );
+		    #warn "Foo: $status";
+		    my $res = $i->inflate( $content_ref, \my $output );
+		    $res == Compress::Raw::Zlib::Z_BUF_ERROR()
+			and Carp::croak("Decoded content would be larger than $content_limit octets");
+		    $res == Compress::Raw::Zlib::Z_OK()
+		    or $res == Compress::Raw::Zlib::Z_STREAM_END()
+		    or die "Can't gunzip content: $res";
 		    $content_ref = \$output;
 		    $content_ref_iscopy++;
 		}
@@ -358,29 +358,29 @@ sub decoded_content
 		elsif ($ce eq "x-bzip2" or $ce eq "bzip2") {
 		    require Compress::Raw::Bzip2;
 
-            if( ! $content_ref_iscopy ) { #and keys %limiter_options) {
-                # Create a copy of the input because Bzlib2 will overwrite it
-                # :-(
-                my $input = "$$content_ref";
-                $content_ref = \$input;
-                $content_ref_iscopy++;
-            };
-            my ($i, $status) = Compress::Raw::Bunzip2->new(
-                1, # appendInput
-                0, # consumeInput
-                0, # small
-                $limiter_options{ LimitOutput } || 0,
-            );
-            my $output;
-            $output = "\0" x $limiter_options{ Bufsize }
-                if $limiter_options{ Bufsize };
-            my $res = $i->bzinflate( $content_ref, \$output );
-            $res == Compress::Raw::Bzip2::BZ_OUTBUFF_FULL()
-                and Carp::croak("Decoded content would be larger than $content_limit octets");
-               $res == Compress::Raw::Bzip2::BZ_OK()
-            or $res == Compress::Raw::Bzip2::BZ_STREAM_END()
-                or die "Can't bunzip content: $res";
-		    $content_ref = \$output;
+		    if( ! $content_ref_iscopy ) { #and keys %limiter_options) {
+			# Create a copy of the input because Bzlib2 will overwrite it
+			# :-(
+			my $input = "$$content_ref";
+			$content_ref = \$input;
+			$content_ref_iscopy++;
+		    };
+		    my ($i, $status) = Compress::Raw::Bunzip2->new(
+			1, # appendInput
+			0, # consumeInput
+			0, # small
+			$limiter_options{ LimitOutput } || 0,
+		    );
+		    my $output;
+		    $output = "\0" x $limiter_options{ Bufsize }
+			if $limiter_options{ Bufsize };
+		    my $res = $i->bzinflate( $content_ref, \$output );
+		    $res == Compress::Raw::Bzip2::BZ_OUTBUFF_FULL()
+			and Carp::croak("Decoded content would be larger than $content_limit octets");
+		    $res == Compress::Raw::Bzip2::BZ_OK()
+		    or $res == Compress::Raw::Bzip2::BZ_STREAM_END()
+			or die "Can't bunzip content: $res";
+			    $content_ref = \$output;
 		    $content_ref_iscopy++;
 		}
 		elsif ($ce eq "deflate") {
