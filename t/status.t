@@ -2,9 +2,9 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 49;
+plan tests => 52;
 
-use HTTP::Status qw(:constants :is status_message);
+use HTTP::Status qw(:constants :is status_message status_constant_name);
 
 is(HTTP_OK, 200);
 
@@ -52,3 +52,7 @@ ok(is_cacheable_by_default($_),
 ok(!is_cacheable_by_default($_),
   "... is not cacheable [$_] " . status_message($_)
 ) for (100,201,302,400,500);
+
+is(status_constant_name(HTTP_OK), "HTTP_OK");
+is(status_constant_name(404),     "HTTP_NOT_FOUND");
+is(status_constant_name(999),     undef);
