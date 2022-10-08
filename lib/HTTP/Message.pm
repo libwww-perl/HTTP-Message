@@ -330,7 +330,6 @@ sub decoded_content
 			ConsumeInput => 0, # overridden by Zlib if we have %limiter_options :-(
 			WindowBits => Compress::Raw::Zlib::WANT_GZIP_OR_ZLIB(),
 		    );
-		    #warn "Foo: $status";
 		    my $res = $i->inflate( $content_ref, \my $output );
 		    $res == Compress::Raw::Zlib::Z_BUF_ERROR()
 			and Carp::croak("Decoded content would be larger than $content_limit octets");
@@ -358,7 +357,7 @@ sub decoded_content
 		elsif ($ce eq "x-bzip2" or $ce eq "bzip2") {
 		    require Compress::Raw::Bzip2;
 
-		    if( ! $content_ref_iscopy ) { #and keys %limiter_options) {
+		    if( ! $content_ref_iscopy ) {
 			# Create a copy of the input because Bzlib2 will overwrite it
 			# :-(
 			my $input = "$$content_ref";

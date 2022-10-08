@@ -23,7 +23,7 @@ plan tests => 9;
 my $size = 16 * 1024 * 1024;
 my $stream = "\0" x $size;
 
-# Compress that stream three times:
+# Compress that stream one time (since it won't compress it twice?!):
 my $compressed = $stream;
 my $bro = IO::Compress::Brotli->create;
 
@@ -54,7 +54,7 @@ for( 1 ) {
 
 $headers = HTTP::Headers->new(
     Content_Type => "application/xml",
-    Content_Encoding => 'br' # say my name three times
+    Content_Encoding => 'br' # say my name, but only once
 );
 
 $HTTP::Message::MAXIMUM_BODY_SIZE = 1024 * 1024;
