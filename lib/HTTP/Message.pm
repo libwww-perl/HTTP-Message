@@ -8,7 +8,7 @@ our $VERSION = '6.40';
 require HTTP::Headers;
 require Carp;
 
-use vars '$MAXIMUM_BODY_SIZE';
+our $MAXIMUM_BODY_SIZE;
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 unless ($HTTP::URI_CLASS) {
@@ -281,22 +281,14 @@ sub content_charset
 
 sub max_body_size  {
     my $self = $_[0];
-    if (defined(wantarray)) {
-	my $old = $self->{_max_body_size};
-	&_set_max_body_size if @_ > 1;
-	return $old;
-    }
-    if (@_ > 1) {
-	&_set_max_body_size;
-    }
-    else {
-	Carp::carp("Useless max_body_size call in void context") if $^W;
-    }
+    my $old = $self->{_max_body_size};
+    $self->_set_max_body_size($_[1]) if @_ > 1;
+    return $old;
 }
 
 sub _set_max_body_size {
     my $self = $_[0];
-	$self->{_max_body_size} = $_[1];
+    $self->{_max_body_size} = $_[1];
 }
 
 sub decoded_content
@@ -358,7 +350,7 @@ sub decoded_content
 		}
 		elsif ($ce eq "x-bzip2" or $ce eq "bzip2") {
 		    require Compress::Raw::Bzip2;
-            
+
             if( ! $content_ref_iscopy ) { #and keys %limiter_options) {
                 # Create a copy of the input because Bzlib2 will overwrite it
                 # :-(
