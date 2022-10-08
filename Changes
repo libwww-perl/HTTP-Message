@@ -2,6 +2,10 @@ Revision history for HTTP-Message
 
 {{$NEXT}}
     - Remove Travis config (GH#180) (Olaf Alders)
+    - Added status_constant_name() which maps status code
+      to the name of the corresponding constant. (GH#160) (Neil Bowers)
+    - Updated the doc for status_message() to clarify that it
+      returns "Not Found" and not "HTTP_NOT_FOUND". (GH#160) (Neil Bowers)
 
 6.38      2022-10-06 21:48:18Z
     - Replace "base" with "parent" (GH#176) (James Raspass)
