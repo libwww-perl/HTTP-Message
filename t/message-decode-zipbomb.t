@@ -4,10 +4,20 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 9;
 
 use HTTP::Headers    qw( );
 use HTTP::Response   qw( );
+
+my $ok = eval {
+    require Compress::Raw::Zlib;
+    Compress::Raw::Zlib->VERSION('2.061');
+    1;
+};
+if(! $ok) {
+    plan skip_all => "Compress::Raw::Zlib 2.061+ needed; $@";
+    exit
+}
+plan tests => 9;
 
 # Create a nasty gzip stream:
 my $size = 16 * 1024 * 1024;
@@ -38,7 +48,7 @@ is($len, 16 * 1024 * 1024, "Self-test: The decoded content length is 16M as expe
 my $output = $compressed;
 for( 1..3 ) {
     use Compress::Raw::Zlib 'WANT_GZIP_OR_ZLIB', 'Z_BUF_ERROR';
-    
+
     my $last = $output;
     require Compress::Raw::Zlib;
     my ($i, $status) = Compress::Raw::Zlib::Inflate->new(
