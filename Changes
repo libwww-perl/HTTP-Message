@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.39      2022-10-08 13:48:26Z
     - Remove Travis config (GH#180) (Olaf Alders)
     - Added status_constant_name() which maps status code
