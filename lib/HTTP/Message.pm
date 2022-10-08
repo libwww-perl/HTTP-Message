@@ -343,7 +343,14 @@ sub decoded_content
 		elsif ($ce eq 'br') {
 		    require IO::Uncompress::Brotli;
 		    my $bro = IO::Uncompress::Brotli->create;
-		    my $output = eval { $bro->decompress($$content_ref) };
+
+		    my $output;
+		    if( defined $content_limit ) {
+			$output = eval { $bro->decompress( $$content_ref, $content_limit ); }
+		    } else {
+			$output = eval { $bro->decompress($$content_ref) };
+		    }
+
 		    $@ and die "Can't unbrotli content: $@";
 		    $content_ref = \$output;
 		    $content_ref_iscopy++;
