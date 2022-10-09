@@ -8,15 +8,7 @@ use Test::More;
 use HTTP::Headers    qw( );
 use HTTP::Response   qw( );
 
-my $ok = eval {
-    require Compress::Raw::Zlib;
-    Compress::Raw::Zlib->VERSION('2.061');
-    1;
-};
-if(! $ok) {
-    plan skip_all => "Compress::Raw::Zlib 2.061+ needed; $@";
-    exit
-}
+use Test::Needs { 'Compress::Raw::Zlib' => '2.061' };
 plan tests => 9;
 
 # Create a nasty gzip stream:
