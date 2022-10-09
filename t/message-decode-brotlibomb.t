@@ -8,15 +8,8 @@ use Test::More;
 use HTTP::Headers    qw();
 use HTTP::Response   qw();
 
-my $ok = eval {
-    require IO::Compress::Brotli;
-    require IO::Uncompress::Brotli;
-    1;
-};
-if(! $ok) {
-    plan skip_all => "IO::Compress::Brotli needed; $@";
-    exit
-}
+use Test::Needs 'IO::Compress::Brotli', 'IO::Uncompress::Brotli';
+
 plan tests => 9;
 
 # Create a nasty brotli stream:
