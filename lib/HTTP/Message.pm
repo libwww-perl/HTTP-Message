@@ -933,12 +933,12 @@ The following options can be specified.
 
 =item C<charset>
 
-This override the charset parameter for text content.  The value
+This overrides the charset parameter for text content.  The value
 C<none> can used to suppress decoding of the charset.
 
 =item C<default_charset>
 
-This override the default charset guessed by content_charset() or
+This overrides the default charset guessed by content_charset() or
 if that fails "ISO-8859-1".
 
 =item C<alt_charset>

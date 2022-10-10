@@ -1,6 +1,8 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Fixed two typos in the doc, originally reported by FatherC
+      in RT#90716, ported over as GH#57. (GH#57) (Neil Bowers)
 
 6.39      2022-10-08 13:48:26Z
     - Remove Travis config (GH#180) (Olaf Alders)
