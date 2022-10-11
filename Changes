@@ -3,6 +3,11 @@ Revision history for HTTP-Message
 {{$NEXT}}
     - Fixed two typos in the doc, originally reported by FatherC
       in RT#90716, ported over as GH#57. (GH#57) (Neil Bowers)
+    - add maximum size for HTTP::Message->decoded_content
+      This can be used to limit the size of a decompressed HTTP response,
+      especially when making requests to untrusted or user-specified servers.
+      The $HTTP::Message::MAXIMUM_BODY_SIZE variable and the ->max_body_size
+      accessor can set this limit.
 
 6.39      2022-10-08 13:48:26Z
     - Remove Travis config (GH#180) (Olaf Alders)
