@@ -3,7 +3,7 @@ package HTTP::Message;
 use strict;
 use warnings;
 
-our $VERSION = '6.41';
+our $VERSION = '6.42';
 
 require HTTP::Headers;
 require Carp;

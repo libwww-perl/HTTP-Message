@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.41      2022-10-12 15:57:40Z
     - Add maximum size for HTTP::Message->decoded_content
       This can be used to limit the size of a decompressed HTTP response,
