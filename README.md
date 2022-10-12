@@ -4,7 +4,7 @@ HTTP::Message - HTTP style message (base class)
 
 # VERSION
 
-version 6.39
+version 6.40
 
 # SYNOPSIS
 
@@ -115,12 +115,12 @@ The following methods are available:
 
     - `charset`
 
-        This override the charset parameter for text content.  The value
+        This overrides the charset parameter for text content.  The value
         `none` can used to suppress decoding of the charset.
 
     - `default_charset`
 
-        This override the default charset guessed by content\_charset() or
+        This overrides the default charset guessed by content\_charset() or
         if that fails "ISO-8859-1".
 
     - `alt_charset`

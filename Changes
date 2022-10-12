@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.40      2022-10-12 15:45:52Z
     - Fixed two typos in the doc, originally reported by FatherC
       in RT#90716, ported over as GH#57. (GH#57) (Neil Bowers)
 
