@@ -52,6 +52,7 @@
          },
          "requires" : {
             "Carp" : "0",
+            "Compress::Raw::Bzip2" : "0",
             "Compress::Raw::Zlib" : "0",
             "Encode" : "3.01",
             "Encode::Locale" : "1",
@@ -61,7 +62,6 @@
             "IO::Compress::Bzip2" : "2.021",
             "IO::Compress::Deflate" : "0",
             "IO::Compress::Gzip" : "0",
-            "Compress::Raw::Zlib" : "2.061",
             "IO::HTML" : "0",
             "IO::Uncompress::Bunzip2" : "2.021",
             "IO::Uncompress::Gunzip" : "0",
@@ -116,7 +116,7 @@
       "x_IRC" : "irc://irc.perl.org/#lwp",
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "6.40",
+   "version" : "6.41",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.036000"
@@ -618,7 +618,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v6.40",
+                  "tag" : "v6.41",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
