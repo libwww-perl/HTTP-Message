@@ -3,7 +3,7 @@ package HTTP::Request;
 use strict;
 use warnings;
 
-our $VERSION = '6.40';
+our $VERSION = '6.41';
 
 use parent 'HTTP::Message';
 
