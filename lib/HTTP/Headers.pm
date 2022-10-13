@@ -5,6 +5,7 @@ use warnings;
 
 our $VERSION = '6.44';
 
+use parent 'Clone';
 use Carp ();
 
 # The $TRANSLATE_UNDERSCORE variable controls whether '_' can be used
@@ -295,19 +296,6 @@ sub _process_newline {
     s/\n([^\040\t])/\n $1/g; # initial space for continuation
     s/\n/$endl/g;    # substitute with requested line ending
     $_;
-}
-
-
-
-if (eval { require Clone; 1 }) {
-    *clone = \&Clone::clone;
-} else {
-    *clone = sub {
-	my $self = shift;
-	my $clone = HTTP::Headers->new;
-	$self->scan(sub { $clone->push_header(@_);} );
-	$clone;
-    };
 }
 
 
