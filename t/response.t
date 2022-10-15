@@ -105,7 +105,7 @@ for ($r->redirects) {
 
 is($r->base, $r->request->uri);
 $r->push_header("Content-Location", "/1/A/a");
-is($r->base, "http://www.sn.no/1/A/a");
+is($r->base, $r->request->uri); # we no longer consider Content-Location
 $r->push_header("Content-Base", "/2/;a=/foo/bar");
 is($r->base, "http://www.sn.no/2/;a=/foo/bar");
 $r->push_header("Content-Base", "/3/");
