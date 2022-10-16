@@ -6,6 +6,7 @@ use warnings;
 our $VERSION = '6.41';
 
 our $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
+our $READ_BUFFER_SIZE      = 8192;
 
 use Exporter 5.57 'import';
 
@@ -253,7 +254,7 @@ sub form_data   # RFC1867
                     binmode($fh);
                 }
 		my $buflength = length $buf;
-		my $n = read($fh, $buf, 2048, $buflength);
+		my $n = read($fh, $buf, $READ_BUFFER_SIZE, $buflength);
 		if ($n) {
 		    $buflength += $n;
 		    unshift(@parts, ["", $fh]);
