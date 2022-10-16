@@ -231,7 +231,7 @@ $_ = join("", @chunks);
 #note int(@chunks), " chunks, total size is ", length($_), " bytes\n";
 
 # should be close to expected size and number of chunks
-cmp_ok(abs(@chunks - 15), '<', 3);
+cmp_ok(abs(@chunks - 6), '<', 3);
 cmp_ok(abs(length($_) - 26589), '<', 20);
 
 $r = POST 'http://www.example.com';
