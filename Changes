@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.42      2022-10-18 13:53:22Z
     - We now don't consider the Content-Location header when asked
       for the base URI. RFC 7231 says we shouldn't. (GH#51) (Neil Bowers)
     - Increased the (max) buffer size for read() when processing form data,
