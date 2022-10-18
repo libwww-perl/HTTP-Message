@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Remove dependency to IO::Uncompress::Bunzip2. (Michal Josef Spacek)
     - Remove dependency to IO::Uncompress::Gunzip. (Michal Josef Spacek)
 
 6.42      2022-10-18 13:53:22Z
