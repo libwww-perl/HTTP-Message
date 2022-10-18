@@ -500,7 +500,7 @@ is($m->decoded_content, "Hello World!");
 ok(!$m->header("Client-Warning"));
 
 
-if (eval "require IO::Uncompress::Bunzip2") {
+if (eval "require Compress::Raw::Bzip2") {
 	for my $encoding (qw/x-bzip2 bzip2/) {
 	    $m = HTTP::Message->new([
 	        "Content-Type" => "text/plain",
@@ -531,7 +531,7 @@ if (eval "require IO::Uncompress::Bunzip2") {
 	}
 }
 else {
-    skip("Need IO::Uncompress::Bunzip2", undef) for 1..18;
+    skip("Need Compress::Raw::Bzip2", undef) for 1..18;
 }
 
 # test decoding of XML content

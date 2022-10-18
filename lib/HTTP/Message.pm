@@ -502,7 +502,7 @@ sub decodable
         push(@enc, "deflate");
     };
     eval {
-        require IO::Uncompress::Bunzip2;
+        require Compress::Raw::Bzip2;
         push(@enc, "x-bzip2", "bzip2");
     };
     eval {
