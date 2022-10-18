@@ -16,7 +16,7 @@ $req->accept_decodable;
 is( $req->method, "GET" );
 is( $req->uri,    "http://www.example.com" );
 like( $req->header("Accept-Encoding"), qr/\bgzip\b/ )
-    ;    # assuming IO::Uncompress::Gunzip is there
+    ;    # assuming Compress::Raw::Zlib is there
 
 $req->dump( prefix => "# " );
 

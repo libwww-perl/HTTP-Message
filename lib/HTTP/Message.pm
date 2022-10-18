@@ -493,7 +493,7 @@ sub decodable
     # XXX preferably we should determine if the modules are available without loading
     # them here
     eval {
-        require IO::Uncompress::Gunzip;
+        require Compress::Raw::Zlib;
         push(@enc, "gzip", "x-gzip");
     };
     eval {
