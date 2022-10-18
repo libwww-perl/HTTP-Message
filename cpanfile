@@ -14,7 +14,6 @@ requires "IO::Compress::Deflate" => "0";
 requires "IO::Compress::Gzip" => "0";
 requires "IO::HTML" => "0";
 requires "IO::Uncompress::Bunzip2" => "2.021";
-requires "IO::Uncompress::Gunzip" => "0";
 requires "IO::Uncompress::Inflate" => "0";
 requires "IO::Uncompress::RawInflate" => "0";
 requires "LWP::MediaTypes" => "6";
