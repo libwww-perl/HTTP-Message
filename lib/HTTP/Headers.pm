@@ -5,7 +5,7 @@ use warnings;
 
 our $VERSION = '6.44';
 
-use parent 'Clone';
+use Clone qw(clone);
 use Carp ();
 
 # The $TRANSLATE_UNDERSCORE variable controls whether '_' can be used
