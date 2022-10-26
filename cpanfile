@@ -3,7 +3,7 @@
 
 requires "Carp" => "0";
 requires "Compress::Raw::Bzip2" => "0";
-requires "Compress::Raw::Zlib" => "0";
+requires "Compress::Raw::Zlib" => "2.062";
 requires "Encode" => "3.01";
 requires "Encode::Locale" => "1";
 requires "Exporter" => "5.57";

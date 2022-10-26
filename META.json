@@ -53,7 +53,7 @@
          "requires" : {
             "Carp" : "0",
             "Compress::Raw::Bzip2" : "0",
-            "Compress::Raw::Zlib" : "0",
+            "Compress::Raw::Zlib" : "2.062",
             "Encode" : "3.01",
             "Encode::Locale" : "1",
             "Exporter" : "5.57",
