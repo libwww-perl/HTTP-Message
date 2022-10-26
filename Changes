@@ -4,7 +4,8 @@ Revision history for HTTP-Message
     - Made the Clone module a hard requirement, so we don't have to
       provide a fallback function for HTTP::Headers::clone().
       We require at least Clone 0.46, as that release now supports
-      Perl back to 5.8.1, just like us. (GH#64) (Neil Bowers)
+      Perl back to 5.8.1, just like us. (GH#184) (Neil Bowers)
+    - Import clone from Clone rather than inheriting (GH#189) (Graham Knop)
     - Made the Compress::Raw::Zlib 2.062 module minimal required
       version. (GH#190) (Jakub 'q84fh' Skory)
 
