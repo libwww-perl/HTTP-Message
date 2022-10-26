@@ -8,7 +8,7 @@ use Test::More;
 use HTTP::Headers    qw( );
 use HTTP::Response   qw( );
 
-use Test::Needs { 'Compress::Raw::Zlib' => '2.061' };
+use Test::Needs { 'Compress::Raw::Zlib' => '2.062' };
 plan tests => 9;
 
 # Create a nasty gzip stream:
