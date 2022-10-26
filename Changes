@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.44      2022-10-26 20:49:00Z
     - Made the Clone module a hard requirement, so we don't have to
       provide a fallback function for HTTP::Headers::clone().
       We require at least Clone 0.46, as that release now supports
