@@ -22,6 +22,8 @@ jobs:
       image: perldocker/perl-tester:5.32
     steps:
       - uses: actions/checkout@v2
+      - name: Allow for file ownership conflicts with Docker and GitHub Actions
+        run: git config --global --add safe.directory '*'
       - name: Run Tests with coverage
         env:
           AUTHOR_TESTING: 1
