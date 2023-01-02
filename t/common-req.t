@@ -2,8 +2,10 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 59;
+plan tests => 71;
 
+use File::Spec;
+use File::Temp qw(tempfile);
 use HTTP::Request::Common;
 
 my $r = GET 'http://www.sn.no/';
@@ -23,6 +25,16 @@ ok($r->uri->eq("http://www.sn.no"));
 is($r->header('If-Match'), "abc");
 is($r->header("from"), "aas\@sn.no");
 
+$r = HEAD "http://www.sn.no/",
+	Content => 'foo';
+is($r->content, 'foo');
+
+$r = HEAD "http://www.sn.no/",
+	Content => 'foo',
+	'Content-Length' => 50;
+is($r->content, 'foo');
+is($r->content_length, 50);
+
 $r = PUT "http://www.sn.no",
      Content => 'foo';
 note $r->as_string, "\n";
@@ -37,6 +49,27 @@ is($r->content, "foo");
 is($r->content_length, 3);
 
 $r = PUT "http://www.sn.no",
+     { foo => "bar" };
+is($r->content, "foo=bar");
+
+$r = OPTIONS "http://www.sn.no",
+     Content => 'foo';
+note $r->as_string, "\n";
+
+is($r->method, "OPTIONS");
+is($r->uri->host, "www.sn.no");
+
+ok(!defined($r->header("Content")));
+
+is(${$r->content_ref}, "foo");
+is($r->content, "foo");
+is($r->content_length, 3);
+
+$r = OPTIONS "http://www.sn.no",
+     { foo => "bar" };
+is($r->content, "foo=bar");
+
+$r = PATCH "http://www.sn.no",
      { foo => "bar" };
 is($r->content, "foo=bar");
 
@@ -86,7 +119,8 @@ is($r->content_type, "text/plain");
 #
 # POST for File upload
 #
-my $file = "test-$$";
+my (undef, $file) = tempfile();
+my $form_file = (File::Spec->splitpath($file))[-1];
 open(FILE, ">$file") or die "Can't create $file: $!";
 print FILE "foo\nbar\nbaz\n";
 close(FILE);
@@ -120,7 +154,7 @@ like($c[6], qr/^--\n/);  # 5 parts + header & trailer
 ok($c[2] =~ /^Content-Disposition:\s*form-data;\s*name="email"/m);
 ok($c[2] =~ /^gisle\@aas.no$/m);
 
-ok($c[5] =~ /^Content-Disposition:\s*form-data;\s*name="file";\s*filename="$file"/m);
+ok($c[5] =~ /^Content-Disposition:\s*form-data;\s*name="file";\s*filename="$form_file"/m);
 ok($c[5] =~ /^Content-Type:\s*text\/plain$/m);
 ok($c[5] =~ /^foo\nbar\nbaz/m);
 
@@ -156,7 +190,7 @@ is($r->content_length, 13);
 #
 use HTTP::Request::Common qw($DYNAMIC_FILE_UPLOAD);
 
-$file = "test-$$";
+(undef, $file) = tempfile();
 open(FILE, ">$file") or die "Can't create $file: $!";
 for (1..1000) {
    print FILE "a" .. "z";
@@ -197,7 +231,7 @@ $_ = join("", @chunks);
 #note int(@chunks), " chunks, total size is ", length($_), " bytes\n";
 
 # should be close to expected size and number of chunks
-cmp_ok(abs(@chunks - 15), '<', 3);
+cmp_ok(abs(@chunks - 6), '<', 3);
 cmp_ok(abs(length($_) - 26589), '<', 20);
 
 $r = POST 'http://www.example.com';
@@ -229,6 +263,12 @@ $r = HTTP::Request::Common::DELETE 'http://www.example.com';
 is($r->method, "DELETE");
 
 $r = HTTP::Request::Common::PUT 'http://www.example.com',
+    'Content-Type' => 'application/octet-steam',
+    'Content' => 'foobarbaz',
+    'Content-Length' => 12;   # a slight lie
+is($r->header('Content-Length'), 9);
+
+$r = HTTP::Request::Common::PATCH 'http://www.example.com',
     'Content-Type' => 'application/octet-steam',
     'Content' => 'foobarbaz',
     'Content-Length' => 12;   # a slight lie

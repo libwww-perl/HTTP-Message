@@ -13,7 +13,7 @@ require HTTP::Request;
 require HTTP::Response;
 
 require Time::Local if $^O eq "MacOS";
-my $offset = ($^O eq "MacOS") ? Time::Local::timegm(0,0,0,1,0,70) : 0;
+my $offset = ($^O eq "MacOS") ? Time::Local::timegm(0,0,0,1,0,1970) : 0;
 
 my $req = HTTP::Request->new(GET => "http://www.sn.no/");
 $req->header(

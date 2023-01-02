@@ -3,9 +3,9 @@ package HTTP::Config;
 use strict;
 use warnings;
 
-use URI;
+our $VERSION = '6.45';
 
-our $VERSION = "6.12";
+use URI;
 
 sub new {
     my $class = shift;
@@ -155,8 +155,12 @@ my %MATCH = (
     m_header__ => sub {
         my($v, $k, $uri, $request, $response) = @_;
         return unless $request;
-        return 1 if $request->header($k) eq $v;
-        return 1 if $response && $response->header($k) eq $v;
+        my $req_header = $request->header($k);
+        return 1 if defined($req_header) && $req_header eq $v;
+        if ($response) {
+            my $res_header = $response->header($k);
+            return 1 if defined($res_header) && $res_header eq $v;
+        }
         return 0;
     },
     m_response_attr__ => sub {
@@ -239,10 +243,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Config - Configuration for request and response objects
-
 =head1 SYNOPSIS
 
  use HTTP::Config;
@@ -295,7 +295,7 @@ You can either pass separate key/value pairs or a hash reference.
 =item $conf->remove( %spec )
 
 Removes (and returns) the entries that have matches for all the key/value pairs in %spec.
-If %spec is empty this will match all entries; so it will empty the configuation object.
+If %spec is empty this will match all entries; so it will empty the configuration object.
 
 =item $conf->matching( $uri, $request, $response )
 
@@ -430,11 +430,7 @@ Matches if the response object has that key, or the entry has the given value.
 
 L<URI>, L<HTTP::Request>, L<HTTP::Response>
 
-=head1 COPYRIGHT
-
-Copyright 2008, Gisle Aas
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: Configuration for request and response objects
+

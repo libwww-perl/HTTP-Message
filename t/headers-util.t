@@ -28,7 +28,7 @@ my @s_tests = (
     'basic; realm="\"foo\\\\bar\""'],
 );
 
-plan tests => @s_tests + 2;
+plan tests => @s_tests + 4;
 
 for (@s_tests) {
    my($arg, $expect) = @$_;
@@ -43,3 +43,6 @@ note "# Extra tests\n";
 # some extra tests
 is(join_header_words("foo" => undef, "bar" => "baz"), "foo; bar=baz");
 is(join_header_words(), "");
+is(join_header_words([]), "");
+# ignore bare =
+is_deeply(split_header_words("foo; =;bar=baz"), ["foo" => undef, "bar" => "baz"]);

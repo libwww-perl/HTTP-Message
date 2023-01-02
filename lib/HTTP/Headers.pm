@@ -3,9 +3,10 @@ package HTTP::Headers;
 use strict;
 use warnings;
 
-use Carp ();
+our $VERSION = '6.45';
 
-our $VERSION = "6.12";
+use Clone qw(clone);
+use Carp ();
 
 # The $TRANSLATE_UNDERSCORE variable controls whether '_' can be used
 # as a replacement for '-' in header field names.
@@ -298,19 +299,6 @@ sub _process_newline {
 }
 
 
-
-if (eval { require Storable; 1 }) {
-    *clone = \&Storable::dclone;
-} else {
-    *clone = sub {
-	my $self = shift;
-	my $clone = HTTP::Headers->new;
-	$self->scan(sub { $clone->push_header(@_);} );
-	$clone;
-    };
-}
-
-
 sub _date_header
 {
     require HTTP::Date;
@@ -469,10 +457,6 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Headers - Class encapsulating HTTP Message headers
-
 =head1 SYNOPSIS
 
  require HTTP::Headers;
@@ -531,7 +515,8 @@ means that you can update several fields with a single invocation.
 The $value argument may be a plain string or a reference to an array
 of strings for a multi-valued field. If the $value is provided as
 C<undef> then the field is removed.  If the $value is not given, then
-that header field will remain unchanged.
+that header field will remain unchanged. In addition to being a string,
+$value may be something that stringifies.
 
 The old value (or values) of the last of the header fields is returned.
 If no such field exists C<undef> will be returned.
@@ -866,11 +851,7 @@ These field names are returned with the ':' intact for
 $h->header_field_names and the $h->scan callback, but the colons do
 not show in $h->as_string.
 
-=head1 COPYRIGHT
-
-Copyright 1995-2005 Gisle Aas.
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: Class encapsulating HTTP Message headers
+

@@ -3,9 +3,9 @@ package HTTP::Response;
 use strict;
 use warnings;
 
-use base 'HTTP::Message';
+our $VERSION = '6.45';
 
-our $VERSION = "6.12";
+use parent 'HTTP::Message';
 
 use HTTP::Status ();
 
@@ -23,8 +23,9 @@ sub new
 sub parse
 {
     my($class, $str) = @_;
+    Carp::carp('Undefined argument to parse()') if $^W && ! defined $str;
     my $status_line;
-    if ($str =~ s/^(.*)\n//) {
+    if (defined $str && $str =~ s/^(.*)\n//) {
 	$status_line = $1;
     }
     else {
@@ -32,17 +33,21 @@ sub parse
 	$str = "";
     }
 
+    $status_line =~ s/\r\z// if defined $status_line;
+
     my $self = $class->SUPER::parse($str);
-    my($protocol, $code, $message);
-    if ($status_line =~ /^\d{3} /) {
-       # Looks like a response created by HTTP::Response->new
-       ($code, $message) = split(' ', $status_line, 2);
-    } else {
-       ($protocol, $code, $message) = split(' ', $status_line, 3);
+    if (defined $status_line) {
+        my($protocol, $code, $message);
+        if ($status_line =~ /^\d{3} /) {
+           # Looks like a response created by HTTP::Response->new
+           ($code, $message) = split(' ', $status_line, 2);
+        } else {
+           ($protocol, $code, $message) = split(' ', $status_line, 3);
+        }
+        $self->protocol($protocol) if $protocol;
+        $self->code($code) if defined($code);
+        $self->message($message) if defined($message);
     }
-    $self->protocol($protocol) if $protocol;
-    $self->code($code) if defined($code);
-    $self->message($message) if defined($message);
     $self;
 }
 
@@ -79,7 +84,6 @@ sub base
     my $self = shift;
     my $base = (
 	$self->header('Content-Base'),        # used to be HTTP/1.1
-	$self->header('Content-Location'),    # HTTP/1.1
 	$self->header('Base'),                # HTTP/1.0
     )[0];
     if ($base && $base =~ /^$URI::scheme_re:/o) {
@@ -341,16 +345,12 @@ __END__
 
 =pod
 
-=head1 NAME
-
-HTTP::Response - HTTP style response message
-
 =head1 SYNOPSIS
 
 Response objects are returned by the request() method of the C<LWP::UserAgent>:
 
     # ...
-    $response = $ua->request($request)
+    $response = $ua->request($request);
     if ($response->is_success) {
         print $response->decoded_content;
     }
@@ -474,7 +474,7 @@ in HTML documents.
 
 =item 2.
 
-A "Content-Base:" or a "Content-Location:" header in the response.
+A "Content-Base:" header in the response.
 
 For backwards compatibility with older HTTP implementations we will
 also look for the "Base:" header.
@@ -489,10 +489,17 @@ received some redirect responses first.
 
 If none of these sources provide an absolute URI, undef is returned.
 
-When the LWP protocol modules produce the HTTP::Response object, then
-any base URI embedded in the document (step 1) will already have
-initialized the "Content-Base:" header. This means that this method
-only performs the last 2 steps (the content is not always available
+B<Note>: previous versions of HTTP::Response would also consider
+a "Content-Location:" header,
+as L<RFC 2616|https://www.rfc-editor.org/rfc/rfc2616> said it should be.
+But this was never widely implemented by browsers,
+and now L<RFC 7231|https://www.rfc-editor.org/rfc/rfc7231>
+says it should no longer be considered.
+
+When the LWP protocol modules produce the HTTP::Response object, then any base
+URI embedded in the document (step 1) will already have initialized the
+"Content-Base:" header. (See L<LWP::UserAgent/parse_head>).  This means that
+this method only performs the last 2 steps (the content is not always available
 either).
 
 =item $r->filename
@@ -637,11 +644,7 @@ description of freshness_lifetime().
 
 L<HTTP::Headers>, L<HTTP::Message>, L<HTTP::Status>, L<HTTP::Request>
 
-=head1 COPYRIGHT
-
-Copyright 1995-2004 Gisle Aas.
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =cut
+
+#ABSTRACT: HTTP style response message
+

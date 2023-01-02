@@ -1,6 +1,0 @@
-#!include_default
-
-^HTTP-Message-.*/
-^HTTP-Message-.*.tar.gz
-^\.ackrc$
-^test-

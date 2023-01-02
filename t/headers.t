@@ -1,9 +1,12 @@
 use strict;
 use warnings;
 
+use lib 't/lib';
+
+use Secret ();
 use Test::More;
 
-plan tests => 168;
+plan tests => 189;
 
 my($h, $h2);
 sub j { join("|", @_) }
@@ -189,6 +192,7 @@ is(j($h->header_field_names), "Date|If-Modified-Since|If-Unmodified-Since|Expire
 
 $h->clear;
 is($h->content_type, "");
+is($h->content_type(""), "");
 is($h->content_type("text/html"), "");
 is($h->content_type, "text/html");
 is($h->content_type("   TEXT  / HTML   ") , "text/html");
@@ -201,6 +205,14 @@ is($h->header("content_type"), "text/html;\n charSet = \"ISO-8859-1\"; Foo=1 ");
 ok($h->content_is_html);
 ok(!$h->content_is_xhtml);
 ok(!$h->content_is_xml);
+$h->content_type("application/vnd.wap.xhtml+xml");
+ok($h->content_is_html);
+ok($h->content_is_xhtml);
+ok($h->content_is_xml);
+$h->content_type("text/xml");
+ok(!$h->content_is_html);
+ok(!$h->content_is_xhtml);
+ok($h->content_is_xml);
 $h->content_type("application/xhtml+xml");
 ok($h->content_is_html);
 ok($h->content_is_xhtml);
@@ -304,9 +316,10 @@ like($@, qr/^Illegal field name '' at \Q$file\E line $line/);
 
 #---- old tests below -----
 
-$h = new HTTP::Headers
+$h = HTTP::Headers->new(
 	mime_version  => "1.0",
-	content_type  => "text/html";
+	content_type  => "text/html"
+);
 $h->header(URI => "http://www.oslonett.no/");
 
 is($h->header("MIME-Version"), "1.0");
@@ -452,6 +465,33 @@ content_type: text/html
 foo_bar: 1
 EOT
 
+$h = HTTP::Headers->new;
+ok(!defined $h->warning('foo', 'INIT'));
+is($h->warning('bar'), 'foo');
+is($h->warning('baz', 'GET'), 'bar');
+is($h->as_string, <<EOT);
+Warning: bar
+EOT
+
+$h = HTTP::Headers->new;
+ok(!defined $h->header(':foo', 'bar'));
+ok(!defined $h->header(':zap', 'bang'));
+$h->push_header(':zap', ['kapow', 'shazam']);
+is(j($h->header_field_names), ':foo|:zap');
+is(j($h->header_field_names), ':foo|:zap');
+$h->scan(sub { $_[1] .= '!' });
+is(j($h->header(':zap')), 'bang!|kapow!|shazam!');
+is(j($h->header(':foo')), 'bar');
+is($h->as_string, <<EOT);
+foo: bar
+zap: bang!
+zap: kapow!
+zap: shazam!
+EOT
+is(j($h->remove_header(':zap')), 'bang!|kapow!|shazam!');
+$h->push_header(':zap', 'whomp', ':foo', 'quux');
+is(j($h->header(':foo')), 'bar|quux');
+
 # [RT#30579] IE6 appens "; length = NNNN" on If-Modified-Since (can we handle it)
 $h = HTTP::Headers->new(
     if_modified_since => "Sat, 29 Oct 1994 19:43:31 GMT; length=34343"
@@ -478,3 +518,9 @@ is_deeply(
     ],
 );
 
+subtest 'object that stringifies is a valid value' => sub {
+    my $h = HTTP::Headers->new;
+    $h->header('X-Password' => Secret->new('hunter2'));
+    my $h2 = $h->clone;
+    is($h2->as_string, "X-Password: hunter2\n", 'correct headers');
+};
