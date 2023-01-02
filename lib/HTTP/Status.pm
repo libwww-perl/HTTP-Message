@@ -8,7 +8,7 @@ our $VERSION = '6.45';
 use Exporter 5.57 'import';
 
 our @EXPORT = qw(is_info is_success is_redirect is_error status_message);
-our @EXPORT_OK = qw(is_client_error is_server_error is_cacheable_by_default status_constant_name);
+our @EXPORT_OK = qw(is_client_error is_server_error is_cacheable_by_default status_constant_name status_codes);
 
 # Note also addition of mnemonics to @EXPORT below
 
@@ -349,7 +349,7 @@ This function is B<not> exported by default.
 
 Returns a hash mapping numerical HTTP status code (e.g. 200) to text status messages (e.g. "OK")
 
-This function is B<not> exported.
+This function is B<not> exported by default.
 
 =back
 
