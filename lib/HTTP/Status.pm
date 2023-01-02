@@ -169,7 +169,7 @@ sub is_cacheable_by_default ($) { $_[0] && ( $_[0] == 200 # OK
                                             );
 }
 
-sub status_code         { %StatusCode; }
+sub status_codes         { %StatusCode; }
 
 1;
 
@@ -345,9 +345,9 @@ Section 6.1. Overview of Status Codes|https://tools.ietf.org/html/rfc7231#sectio
 
 This function is B<not> exported by default.
 
-=item status_code
+=item status_codes
 
-Returns a hash mapping numerical HTTP status codes (e.g. 200) to text status messages (e.g. "OK")
+Returns a hash mapping numerical HTTP status code (e.g. 200) to text status messages (e.g. "OK")
 
 This function is B<not> exported.
 

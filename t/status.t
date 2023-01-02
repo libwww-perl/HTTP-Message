@@ -59,5 +59,5 @@ is(status_constant_name(HTTP_OK), "HTTP_OK");
 is(status_constant_name(404),     "HTTP_NOT_FOUND");
 is(status_constant_name(999),     undef);
 
-my %status_code = HTTP::Status::status_code();
-is($status_code{200}, status_message(200));
+my %status_codes = HTTP::Status::status_codes();
+is($status_codes{200}, status_message(200));
