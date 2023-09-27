@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 6.45      2023-09-27 14:27:31Z
     - Allow for file ownership conflicts with Docker and GitHub Actions
       (GH#193) (Olaf Alders)
