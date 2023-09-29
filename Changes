@@ -1,6 +1,8 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Revert "Support for Brotli "br" encoding (GH#163) (trizen and Julien
+      Fiegehenn)" (GH#195) (Olaf Alders)
 
 6.45      2023-09-27 14:27:31Z
     - Allow for file ownership conflicts with Docker and GitHub Actions
