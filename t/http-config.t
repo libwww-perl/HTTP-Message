@@ -31,17 +31,17 @@ SKIP: {
 	ok(!defined $res);
 }
 
-$conf = HTTP::Config->new;
-
-$conf->add_item("always");
-$conf->add_item("GET", m_method => ["GET", "HEAD"]);
-$conf->add_item("POST", m_method => "POST");
-$conf->add_item(".com", m_domain => ".com");
-$conf->add_item("secure", m_secure => 1);
-$conf->add_item("not secure", m_secure => 0);
-$conf->add_item("slash", m_host_port => "www.example.com:80", m_path_prefix => "/");
-$conf->add_item("u:p", m_host_port => "www.example.com:80", m_path_prefix => "/foo");
-$conf->add_item("success", m_code => "2xx");
+$conf = HTTP::Config->new
+	->add_item("always")
+	->add_item("GET", m_method => ["GET", "HEAD"])
+	->add_item("POST", m_method => "POST")
+	->add_item(".com", m_domain => ".com")
+	->add_item("secure", m_secure => 1)
+	->add_item("not secure", m_secure => 0)
+	->add_item("slash", m_host_port => "www.example.com:80", m_path_prefix => "/")
+	->add_item("u:p", m_host_port => "www.example.com:80", m_path_prefix => "/foo")
+	->add_item("success", m_code => "2xx")
+;
 is($conf->find(m_domain => ".com")->{item}, '.com');
 my @found = $conf->find(m_domain => ".com");
 is($#found, 0);
