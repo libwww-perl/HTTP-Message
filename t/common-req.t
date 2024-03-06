@@ -2,7 +2,6 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 71;
 
 use File::Spec;
 use File::Temp qw(tempfile);
@@ -86,9 +85,9 @@ note $r->as_string, "\n";
 
 is($r->method, "POST");
 is($r->content_type, "application/x-www-form-urlencoded");
-is($r->content_length, 83);
-is($r->header("bar"), "foo");
-is($r->content, "foo=bar%3Bbaz&baz=a&baz=b&baz=c&foo=zoo%3D%26&space+=+%2B+&nl=a%0D%0Ab%0D%0Ac%0D%0A");
+is($r->content_length, 77, 'content_length');
+is($r->header("bar"), "foo", 'bar is foo');
+is($r->content, 'foo=bar%3Bbaz&baz=a&baz=b&baz=c&foo=zoo%3D%26&space+=+%2B+&nl=a%0Ab%0D%0Ac%0A');
 
 $r = POST "http://example.com";
 is($r->content_length, 0);
@@ -184,7 +183,7 @@ like($r->content, qr/bar=24/);
 is($r->content_type, "application/x-www-form-urlencoded");
 is($r->content_length, 13);
 
- 
+
 #
 # POST for File upload
 #
@@ -273,3 +272,5 @@ $r = HTTP::Request::Common::PATCH 'http://www.example.com',
     'Content' => 'foobarbaz',
     'Content-Length' => 12;   # a slight lie
 is($r->header('Content-Length'), 9);
+
+done_testing();
