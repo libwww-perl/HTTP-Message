@@ -2,7 +2,6 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 53;
 
 use HTTP::Status qw(:constants :is status_message status_constant_name status_codes);
 
@@ -11,7 +10,6 @@ is(HTTP_OK, 200);
 ok(is_info(HTTP_CONTINUE));
 ok(is_success(HTTP_ACCEPTED));
 ok(is_error(HTTP_BAD_REQUEST));
-ok(is_client_error(HTTP_I_AM_A_TEAPOT));
 ok(is_redirect(HTTP_MOVED_PERMANENTLY));
 ok(is_redirect(HTTP_PERMANENT_REDIRECT));
 
@@ -25,6 +23,13 @@ ok(is_error(HTTP_RANGE_NOT_SATISFIABLE));
 ok(is_error(HTTP_NO_CODE));
 ok(is_error(HTTP_UNORDERED_COLLECTION));
 ok(is_error(HTTP_TOO_EARLY));
+ok(is_error(HTTP_UNPROCESSABLE_ENTITY));
+ok(is_error(HTTP_PAYLOAD_TOO_LARGE));
+
+# Have a sip and a great day
+ok(is_client_error(HTTP_I_AM_A_TEAPOT));
+ok(is_error(HTTP_I_AM_A_TEAPOT));
+is(status_message(418), "I'm a teapot");
 
 ok(!is_success(HTTP_NOT_FOUND));
 
@@ -59,3 +64,5 @@ is(status_constant_name(999),     undef);
 
 my %status_codes = status_codes();
 is($status_codes{200}, status_message(200));
+
+done_testing;
