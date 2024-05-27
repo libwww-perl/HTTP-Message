@@ -3,7 +3,7 @@ package HTTP::Headers;
 use strict;
 use warnings;
 
-our $VERSION = '6.46';
+our $VERSION = '6.47';
 
 use Clone qw(clone);
 use Carp ();
