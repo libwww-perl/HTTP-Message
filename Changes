@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Update several status codes to RFC 9110 (GH#197) (Wesley Schwengle)
 
 6.45      2023-09-27 14:27:31Z
     - Allow for file ownership conflicts with Docker and GitHub Actions
