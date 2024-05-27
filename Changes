@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+6.46      2024-05-27 18:58:16Z
     - Update several status codes to RFC 9110 (GH#197) (Wesley Schwengle)
 
 6.45      2023-09-27 14:27:31Z
