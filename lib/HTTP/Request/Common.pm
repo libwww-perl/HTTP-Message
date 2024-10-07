@@ -3,7 +3,7 @@ package HTTP::Request::Common;
 use strict;
 use warnings;
 
-our $VERSION = '6.47';
+our $VERSION = '7.01';
 
 our $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
 our $READ_BUFFER_SIZE      = 8192;
