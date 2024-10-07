@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Stop transforming LF into CRLF. Fixes #69 (GH#196) (Olaf Alders)
 
 6.46      2024-05-27 18:58:16Z
     - Update several status codes to RFC 9110 (GH#197) (Wesley Schwengle)
