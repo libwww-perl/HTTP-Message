@@ -84,7 +84,7 @@ my %StatusCode = (
     503 => 'Service Unavailable',
     504 => 'Gateway Timeout',
     505 => 'HTTP Version Not Supported',
-    506 => 'Variant Also Negotiates',         # RFC 2295: Transparant Ngttn
+    506 => 'Variant Also Negotiates',         # RFC 2295: Transparent Ngttn
     507 => 'Insufficient Storage',            # RFC 4918: WebDAV
     508 => 'Loop Detected',                   # RFC 5842: WebDAV bindings
 #   509

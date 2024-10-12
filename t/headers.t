@@ -492,7 +492,7 @@ is(j($h->remove_header(':zap')), 'bang!|kapow!|shazam!');
 $h->push_header(':zap', 'whomp', ':foo', 'quux');
 is(j($h->header(':foo')), 'bar|quux');
 
-# [RT#30579] IE6 appens "; length = NNNN" on If-Modified-Since (can we handle it)
+# [RT#30579] IE6 appends "; length = NNNN" on If-Modified-Since (can we handle it)
 $h = HTTP::Headers->new(
     if_modified_since => "Sat, 29 Oct 1994 19:43:31 GMT; length=34343"
 );

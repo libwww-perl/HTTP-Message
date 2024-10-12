@@ -62,7 +62,7 @@ $freshness_lifetime = $r->freshness_lifetime;
 is($freshness_lifetime, 25);
 $r->remove_header('expires');
 
-# Now we try the 'Age' header and the Cache-Contol:
+# Now we try the 'Age' header and the Cache-Control:
 $r->header('Age', 300);
 $r->push_header('Cache-Control', 'junk');
 $r->push_header(Cache_Control => 'max-age = 10');
