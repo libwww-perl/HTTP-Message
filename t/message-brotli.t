@@ -30,8 +30,10 @@ subtest "encoding" => sub {
         "Hello world!"
     );
     ok( $m->encode("br"), "set encoding to 'br" );
-    is( $m->header("Content-Encoding"),
-        "br", "... and Content-Encoding is set" );
+    is(
+        $m->header("Content-Encoding"),
+        "br", "... and Content-Encoding is set"
+    );
     isnt( $m->content, "Hello world!", "... and the content has changed" );
     is( $m->decoded_content, "Hello world!", "decoded_content() works" );
     ok( $m->decode, "decode() works" );
