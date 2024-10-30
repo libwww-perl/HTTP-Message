@@ -41,7 +41,7 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
     use strict;
     use warnings;
 
-    sub new { return bless {}, shift; }
+    sub new    { return bless {}, shift; }
     sub clone  { return shift }
     sub scheme { }
 
@@ -49,7 +49,7 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
 
     package Foo::URI::WithCanonical;
 
-    sub new { return bless {}, shift; }
+    sub new       { return bless {}, shift; }
     sub clone     { return shift }
     sub scheme    { }
     sub canonical { }
@@ -58,8 +58,8 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
 
     package Foo::URI::WithoutScheme;
 
-    sub new { return bless {}, shift; }
-    sub clone     { return shift }
+    sub new   { return bless {}, shift; }
+    sub clone { return shift }
 
     1;
 
@@ -93,7 +93,10 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
         'Object with canonical method does not trigger an exception'
     );
 
-    ok( !Foo::URI::WithoutScheme->new->can('scheme'), 'Object cannot scheme()' );
+    ok(
+        !Foo::URI::WithoutScheme->new->can('scheme'),
+        'Object cannot scheme()'
+    );
     ok(
         !do {
             try {
@@ -108,49 +111,61 @@ is( $r2->header("Accept-Encoding"), $req->header("Accept-Encoding") );
     # test uri_canonical cache
     {
         my $url = 'https://localhost/';
-        my $r   = HTTP::Request->new(GET => $url);
-        is($r->uri_canonical, $url, 'Works when canonical uri not yet cached');
-        is($r->uri_canonical, $url, 'Works when canonical uri has been cached');
+        my $r   = HTTP::Request->new( GET => $url );
+        is(
+            $r->uri_canonical, $url,
+            'Works when canonical uri not yet cached'
+        );
+        is(
+            $r->uri_canonical, $url,
+            'Works when canonical uri has been cached'
+        );
     }
 
     {
         require URI::URL;
         my $url = 'https://localhost/';
-        my $r   = HTTP::Request->new(GET => URI::URL->new($url));
-        is($r->uri_canonical, $url, 'Works when canonical uri not yet cached with URI::URL');
-        is($r->uri_canonical, $url, 'Works when canonical uri has been cached with URI::URL');
+        my $r   = HTTP::Request->new( GET => URI::URL->new($url) );
+        is(
+            $r->uri_canonical, $url,
+            'Works when canonical uri not yet cached with URI::URL'
+        );
+        is(
+            $r->uri_canonical, $url,
+            'Works when canonical uri has been cached with URI::URL'
+        );
     }
 }
 
-eval { $req->uri ({ foo => 'bar'}); };
-like($@, qr/A URI can't be a HASH reference/);
-eval { $req->uri (['foo']); };
-like($@, qr/A URI can't be a ARRAY reference/);
+eval { $req->uri( { foo => 'bar' } ); };
+like( $@, qr/A URI can't be a HASH reference/ );
+eval { $req->uri( ['foo'] ); };
+like( $@, qr/A URI can't be a ARRAY reference/ );
 
 $req = HTTP::Request->new;
-is($req->as_string, "- -\n\n");
-is($req->dump, <<EOT);
+is( $req->as_string, "- -\n\n" );
+is( $req->dump,      <<EOT);
 - -
 
 (no content)
 EOT
 $req->protocol("HTTP/1.1");
-is($req->dump, <<EOT);
+is( $req->dump, <<EOT);
 - - HTTP/1.1
 
 (no content)
 EOT
 
 {
-	my @warn;
-	local $SIG{__WARN__} = sub { push @warn, @_ };
-	local $^W = 0;
-	$r2 = HTTP::Request->parse( undef );
-	is($#warn, -1);
-	local $^W = 1;
-	$r2 = HTTP::Request->parse( undef );
-	is($#warn, 0);
-	like($warn[0], qr/Undefined argument to parse\(\)/);
+    my @warn;
+    local $SIG{__WARN__} = sub { push @warn, @_ };
+    local $^W = 0;
+    $r2 = HTTP::Request->parse(undef);
+    is( $#warn, -1 );
+    local $^W = 1;
+    $r2 = HTTP::Request->parse(undef);
+    is( $#warn, 0 );
+    like( $warn[0], qr/Undefined argument to parse\(\)/ );
 }
 is( $r2->method,                    undef );
 is( $r2->uri,                       undef );

@@ -8,7 +8,8 @@ our $VERSION = '7.01';
 use Exporter 5.57 'import';
 
 our @EXPORT = qw(is_info is_success is_redirect is_error status_message);
-our @EXPORT_OK = qw(is_client_error is_server_error is_cacheable_by_default status_constant_name status_codes);
+our @EXPORT_OK
+    = qw(is_client_error is_server_error is_cacheable_by_default status_constant_name status_codes);
 
 # Note also addition of mnemonics to @EXPORT below
 
@@ -19,9 +20,10 @@ our @EXPORT_OK = qw(is_client_error is_server_error is_cacheable_by_default stat
 my %StatusCode = (
     100 => 'Continue',
     101 => 'Switching Protocols',
-    102 => 'Processing',                      # RFC 2518: WebDAV
-    103 => 'Early Hints',                     # RFC 8297: Indicating Hints
-#   104 .. 199
+    102 => 'Processing',            # RFC 2518: WebDAV
+    103 => 'Early Hints',           # RFC 8297: Indicating Hints
+
+    #   104 .. 199
     200 => 'OK',
     201 => 'Created',
     202 => 'Accepted',
@@ -31,92 +33,102 @@ my %StatusCode = (
     206 => 'Partial Content',                 # RFC 7233: Range Requests
     207 => 'Multi-Status',                    # RFC 4918: WebDAV
     208 => 'Already Reported',                # RFC 5842: WebDAV bindings
-#   209 .. 225
+
+    #   209 .. 225
     226 => 'IM Used',                         # RFC 3229: Delta encoding
-#   227 .. 299
+
+    #   227 .. 299
     300 => 'Multiple Choices',
     301 => 'Moved Permanently',
     302 => 'Found',
     303 => 'See Other',
-    304 => 'Not Modified',                    # RFC 7232: Conditional Request
+    304 => 'Not Modified',          # RFC 7232: Conditional Request
     305 => 'Use Proxy',
-    306 => '(Unused)',                        # RFC 9110: Previously used and reserved
+    306 => '(Unused)',              # RFC 9110: Previously used and reserved
     307 => 'Temporary Redirect',
-    308 => 'Permanent Redirect',              # RFC 7528: Permanent Redirect
-#   309 .. 399
+    308 => 'Permanent Redirect',    # RFC 7528: Permanent Redirect
+
+    #   309 .. 399
     400 => 'Bad Request',
-    401 => 'Unauthorized',                    # RFC 7235: Authentication
+    401 => 'Unauthorized',                     # RFC 7235: Authentication
     402 => 'Payment Required',
     403 => 'Forbidden',
     404 => 'Not Found',
     405 => 'Method Not Allowed',
     406 => 'Not Acceptable',
-    407 => 'Proxy Authentication Required',   # RFC 7235: Authentication
+    407 => 'Proxy Authentication Required',    # RFC 7235: Authentication
     408 => 'Request Timeout',
     409 => 'Conflict',
     410 => 'Gone',
     411 => 'Length Required',
-    412 => 'Precondition Failed',             # RFC 7232: Conditional Request
+    412 => 'Precondition Failed',              # RFC 7232: Conditional Request
     413 => 'Content Too Large',
     414 => 'URI Too Long',
     415 => 'Unsupported Media Type',
-    416 => 'Range Not Satisfiable',           # RFC 7233: Range Requests
+    416 => 'Range Not Satisfiable',            # RFC 7233: Range Requests
     417 => 'Expectation Failed',
-    418 => "I'm a teapot",                    # RFC 2324: RFC9110 reserved it
-#   419 .. 420
-    421 => 'Misdirected Request',             # RFC 7540: HTTP/2
-    422 => 'Unprocessable Content',           # RFC 9110: WebDAV
-    423 => 'Locked',                          # RFC 4918: WebDAV
-    424 => 'Failed Dependency',               # RFC 4918: WebDAV
-    425 => 'Too Early',                       # RFC 8470: Using Early Data in HTTP
+    418 => "I'm a teapot",                     # RFC 2324: RFC9110 reserved it
+
+    #   419 .. 420
+    421 => 'Misdirected Request',      # RFC 7540: HTTP/2
+    422 => 'Unprocessable Content',    # RFC 9110: WebDAV
+    423 => 'Locked',                   # RFC 4918: WebDAV
+    424 => 'Failed Dependency',        # RFC 4918: WebDAV
+    425 => 'Too Early',                # RFC 8470: Using Early Data in HTTP
     426 => 'Upgrade Required',
-#   427
-    428 => 'Precondition Required',           # RFC 6585: Additional Codes
-    429 => 'Too Many Requests',               # RFC 6585: Additional Codes
-#   430
-    431 => 'Request Header Fields Too Large', # RFC 6585: Additional Codes
-#   432 .. 450
-    451 => 'Unavailable For Legal Reasons',   # RFC 7725: Legal Obstacles
-#   452 .. 499
+
+    #   427
+    428 => 'Precondition Required',    # RFC 6585: Additional Codes
+    429 => 'Too Many Requests',        # RFC 6585: Additional Codes
+
+    #   430
+    431 => 'Request Header Fields Too Large',    # RFC 6585: Additional Codes
+
+    #   432 .. 450
+    451 => 'Unavailable For Legal Reasons',      # RFC 7725: Legal Obstacles
+
+    #   452 .. 499
     500 => 'Internal Server Error',
     501 => 'Not Implemented',
     502 => 'Bad Gateway',
     503 => 'Service Unavailable',
     504 => 'Gateway Timeout',
     505 => 'HTTP Version Not Supported',
-    506 => 'Variant Also Negotiates',         # RFC 2295: Transparent Ngttn
-    507 => 'Insufficient Storage',            # RFC 4918: WebDAV
-    508 => 'Loop Detected',                   # RFC 5842: WebDAV bindings
-#   509
-    510 => 'Not Extended',                    # RFC 2774: Extension Framework
-    511 => 'Network Authentication Required', # RFC 6585: Additional Codes
+    506 => 'Variant Also Negotiates',            # RFC 2295: Transparent Ngttn
+    507 => 'Insufficient Storage',               # RFC 4918: WebDAV
+    508 => 'Loop Detected',                      # RFC 5842: WebDAV bindings
+
+    #   509
+    510 => 'Not Extended',                     # RFC 2774: Extension Framework
+    511 => 'Network Authentication Required',  # RFC 6585: Additional Codes
 
     # Keep some unofficial codes that used to be in this distribution
-    449 => 'Retry with',                      #           microsoft
-    509 => 'Bandwidth Limit Exceeded',        #           Apache / cPanel
+    449 => 'Retry with',                       #           microsoft
+    509 => 'Bandwidth Limit Exceeded',         #           Apache / cPanel
 );
 
 my %StatusCodeName;
 my $mnemonicCode = '';
-my ($code, $message);
-while (($code, $message) = each %StatusCode) {
+my ( $code, $message );
+while ( ( $code, $message ) = each %StatusCode ) {
     next if $message eq '(Unused)';
+
     # create mnemonic subroutines
     $message =~ s/I'm/I am/;
     $message =~ tr/a-z \-/A-Z__/;
-    my $constant_name = "HTTP_".$message;
+    my $constant_name = "HTTP_" . $message;
     $mnemonicCode .= "sub $constant_name () { $code }\n";
-    $mnemonicCode .= "*RC_$message = \\&HTTP_$message;\n";  # legacy
+    $mnemonicCode .= "*RC_$message = \\&HTTP_$message;\n";      # legacy
     $mnemonicCode .= "push(\@EXPORT_OK, 'HTTP_$message');\n";
     $mnemonicCode .= "push(\@EXPORT, 'RC_$message');\n";
-    $StatusCodeName{$code} = $constant_name
+    $StatusCodeName{$code} = $constant_name;
 }
-eval $mnemonicCode; # only one eval for speed
+eval $mnemonicCode;    # only one eval for speed
 die if $@;
 
 # backwards compatibility
-*RC_MOVED_TEMPORARILY = \&RC_FOUND;  # 302 was renamed in the standard
-push(@EXPORT, "RC_MOVED_TEMPORARILY");
+*RC_MOVED_TEMPORARILY = \&RC_FOUND;    # 302 was renamed in the standard
+push( @EXPORT, "RC_MOVED_TEMPORARILY" );
 
 my %compat = (
     UNPROCESSABLE_ENTITY          => \&HTTP_UNPROCESSABLE_CONTENT,
@@ -128,51 +140,53 @@ my %compat = (
     UNORDERED_COLLECTION          => \&HTTP_TOO_EARLY,
 );
 
-foreach my $name (keys %compat) {
-    push(@EXPORT, "RC_$name");
-    push(@EXPORT_OK, "HTTP_$name");
+foreach my $name ( keys %compat ) {
+    push( @EXPORT,    "RC_$name" );
+    push( @EXPORT_OK, "HTTP_$name" );
     no strict 'refs';
-    *{"RC_$name"} = $compat{$name};
+    *{"RC_$name"}   = $compat{$name};
     *{"HTTP_$name"} = $compat{$name};
 }
 
 our %EXPORT_TAGS = (
-   constants => [grep /^HTTP_/, @EXPORT_OK],
-   is => [grep /^is_/, @EXPORT, @EXPORT_OK],
+    constants => [ grep /^HTTP_/, @EXPORT_OK ],
+    is        => [ grep /^is_/,   @EXPORT, @EXPORT_OK ],
 );
 
+sub status_message ($) { $StatusCode{ $_[0] }; }
 
-sub status_message  ($) { $StatusCode{$_[0]}; }
 sub status_constant_name ($) {
-    exists($StatusCodeName{$_[0]}) ? $StatusCodeName{$_[0]} : undef;
+    exists( $StatusCodeName{ $_[0] } ) ? $StatusCodeName{ $_[0] } : undef;
 }
 
-sub is_info                 ($) { $_[0] && $_[0] >= 100 && $_[0] < 200; }
-sub is_success              ($) { $_[0] && $_[0] >= 200 && $_[0] < 300; }
-sub is_redirect             ($) { $_[0] && $_[0] >= 300 && $_[0] < 400; }
-sub is_error                ($) { $_[0] && $_[0] >= 400 && $_[0] < 600; }
-sub is_client_error         ($) { $_[0] && $_[0] >= 400 && $_[0] < 500; }
-sub is_server_error         ($) { $_[0] && $_[0] >= 500 && $_[0] < 600; }
-sub is_cacheable_by_default ($) { $_[0] && ( $_[0] == 200 # OK
-                                          || $_[0] == 203 # Non-Authoritative Information
-                                          || $_[0] == 204 # No Content
-                                          || $_[0] == 206 # Not Acceptable
-                                          || $_[0] == 300 # Multiple Choices
-                                          || $_[0] == 301 # Moved Permanently
-                                          || $_[0] == 308 # Permanent Redirect
-                                          || $_[0] == 404 # Not Found
-                                          || $_[0] == 405 # Method Not Allowed
-                                          || $_[0] == 410 # Gone
-                                          || $_[0] == 414 # Request-URI Too Large
-                                          || $_[0] == 451 # Unavailable For Legal Reasons
-                                          || $_[0] == 501 # Not Implemented
-                                            );
+sub is_info ($)         { $_[0] && $_[0] >= 100 && $_[0] < 200; }
+sub is_success ($)      { $_[0] && $_[0] >= 200 && $_[0] < 300; }
+sub is_redirect ($)     { $_[0] && $_[0] >= 300 && $_[0] < 400; }
+sub is_error ($)        { $_[0] && $_[0] >= 400 && $_[0] < 600; }
+sub is_client_error ($) { $_[0] && $_[0] >= 400 && $_[0] < 500; }
+sub is_server_error ($) { $_[0] && $_[0] >= 500 && $_[0] < 600; }
+
+sub is_cacheable_by_default ($) {
+    $_[0] && (
+        $_[0] == 200       # OK
+        || $_[0] == 203    # Non-Authoritative Information
+        || $_[0] == 204    # No Content
+        || $_[0] == 206    # Not Acceptable
+        || $_[0] == 300    # Multiple Choices
+        || $_[0] == 301    # Moved Permanently
+        || $_[0] == 308    # Permanent Redirect
+        || $_[0] == 404    # Not Found
+        || $_[0] == 405    # Method Not Allowed
+        || $_[0] == 410    # Gone
+        || $_[0] == 414    # Request-URI Too Large
+        || $_[0] == 451    # Unavailable For Legal Reasons
+        || $_[0] == 501    # Not Implemented
+    );
 }
 
-sub status_codes         { %StatusCode; }
+sub status_codes { %StatusCode; }
 
 1;
-
 
 __END__
 
