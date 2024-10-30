@@ -526,7 +526,7 @@ field value.
 Examples:
 
  $header->header(MIME_Version => '1.0',
-		 User_Agent   => 'My-Web-Client/0.01');
+                 User_Agent   => 'My-Web-Client/0.01');
  $header->header(Accept => "text/html, text/plain, image/*");
  $header->header(Accept => [qw(text/html text/plain image/*)]);
  @accepts = $header->header('Accept');  # get multiple values
@@ -671,7 +671,7 @@ modified. I<E.g.>:
   # check if document is more than 1 hour old
   if (my $last_mod = $h->last_modified) {
       if ($last_mod < time - 60*60) {
-	  ...
+          ...
       }
   }
 
