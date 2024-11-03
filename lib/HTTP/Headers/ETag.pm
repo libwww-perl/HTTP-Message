@@ -55,9 +55,9 @@ sub if_range {
 # use it on C<ETag> and C<If-Range> entity tag values, because it will
 # normalize them to the common form.
 #
-#  entity-tag	  = [ weak ] opaque-tag
-#  weak		  = "W/"
-#  opaque-tag	  = quoted-string
+#  entity-tag = [ weak ] opaque-tag
+#  weak       = "W/"
+#  opaque-tag = quoted-string
 
 sub _split_etag_list {
     my (@val) = @_;
