@@ -52,6 +52,8 @@ jobs:
           - "5.34"
           - "5.36"
           - "5.38"
+          - "5.40"
+          - "5.42"
     container:
       image: perldocker/perl-tester:${{ matrix.perl-version }}
       env:
@@ -99,6 +101,8 @@ jobs:
           - "5.34"
           - "5.36"
           - "5.38"
+          - "5.40"
+          - "5.42"
     name: Perl ${{ matrix.perl-version }} on ${{ matrix.os }}
     needs: build
     steps:
