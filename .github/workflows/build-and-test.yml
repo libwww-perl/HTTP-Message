@@ -20,6 +20,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Allow for file ownership conflicts with Docker and GitHub Actions
         run: git config --global --add safe.directory '*'
+      - name: Install latest CMake
+        run: |
+          sudo apt-get update
+          sudo apt-get remove --purge --auto-remove cmake
+          sudo snap install cmake --classic
+          cmake --version
+      - name: Use system CMake for Alien-cmake3
+        run: echo "ALIEN_CMAKE3_SYSTEM=1" >> $GITHUB_ENV
       - name: Run Tests with coverage
         env:
           AUTHOR_TESTING: 1
