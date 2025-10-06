@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - now handling HTTP method '0' (Karen Etheridge)
 
 7.01      2025-10-19 17:22:21Z
     - Fix HTTP::Response and HTTP::Request as_string/parse commutativity issue
