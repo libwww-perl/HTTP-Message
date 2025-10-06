@@ -118,7 +118,8 @@ sub as_string
     my($eol) = @_;
     $eol = "\n" unless defined $eol;
 
-    my $req_line = $self->method || "-";
+    # method must be at least one char, matching ^[a-zA-Z0-9!#$%&'*+.^_`|~-]+$
+    my $req_line = (length $self->method) ? $self->method : "-";
     my $uri = $self->uri;
     $uri = (defined $uri) ? $uri->as_string : "-";
     $req_line .= " $uri";
@@ -131,7 +132,7 @@ sub as_string
 sub dump
 {
     my $self = shift;
-    my @pre = ($self->method || "-", $self->uri || "-");
+    my @pre = ((length $self->method) ? $self->method : "-", (defined $self->uri) ? $self->uri : "-");
     if (my $prot = $self->protocol) {
 	push(@pre, $prot);
     }

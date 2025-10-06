@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - now handling HTTP method '0' (Karen Etheridge)
 
 7.00      2024-10-07 15:31:56Z
     - Stop transforming LF into CRLF. Fixes #69 (GH#196) (Olaf Alders)
