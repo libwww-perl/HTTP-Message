@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test::More;
-plan tests => 39;
+plan tests => 43;
 
 use HTTP::Request;
 use Try::Tiny qw( catch try );
@@ -166,3 +166,13 @@ $r2 = HTTP::Request->parse('methonly http://www.example.com/');
 is( $r2->method,   'methonly' );
 is( $r2->uri,      'http://www.example.com/' );
 is( $r2->protocol, undef );
+
+my $r3 = HTTP::Request->new(0 => "0");
+is($r3->method, '0', '0 is a valid HTTP method');
+is($r3->uri, '0', '0 is a valid URI');
+is($r3->as_string, "0 0\n\n", 'parsed zero method, zero uri req');
+is($r3->dump, <<EOT, 'dumped zero method, zero uri req');
+0 0
+
+(no content)
+EOT
