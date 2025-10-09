@@ -125,7 +125,7 @@ sub as_string
     my $proto = $self->protocol;
     $req_line .= " $proto" if $proto;
 
-    return join($eol, $req_line, $self->SUPER::as_string(@_));
+    return join($eol, $req_line, $self->SUPER::as_string($eol));
 }
 
 sub dump
