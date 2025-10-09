@@ -194,7 +194,7 @@ sub as_string
     my $proto = $self->protocol;
     $status_line = "$proto $status_line" if $proto;
 
-    return join($eol, $status_line, $self->SUPER::as_string(@_));
+    return join($eol, $status_line, $self->SUPER::as_string($eol));
 }
 
 
