@@ -3,7 +3,7 @@ package HTTP::Headers::ETag;
 use strict;
 use warnings;
 
-our $VERSION = '7.01';
+our $VERSION = '7.02';
 
 require HTTP::Date;
 
