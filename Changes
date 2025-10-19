@@ -1,6 +1,9 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Fix HTTP::Response and HTTP::Request as_string/parse commutativity issue
+      #62959 (GH#212) (Copilot)
+    - Fix few minor typos (GH#202) (Yoshikazu Sawa)
 
 7.00      2024-10-07 15:31:56Z
     - Stop transforming LF into CRLF. Fixes #69 (GH#196) (Olaf Alders)
