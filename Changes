@@ -1,6 +1,6 @@
 Revision history for HTTP-Message
 
-{{$NEXT}}
+7.01      2025-10-19 17:22:21Z
     - Fix HTTP::Response and HTTP::Request as_string/parse commutativity issue
       #62959 (GH#212) (Copilot)
     - Fix few minor typos (GH#202) (Yoshikazu Sawa)
