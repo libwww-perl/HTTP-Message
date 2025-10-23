@@ -65,7 +65,7 @@ jobs:
         id: with-recommends
         if: matrix.perl-version >= 5.14
         run: echo '::set-output name=flag::--with-recommends'
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: build_dir
           path: .
@@ -117,7 +117,7 @@ jobs:
         id: with-recommends
         if: matrix.perl-version >= 5.14
         run: echo '::set-output name=flag::--with-recommends'
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: build_dir
           path: .
@@ -168,7 +168,7 @@ jobs:
         with:
           perl-version: ${{ matrix.perl-version }}
           distribution: strawberry
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: build_dir
           path: .
