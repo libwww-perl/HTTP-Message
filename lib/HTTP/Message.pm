@@ -1099,6 +1099,12 @@ currently supported encodings, subject to availability of required
 additional modules, are "gzip", "deflate", "x-bzip2", "br", "zstd"
 and "base64".
 
+N.B. Base64 encoding is not in L<IANA's HTTP Content Coding Registry|
+https://www.iana.org/assignments/http-parameters/http-parameters.xhtml#content-coding>.
+It is HTTP::Message specific option.
+You can use it to ensure that content is always ASCII, and console
+friendly.
+
 A successful call to this function will set the C<Content-Encoding>
 header.
 
