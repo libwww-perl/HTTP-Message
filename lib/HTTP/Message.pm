@@ -7,6 +7,8 @@ our $VERSION = '7.02';
 
 require HTTP::Headers;
 require Carp;
+use Module::Load ();
+use Module::Load::Conditional ();
 
 our $MAXIMUM_BODY_SIZE;
 
@@ -354,6 +356,25 @@ sub decoded_content
 		    $content_ref = \$output;
 		    $content_ref_iscopy++;
 		}
+		elsif ($ce eq 'zstd') {
+			Module::Load::load('IO::Uncompress::UnZstd');
+			my $buffer;
+			my $z;
+			if( defined $content_limit ) {
+			$z = IO::Uncompress::UnZstd->new( $content_ref, InputLength => $content_limit, Append => 1, Strict => 1, )
+					or Carp::croak "IO::Compress::Zstd->new failed: $IO::Uncompress::UnZstd::UnZstdError\n";
+			} else {
+			$z = IO::Uncompress::UnZstd->new( $content_ref, Append => 1, Strict => 1, )
+					or Carp::croak "IO::Compress::Zstd->new failed: $IO::Uncompress::UnZstd::UnZstdError\n";
+			}
+			my $status;
+			while( $status = $z->read($buffer) > 0 ) { }
+			if( $status < 0 ) {
+                                Carp::croak "IO::Compress::Zstd::read failed: $IO::Uncompress::UnZstd::UnZstdError\n";
+			}
+			$content_ref = \$buffer;
+			$content_ref_iscopy++;
+		}
 		elsif ($ce eq "x-bzip2" or $ce eq "bzip2") {
 		    require Compress::Raw::Bzip2;
 
@@ -509,6 +530,9 @@ sub decodable
         require IO::Uncompress::Brotli;
         push(@enc, 'br');
     };
+    if( Module::Load::Conditional::check_install( module => 'IO::Compress::Zstd') ) {
+        push(@enc, "zstd");
+    }
     # we don't care about announcing the 'identity', 'base64' and
     # 'quoted-printable' stuff
     return wantarray ? @enc : join(", ", @enc);
@@ -576,6 +600,16 @@ sub encode
 	}
 	elsif ($encoding eq "rot13") {  # for the fun of it
 	    $content =~ tr/A-Za-z/N-ZA-Mn-za-m/;
+	}
+	elsif ($encoding eq 'zstd') {
+		Module::Load::load('IO::Compress::Zstd');
+		my $output;
+		my $z = IO::Compress::Zstd->new( \$output, Level => 3, Append => 0, Strict => 1, )
+			or Carp::croak "IO::Compress::Zstd failed: $IO::Compress::Zstd::ZstdError\n";
+		$z->write($content)
+			or Carp::croak "IO::Compress::Zstd::write failed: $IO::Compress::Zstd::ZstdError\n";
+		$z->flush();
+		$content = $output;
 	}
 	else {
 	    return 0;
@@ -1062,7 +1096,8 @@ want to process its content as a string.
 Apply the given encodings to the content of the message.  Returns TRUE
 if successful. The "identity" (non-)encoding is always supported; other
 currently supported encodings, subject to availability of required
-additional modules, are "gzip", "deflate", "x-bzip2", "base64" and "br".
+additional modules, are "gzip", "deflate", "x-bzip2", "br", "zstd"
+and "base64".
 
 A successful call to this function will set the C<Content-Encoding>
 header.
