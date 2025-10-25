@@ -14,7 +14,7 @@ require HTTP::Message;
 
 my $files = path($PROGRAM_NAME)->parent->child('files');
 my $lorem_ipsum_clear    = $files->child('lorem_ipsum.txt')->slurp_utf8;
-my $lorem_ipsum_zstd_b64 = $files->child('lorem_ipsum.txt.zst.b64')->slurp_raw;
+my $lorem_ipsum_zstd_b64 = $files->child('lorem_ipsum.txt-zst-b64')->slurp_raw;
 my $lorem_ipsum_zstd = MIME::Base64::decode($lorem_ipsum_zstd_b64);
 
 subtest "no decoding" => sub {
