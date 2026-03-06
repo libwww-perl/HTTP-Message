@@ -368,7 +368,7 @@ sub decoded_content
 			my $status;
 			while( $status = $z->read($buffer) > 0 ) { }
 			if( $status < 0 ) {
-                                Carp::croak "IO::Compress::Zstd::read failed: $IO::Uncompress::UnZstd::UnZstdError\n";
+				Carp::croak "IO::Compress::Zstd::read failed: $IO::Uncompress::UnZstd::UnZstdError\n";
 			}
 			$content_ref = \$buffer;
 			$content_ref_iscopy++;
