@@ -7,8 +7,6 @@ our $VERSION = '7.02';
 
 require HTTP::Headers;
 require Carp;
-use Module::Load ();
-use Module::Load::Conditional ();
 
 our $MAXIMUM_BODY_SIZE;
 
@@ -357,7 +355,7 @@ sub decoded_content
 		    $content_ref_iscopy++;
 		}
 		elsif ($ce eq 'zstd') {
-			Module::Load::load('IO::Uncompress::UnZstd');
+			require IO::Uncompress::UnZstd;
 			my $buffer;
 			my $z;
 			if( defined $content_limit ) {
@@ -530,9 +528,10 @@ sub decodable
         require IO::Uncompress::Brotli;
         push(@enc, 'br');
     };
-    if( Module::Load::Conditional::check_install( module => 'IO::Compress::Zstd') ) {
+    eval {
+        require IO::Compress::Zstd;
         push(@enc, "zstd");
-    }
+    };
     # we don't care about announcing the 'identity', 'base64' and
     # 'quoted-printable' stuff
     return wantarray ? @enc : join(", ", @enc);
@@ -602,7 +601,7 @@ sub encode
 	    $content =~ tr/A-Za-z/N-ZA-Mn-za-m/;
 	}
 	elsif ($encoding eq 'zstd') {
-		Module::Load::load('IO::Compress::Zstd');
+		require IO::Compress::Zstd;
 		my $output;
 		my $z = IO::Compress::Zstd->new( \$output, Level => 3, Append => 0, Strict => 1, )
 			or Carp::croak "IO::Compress::Zstd failed: $IO::Compress::Zstd::ZstdError\n";
