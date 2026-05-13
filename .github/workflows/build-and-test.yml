@@ -37,6 +37,7 @@ jobs:
     name: Perl ${{ matrix.perl-version }} on ubuntu-latest
     needs: build
     strategy:
+      fail-fast: false
       matrix:
         perl-version:
           - "5.10"
@@ -84,7 +85,7 @@ jobs:
   test_macos:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: ["macos-latest"]
         perl-version:
