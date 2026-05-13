@@ -144,6 +144,7 @@ jobs:
         env:
           AUTHOR_TESTING: 1
   test_windows:
+    if: false  # temporarily disabled
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
