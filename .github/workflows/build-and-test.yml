@@ -23,7 +23,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.42
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Allow for file ownership conflicts with Docker and GitHub Actions
         run: git config --global --add safe.directory '*'
       - name: Run Tests with coverage
@@ -32,7 +32,7 @@ jobs:
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
           RELEASE_TESTING: 1
         run: auto-build-and-test-dist
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: build_dir
           path: build_dir
@@ -70,7 +70,7 @@ jobs:
         id: with-recommends
         if: matrix.perl-version >= 5.14
         run: echo '::set-output name=flag::--with-recommends'
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: build_dir
           path: .
@@ -106,7 +106,7 @@ jobs:
     name: Perl ${{ matrix.perl-version }} on ${{ matrix.os }}
     needs: build
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set Up Perl
         uses: shogo82148/actions-setup-perl@v1
         with:
@@ -115,7 +115,7 @@ jobs:
         id: with-recommends
         if: matrix.perl-version >= 5.14
         run: echo '::set-output name=flag::--with-recommends'
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: build_dir
           path: .
@@ -157,13 +157,13 @@ jobs:
     name: Perl ${{ matrix.perl-version }} on ${{ matrix.os }}
     needs: build
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set Up Perl
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl-version }}
           distribution: strawberry
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: build_dir
           path: .
