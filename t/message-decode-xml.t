@@ -20,14 +20,14 @@ use PerlIO::encoding qw( );
 }
 
 for my $enc (qw( UTF-8 UTF-16le )) {
-    my $file = encode($enc,
-	($enc =~ /^UTF-/ ? "\x{FEFF}" : "") .
-	qq{<?xml version="1.0" encoding="$enc"?>\n} .
-	qq{<root>\x{C9}ric</root>\n}
-    );
+    my $file = encode( $enc,
+            ( $enc =~ /^UTF-/ ? "\x{FEFF}" : "" )
+          . qq{<?xml version="1.0" encoding="$enc"?>\n}
+          . qq{<root>\x{C9}ric</root>\n} );
 
-    my $headers = HTTP::Headers->new(Content_Type => "application/xml");
-    my $response = HTTP::Response->new(200, "OK", $headers, $file);
+    my $headers  = HTTP::Headers->new( Content_Type => "application/xml" );
+    my $response = HTTP::Response->new( 200, "OK", $headers, $file );
 
-    is($response->decoded_content, qq(<?xml version="1.0"?>\n<root>\x{c9}ric</root>\n), $enc);
+    is( $response->decoded_content,
+        qq(<?xml version="1.0"?>\n<root>\x{c9}ric</root>\n), $enc );
 }
