@@ -74,6 +74,9 @@ jobs:
         with:
           name: build_dir
           path: .
+      - uses: perl-actions/setup-cpm@v1
+        with:
+          version: compat
       - name: Install deps
         if: success()
         run: >
@@ -120,18 +123,17 @@ jobs:
           name: build_dir
           path: .
       - run: perl -V
-      - name: install deps using cpanm
-        uses: perl-actions/install-with-cpm@v2
+      - uses: perl-actions/setup-cpm@v1
         with:
-          cpanfile: "cpanfile"
-          args: >
-            --with-develop
-            ${{ steps.with-recommends.outputs.flag }}
-            --with-suggests
-            --with-test
-            --mirror https://cpan.metacpan.org
-          # App::cpm v0.999.0+ requires Perl 5.24+; pin older Perls to the last compatible release.
-          version: ${{ matrix.perl-version <= '5.22' && '0.998003' || 'main' }}
+          version: compat
+      - name: install deps using cpanm
+        run: >
+          cpm install -g --cpanfile cpanfile
+          --with-develop
+          ${{ steps.with-recommends.outputs.flag }}
+          --with-suggests
+          --with-test
+          --mirror https://cpan.metacpan.org
       - run: prove -lr t
         env:
           AUTHOR_TESTING: 1
@@ -167,13 +169,11 @@ jobs:
         with:
           name: build_dir
           path: .
-      - name: install deps using cpanm
-        uses: perl-actions/install-with-cpm@v2
+      - uses: perl-actions/setup-cpm@v1
         with:
-          cpanfile: "cpanfile"
-          args: "--mirror https://cpan.metacpan.org"
-          # App::cpm v0.999.0+ requires Perl 5.24+; pin older Perls to the last compatible release.
-          version: ${{ matrix.perl-version <= '5.22' && '0.998003' || 'main' }}
+          version: compat
+      - name: install deps using cpanm
+        run: cpm install -g --cpanfile cpanfile --mirror https://cpan.metacpan.org
       - run: perl -V
       - run: prove -lr t
         env:
