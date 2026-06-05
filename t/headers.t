@@ -5,6 +5,7 @@ use lib 't/lib';
 
 use Secret ();
 use Test::More;
+use Test::Differences;
 
 plan tests => 189;
 
@@ -93,7 +94,7 @@ $h = HTTP::Headers->new(
     user_agent => "libwww-perl",
     zoo => "foo",
    );
-is($h->as_string, <<EOT);
+eq_or_diff($h->as_string, <<EOT);
 Date: today
 User-Agent: libwww-perl
 ETag: abc
@@ -109,9 +110,9 @@ Zoo: foo
 EOT
 
 $h2 = $h->clone;
-is($h->as_string, $h2->as_string);
+eq_or_diff($h->as_string, $h2->as_string);
 
-is($h->remove_content_headers->as_string, <<EOT);
+eq_or_diff($h->remove_content_headers->as_string, <<EOT);
 Allow: GET
 Content-Encoding: gzip
 Content-MD5: dummy
@@ -121,7 +122,7 @@ Last-Modified: yesterday
 Content-Foo: bar
 EOT
 
-is($h->as_string, <<EOT);
+eq_or_diff($h->as_string, <<EOT);
 Date: today
 User-Agent: libwww-perl
 ETag: abc
@@ -131,7 +132,7 @@ EOT
 
 # separate code path for the void context case, so test it as well
 $h2->remove_content_headers;
-is($h->as_string, $h2->as_string);
+eq_or_diff($h->as_string, $h2->as_string);
 
 $h->clear;
 is($h->as_string, "");
@@ -257,7 +258,7 @@ is($h->referer, "http://www.example.com/");
     is($h->referrer->as_string, "http://www.example.com");
 }
 
-is($h->as_string, <<EOT);
+eq_or_diff($h->as_string, <<EOT);
 From: Gisle\@ActiveState.com
 Referer: http://www.example.com
 User-Agent: Mozilla/1.2
@@ -292,7 +293,7 @@ is($h->proxy_authorization_basic("u2", "p2"), undef);
 is(j($h->proxy_authorization_basic), "u2|p2");
 is($h->proxy_authorization, "Basic dTI6cDI=");
 
-is($h->as_string, <<EOT);
+eq_or_diff($h->as_string, <<EOT);
 Authorization: Basic dTpw
 Proxy-Authorization: Basic dTI6cDI=
 Proxy-Authenticate: bar
@@ -372,7 +373,7 @@ $h = HTTP::Headers->new(
 	e => "foo\n  bar  ",
 	f => "foo\n bar\n  baz\nbaz",
      );
-is($h->as_string("<<\n"), <<EOT);
+eq_or_diff($h->as_string("<<\n"), <<EOT);
 A: foo<<
 B: foo<<
  bar<<
@@ -394,7 +395,7 @@ $h = HTTP::Headers->new(
     b => "foo\015\012\015\012evil body" ,
     c => "foo\x0d\x0a\x0d\x0aevil body" ,
 );
-is (
+eq_or_diff (
     $h->as_string(),
     "A: foo\r\n evil body\n".
     "B: foo\015\012 evil body\n" .
@@ -431,7 +432,7 @@ $h->header(content_md5 => "dummy");
 $h->header("Content-Foo" => "foo");
 $h->header(Location => "http:", xyzzy => "plugh!");
 
-is($h->as_string, <<EOT);
+eq_or_diff($h->as_string, <<EOT);
 Location: http:
 Content-MD5: dummy
 Content-Type: text/plain
@@ -440,12 +441,12 @@ Xyzzy: plugh!
 EOT
 
 my $c = $h->remove_content_headers;
-is($h->as_string, <<EOT);
+eq_or_diff($h->as_string, <<EOT);
 Location: http:
 Xyzzy: plugh!
 EOT
 
-is($c->as_string, <<EOT);
+eq_or_diff($c->as_string, <<EOT);
 Content-MD5: dummy
 Content-Type: text/plain
 Content-Foo: foo
@@ -459,7 +460,7 @@ is(j($h->header_field_names), "Content-Type|:content_type|:foo_bar");
 is($h->header('Content-Type'), "text/plain");
 is($h->header(':Content_Type'), undef);
 is($h->header(':content_type'), "text/html");
-is($h->as_string, <<EOT);
+eq_or_diff($h->as_string, <<EOT);
 Content-Type: text/plain
 content_type: text/html
 foo_bar: 1
@@ -469,7 +470,7 @@ $h = HTTP::Headers->new;
 ok(!defined $h->warning('foo', 'INIT'));
 is($h->warning('bar'), 'foo');
 is($h->warning('baz', 'GET'), 'bar');
-is($h->as_string, <<EOT);
+eq_or_diff($h->as_string, <<EOT);
 Warning: bar
 EOT
 
@@ -482,7 +483,7 @@ is(j($h->header_field_names), ':foo|:zap');
 $h->scan(sub { $_[1] .= '!' });
 is(j($h->header(':zap')), 'bang!|kapow!|shazam!');
 is(j($h->header(':foo')), 'bar');
-is($h->as_string, <<EOT);
+eq_or_diff($h->as_string, <<EOT);
 foo: bar
 zap: bang!
 zap: kapow!
