@@ -23,7 +23,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.42
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
       - name: Allow for file ownership conflicts with Docker and GitHub Actions
         run: git config --global --add safe.directory '*'
       - name: Run Tests with coverage
@@ -109,7 +109,7 @@ jobs:
     name: Perl ${{ matrix.perl-version }} on ${{ matrix.os }}
     needs: build
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
       - name: Set Up Perl
         uses: shogo82148/actions-setup-perl@v1
         with:
@@ -159,7 +159,7 @@ jobs:
     name: Perl ${{ matrix.perl-version }} on ${{ matrix.os }}
     needs: build
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
       - name: Set Up Perl
         uses: shogo82148/actions-setup-perl@v1
         with:
