@@ -10,8 +10,8 @@ our $READ_BUFFER_SIZE      = 8192;
 
 use Exporter 5.57 'import';
 
-our @EXPORT =qw(GET HEAD PUT PATCH POST OPTIONS);
-our @EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
+our @EXPORT = qw(GET HEAD OPTIONS PATCH POST PUT);
+our @EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE QUERY);
 
 require HTTP::Request;
 use Carp();
@@ -22,10 +22,11 @@ my $CRLF = "\015\012";   # "\r\n" is not portable
 sub GET  { _simple_req('GET',  @_); }
 sub HEAD { _simple_req('HEAD', @_); }
 sub DELETE { _simple_req('DELETE', @_); }
+sub OPTIONS { request_type_with_data('OPTIONS', @_); }
 sub PATCH { request_type_with_data('PATCH', @_); }
 sub POST { request_type_with_data('POST', @_); }
 sub PUT { request_type_with_data('PUT', @_); }
-sub OPTIONS { request_type_with_data('OPTIONS', @_); }
+sub QUERY { request_type_with_data('QUERY', @_); }
 
 sub request_type_with_data
 {
@@ -316,6 +317,10 @@ __END__
   $ua->request(PUT 'http://somewhere/foo', foo => bar, bar => foo);
   $ua->request(OPTIONS 'http://somewhere/foo', foo => bar, bar => foo);
 
+  use HTTP::Request::Common qw(DELETE QUERY);
+  $ua->request(DELETE 'http://somewhere/foo', foo => bar, bar => foo);
+  $ua->request(QUERY 'http://somewhere/foo', foo => bar, bar => foo);
+
 =head1 DESCRIPTION
 
 This module provides functions that return newly created C<HTTP::Request>
@@ -417,7 +422,7 @@ This was added in version 6.21, so you should require that in your code:
 
 =item POST $url, Header => Value,..., Content => $content
 
-C<POST>, C<PATCH> and C<PUT> all work with the same parameters.
+C<OPTIONS>, C<POST>, C<PATCH>, C<PUT> and C<QUERY> all work with the same parameters.
 
   %data = ( title => 'something', body => something else' );
   $ua = LWP::UserAgent->new();
@@ -540,6 +545,25 @@ chunk is delivered, the subroutine will C<croak>.
 
 The C<post(...)>  method of L<LWP::UserAgent> exists as a shortcut for
 C<< $ua->request(POST ...) >>.
+
+=item QUERY $url
+
+=item QUERY $url, Header => Value,...
+
+=item QUERY $url, $form_ref, Header => Value,...
+
+=item QUERY $url, Header => Value,..., Content => $form_ref
+
+=item QUERY $url, Header => Value,..., Content => $content
+
+The same as C<POST> above, but the method in the request is C<QUERY>,
+the safe, idempotent method with content defined by
+L<RFC 10008|https://www.rfc-editor.org/rfc/rfc10008.html>.
+This function is not exported by default.
+
+This was added in version 7.04, so you should require that in your code:
+
+ use HTTP::Request::Common 7.04 qw(QUERY);
 
 =back
 
