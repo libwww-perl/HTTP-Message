@@ -262,13 +262,13 @@ $r = HTTP::Request::Common::DELETE 'http://www.example.com';
 is($r->method, "DELETE");
 
 $r = HTTP::Request::Common::PUT 'http://www.example.com',
-    'Content-Type' => 'application/octet-steam',
+    'Content-Type' => 'application/octet-stream',
     'Content' => 'foobarbaz',
     'Content-Length' => 12;   # a slight lie
 is($r->header('Content-Length'), 9);
 
 $r = HTTP::Request::Common::PATCH 'http://www.example.com',
-    'Content-Type' => 'application/octet-steam',
+    'Content-Type' => 'application/octet-stream',
     'Content' => 'foobarbaz',
     'Content-Length' => 12;   # a slight lie
 is($r->header('Content-Length'), 9);

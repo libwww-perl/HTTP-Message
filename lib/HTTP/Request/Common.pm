@@ -536,7 +536,7 @@ the file is not a plain file, there will be no C<Content-Length> header
 defined for the request.  Not all servers (or server
 applications) like this.  Also, if the file(s) change in size between
 the time the C<Content-Length> is calculated and the time that the last
-chunk is delivered, the subroutine will C<Croak>.
+chunk is delivered, the subroutine will C<croak>.
 
 The C<post(...)>  method of L<LWP::UserAgent> exists as a shortcut for
 C<< $ua->request(POST ...) >>.
