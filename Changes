@@ -1,6 +1,8 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - add RFC 10008 HTTP QUERY method (GH#225) (Daniel Böhmer),
+      see https://datatracker.ietf.org/doc/rfc10008/
 
 7.03      2026-07-21 20:45:16Z
     - Fix max_body_size for Content-Encoding: br, which made every brotli

@@ -6,6 +6,7 @@ use Test::More;
 use File::Spec;
 use File::Temp qw(tempfile);
 use HTTP::Request::Common;
+use HTTP::Request::Common qw(QUERY);
 
 my $r = GET 'http://www.sn.no/';
 note $r->as_string;
@@ -69,6 +70,23 @@ $r = OPTIONS "http://www.sn.no",
 is($r->content, "foo=bar");
 
 $r = PATCH "http://www.sn.no",
+     { foo => "bar" };
+is($r->content, "foo=bar");
+
+$r = QUERY "http://www.sn.no",
+     Content => 'foo';
+note $r->as_string, "\n";
+
+is($r->method, "QUERY");
+is($r->uri->host, "www.sn.no");
+
+ok(!defined($r->header("Content")));
+
+is(${$r->content_ref}, "foo");
+is($r->content, "foo");
+is($r->content_length, 3);
+
+$r = QUERY "http://www.sn.no",
      { foo => "bar" };
 is($r->content, "foo=bar");
 
@@ -272,5 +290,11 @@ $r = HTTP::Request::Common::PATCH 'http://www.example.com',
     'Content' => 'foobarbaz',
     'Content-Length' => 12;   # a slight lie
 is($r->header('Content-Length'), 9);
+
+$r = HTTP::Request::Common::QUERY 'http://www.example.com',
+    'Content-Type' => 'application/octet-stream',
+    'Content' => 'foobarbaz',
+    'Content-Length' => 12;
+is($r->header('Content-Length'), 9, 'Content-Length is recalculated, not taken from the header');
 
 done_testing();
