@@ -10,7 +10,7 @@ use overload (
 
 sub new {
     my ( $class, $s ) = @_;
-    return bless sub {$s}, $class;
+    return bless sub { $s }, $class;
 }
 
 sub to_string { shift->(); }
