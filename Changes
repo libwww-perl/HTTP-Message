@@ -1,5 +1,7 @@
 Revision history for HTTP-Message
 
+{{$NEXT}}
+
 7.03      2026-07-21 20:45:16Z
     - Fix max_body_size for Content-Encoding: br, which made every brotli
       response fail to decode whenever a limit was set (GH#229)
