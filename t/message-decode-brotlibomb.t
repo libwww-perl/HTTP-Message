@@ -10,8 +10,6 @@ use HTTP::Response   qw();
 
 use Test::Needs 'IO::Compress::Brotli', 'IO::Uncompress::Brotli';
 
-plan tests => 9;
-
 # Create a nasty brotli stream:
 my $size = 16 * 1024 * 1024;
 my $stream = "\0" x $size;
@@ -66,6 +64,8 @@ my $lives = eval {
 my $err = $@;
 is $lives, undef, "We die when trying to decode something larger than our global limit of 512k"
     or diag "... using IO::Uncompress::Brotli version $IO::Uncompress::Brotli::VERSION";
+like( $err, qr/more than 524288 octets/,
+    '... and we die because of the limit, not for some other reason' );
 
 $response->max_body_size(undef);
 is $response->max_body_size, undef, "We can remove the maximum size restriction";
@@ -87,6 +87,29 @@ $lives = eval {
 $err = $@;
 is $lives, undef, "We die when trying to decode something larger than our limit of 512k using a parameter"
     or diag "... using IO::Uncompress::Brotli version $IO::Uncompress::Brotli::VERSION";
+
+# Setting a limit must not break the brotli responses that fit under it.
+{
+    my $enc   = IO::Compress::Brotli->create;
+    my $small = $enc->compress('hello world') . $enc->finish;
+
+    my $small_response = HTTP::Response->new(
+        200, 'OK',
+        HTTP::Headers->new(
+            Content_Type     => 'text/plain',
+            Content_Encoding => 'br',
+        ),
+        $small,
+    );
+    $small_response->max_body_size( 512 * 1024 );
+
+    is( $small_response->decoded_content( raise_error => 1 ), 'hello world',
+        'A brotli body well under the limit still decodes' )
+        or diag
+        "... using IO::Uncompress::Brotli version $IO::Uncompress::Brotli::VERSION";
+}
+
+done_testing();
 
 =head1 SEE ALSO
 
