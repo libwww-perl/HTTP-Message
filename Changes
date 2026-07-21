@@ -2,6 +2,14 @@ Revision history for HTTP-Message
 
 {{$NEXT}}
     - Add Accept-Query to response headers known by HTTP::Headers (GH#232)
+    - SECURITY: CVE-2026-65060. decoded_content() did not enforce
+      max_body_size (or $HTTP::Message::MAXIMUM_BODY_SIZE) on the "deflate"
+      Content-Encoding, so a decompression bomb labelled "deflate" bypassed
+      the limit that gzip and bzip2 already honoured. The deflate and
+      raw-deflate paths are now bounded by the same limit. (GH#206)
+      (reported by grr)
+    - Reject a negative max_body_size instead of quietly decoding to nothing
+    - Document max_body_size() and $HTTP::Message::MAXIMUM_BODY_SIZE
 
 7.04      2026-07-24 00:01:56Z
     - add RFC 10008 HTTP QUERY method (GH#225) (Daniel Böhmer),
