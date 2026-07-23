@@ -1,6 +1,7 @@
 Revision history for HTTP-Message
 
 {{$NEXT}}
+    - Add Accept-Query to response headers known by HTTP::Headers (GH#232)
 
 7.04      2026-07-24 00:01:56Z
     - add RFC 10008 HTTP QUERY method (GH#225) (Daniel Böhmer),

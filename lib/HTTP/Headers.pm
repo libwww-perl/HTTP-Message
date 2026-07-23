@@ -31,7 +31,7 @@ my @request_headers = qw(
 );
 
 my @response_headers = qw(
-    Accept-Ranges Age ETag Location Proxy-Authenticate Retry-After Server
+    Accept-Query Accept-Ranges Age ETag Location Proxy-Authenticate Retry-After Server
     Vary WWW-Authenticate
 );
 
