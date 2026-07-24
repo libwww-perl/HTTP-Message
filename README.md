@@ -4,7 +4,7 @@ HTTP::Message - HTTP style message (base class)
 
 # VERSION
 
-version 7.03
+version 7.04
 
 # SYNOPSIS
 
