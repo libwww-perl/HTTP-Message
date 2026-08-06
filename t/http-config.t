@@ -53,8 +53,8 @@ $request->header("User-Agent" => "Moz/1.0");
 
 is(j($conf->matching_items($request)), "u:p|slash|.com|GET|not secure|always");
 
-$request->method("HEAD");
-$request->uri->scheme("https");
+$request = HTTP::Request->new(HEAD => "https://www.example.com/foo/bar");
+$request->header("User-Agent" => "Moz/1.0");
 
 is(j($conf->matching_items($request)), ".com|GET|secure|always");
 
