@@ -89,6 +89,41 @@ jobs:
       - name: Run Tests
         if: success()
         run: prove -lr --jobs 2 t
+  test_xsheaders:
+    runs-on: ubuntu-latest
+    name: HTTP::XSHeaders compat (Perl 5.42)
+    needs: build
+    # Informational only: surfaces HTTP::XSHeaders API incompatibilities
+    # without blocking the build. See p5pclub/http-xsheaders#13.
+    continue-on-error: true
+    container:
+      image: perldocker/perl-tester:5.42
+      env:
+        AUTHOR_TESTING: 1
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: build_dir
+          path: .
+      - uses: perl-actions/setup-cpm@v1
+        with:
+          version: compat
+      - name: Install deps
+        run: >
+          cpm install -g
+          --cpanfile cpanfile
+          --with-develop
+          --with-recommends
+          --with-suggests
+          --show-build-log-on-failure
+      - name: Install HTTP::XSHeaders
+        run: cpm install -g --show-build-log-on-failure HTTP::XSHeaders
+      # Loading HTTP::XSHeaders transparently swaps in its C implementation of
+      # HTTP::Headers, so the existing suite exercises the XS code path.
+      - name: Run tests against HTTP::XSHeaders
+        env:
+          PERL5OPT: -MHTTP::XSHeaders
+        run: prove -lr --jobs 2 t
   test_macos:
     runs-on: ${{ matrix.os }}
     strategy:
