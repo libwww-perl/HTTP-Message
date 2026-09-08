@@ -58,6 +58,7 @@ on 'configure' => sub {
 };
 
 on 'develop' => sub {
+  requires "App::perlvars" => "0";
   requires "File::Spec" => "0";
   requires "IO::Handle" => "0";
   requires "IPC::Open3" => "0";
