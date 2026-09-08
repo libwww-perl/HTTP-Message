@@ -4,9 +4,10 @@ use warnings;
 use lib 't/lib';
 
 use Secret ();
+use Test::Differences qw( eq_or_diff );
 use Test::More;
 
-plan tests => 189;
+plan tests => 190;
 
 my($h, $h2);
 sub j { join("|", @_) }
@@ -523,4 +524,24 @@ subtest 'object that stringifies is a valid value' => sub {
     $h->header('X-Password' => Secret->new('hunter2'));
     my $h2 = $h->clone;
     is($h2->as_string, "X-Password: hunter2\n", 'correct headers');
+};
+
+subtest 'response headers sort in their known order' => sub {
+    # The full set of known response headers, in the order HTTP::Headers
+    # sorts them. Setting them out of order and reading them back confirms
+    # each one (including Accept-Query) is known and correctly placed.
+    my @response_headers = (
+        'Accept-Query', 'Accept-Ranges', 'Age', 'ETag', 'Location',
+        'Proxy-Authenticate', 'Retry-After', 'Server', 'Vary',
+        'WWW-Authenticate',
+    );
+
+    my $h = HTTP::Headers->new;
+    $h->header($_ => 'v') for reverse @response_headers;
+
+    eq_or_diff(
+        [ $h->header_field_names ],
+        \@response_headers,
+        'all response headers title-case and sort in known order',
+    );
 };
