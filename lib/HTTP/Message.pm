@@ -325,7 +325,7 @@ sub decoded_content
 			$content_ref = \$input;
 			$content_ref_iscopy++;
 		    };
-		    my ($i, $status) = Compress::Raw::Zlib::Inflate->new(
+		    my ($i) = Compress::Raw::Zlib::Inflate->new(
 			%limiter_options,
 			ConsumeInput => 0, # overridden by Zlib if we have %limiter_options :-(
 			WindowBits => Compress::Raw::Zlib::WANT_GZIP_OR_ZLIB(),
@@ -375,7 +375,7 @@ sub decoded_content
 			$content_ref = \$input;
 			$content_ref_iscopy++;
 		    };
-		    my ($i, $status) = Compress::Raw::Bunzip2->new(
+		    my ($i) = Compress::Raw::Bunzip2->new(
 			1, # appendInput
 			0, # consumeInput
 			0, # small
