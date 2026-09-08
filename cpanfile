@@ -32,6 +32,7 @@ on 'test' => sub {
   requires "File::Spec" => "0";
   requires "File::Temp" => "0";
   requires "PerlIO::encoding" => "0";
+  requires "Test::Differences" => "0";
   requires "Test::More" => "0.88";
   requires "Test::Needs" => "0";
   requires "Time::Local" => "0";
@@ -58,7 +59,6 @@ on 'configure' => sub {
 };
 
 on 'develop' => sub {
-  requires "App::perlvars" => "0";
   requires "File::Spec" => "0";
   requires "IO::Handle" => "0";
   requires "IPC::Open3" => "0";
