@@ -295,6 +295,47 @@ sub _set_max_body_size {
     $self->{_max_body_size} = $_[1];
 }
 
+# Uncompress $$input_ref with one of the IO::Uncompress::* classes, refusing
+# to produce more than $limit octets of output. $limit may be undef, meaning
+# no limit at all. Returns a reference to the decoded content, or undef if
+# $class could not handle the input. Croaks if the content would decode to
+# more than $limit octets; that is what makes max_body_size a defence against
+# decompression bombs on these encodings.
+sub _uncompress {
+    my ( $class, $input_ref, $limit, %options ) = @_;
+
+    # Unlike the Compress::Raw::* adapters used for gzip and bzip2 above,
+    # these classes read their input without consuming it, so $input_ref can
+    # be handed over as is. That matters: the deflate branch below calls us a
+    # second time, with the same input, to retry as raw deflate.
+    my $z = $class->new( $input_ref, Append => 1, %options ) or return undef;
+
+    my $output = q{};
+    if ( defined $limit ) {
+
+        # Ask for one octet more than we are willing to keep: enough to tell
+        # content that fits from content that does not, and never more memory
+        # than the caller has already agreed to hand over.
+        my $read = $z->read( $output, $limit + 1 );
+        return undef if !defined $read || $read < 0;
+        Carp::croak("Decoded content would be larger than $limit octets")
+            if $read > $limit;
+    }
+    else {
+        # Nothing to enforce, so read to the end of the stream a block at a
+        # time, which is what the one-shot IO::Uncompress functions do. Asking
+        # for a fixed number of octets instead takes a different path through
+        # IO::Uncompress::Base, and that path mis-reports the end of some raw
+        # deflate streams on perls older than 5.20.
+        while (1) {
+            my $read = $z->read($output);
+            return undef if !defined $read || $read < 0;
+            last         if $read == 0;
+        }
+    }
+    return \$output;
+}
+
 sub decoded_content {
     my ( $self, %opt ) = @_;
     my $content_ref;
@@ -308,6 +349,13 @@ sub decoded_content {
             = exists $opt{max_body_size}   ? $opt{max_body_size}
             : defined $self->max_body_size ? $self->max_body_size
             :                                undef;
+
+        # A negative limit is a caller error, and every decoder reacts to one
+        # differently -- some quietly hand back no content at all, which looks
+        # just like a successful decode. Reject it up front instead.
+        die 'max_body_size must not be negative'
+            if defined $content_limit && $content_limit < 0;
+
         my %limiter_options;
         if ( defined $content_limit ) {
             %limiter_options
@@ -417,34 +465,30 @@ sub decoded_content {
                 }
                 elsif ( $ce eq "deflate" ) {
                     require IO::Uncompress::Inflate;
-                    my $output;
-                    my $status = IO::Uncompress::Inflate::inflate(
-                        $content_ref,
-                        \$output, Transparent => 0
+                    my $output_ref = _uncompress(
+                        'IO::Uncompress::Inflate', $content_ref,
+                        $content_limit,            Transparent => 0,
                     );
                     my $error = $IO::Uncompress::Inflate::InflateError;
-                    unless ($status) {
+                    unless ($output_ref) {
 
                         # "Content-Encoding: deflate" is supposed to mean the
                         # "zlib" format of RFC 1950, but Microsoft got that
                         # wrong, so some servers sends the raw compressed
                         # "deflate" data.  This tries to inflate this format.
-                        $output = undef;
                         require IO::Uncompress::RawInflate;
-                        unless (
-                            IO::Uncompress::RawInflate::rawinflate(
-                                $content_ref, \$output
-                            )
-                        ) {
+                        $output_ref = _uncompress(
+                            'IO::Uncompress::RawInflate', $content_ref,
+                            $content_limit,
+                        );
+                        unless ($output_ref) {
                             $self->push_header( "Client-Warning" =>
                                     "Could not raw inflate content: $IO::Uncompress::RawInflate::RawInflateError"
                             );
-                            $output = undef;
                         }
                     }
-                    die "Can't inflate content: $error"
-                        unless defined $output;
-                    $content_ref = \$output;
+                    die "Can't inflate content: $error" unless $output_ref;
+                    $content_ref = $output_ref;
                     $content_ref_iscopy++;
                 }
                 elsif ( $ce eq "compress" || $ce eq "x-compress" ) {
@@ -1102,7 +1146,47 @@ If TRUE then a reference to decoded content is returned.  This might
 be more efficient in cases where the decoded content is identical to
 the raw content as no data copying is required in this case.
 
+=item C<max_body_size>
+
+The maximum size, in octets, that the content is allowed to decode to.
+This overrides the value set through max_body_size() for this call only.
+See max_body_size() for details.
+
 =back
+
+=item $mess->max_body_size
+
+=item $mess->max_body_size( $size )
+
+Get/set the maximum size, in octets, that decoded_content() will allow the
+content to decode to.  A C<Content-Encoding> can compress hugely -- a few
+kilobytes on the wire can inflate to gigabytes in memory -- so a hostile or
+compromised server can exhaust your process's memory with a single response.
+This limit is the defence against such a "decompression bomb": if the content
+would decode to more than $size octets, decoded_content() aborts instead of
+allocating it.  Decoding works in blocks, so it can overshoot the limit by up
+to one block before it notices and aborts.  Leave some headroom.  A negative
+$size is an error.
+
+The limit is enforced for the C<gzip>, C<x-gzip>, C<deflate>, C<br>, C<bzip2>
+and C<x-bzip2> encodings.  It is not applied to content that needs no decoding,
+nor to the charset decoding step.  The C<base64> and C<quoted-printable>
+encodings are also exempt: neither can expand its input, so neither can be
+used to mount this kind of attack.
+
+Note that C<br> cannot distinguish content that exceeds the limit from content
+that is simply corrupt, and reports both the same way.
+
+The default is taken from C<$HTTP::Message::MAXIMUM_BODY_SIZE> when the
+message is constructed.  That variable is unset by default, meaning content is
+decoded without any limit; set it if you want every message to be capped.  Set
+either to C<undef> to remove the limit again.
+
+    $HTTP::Message::MAXIMUM_BODY_SIZE = 100 * 1024 * 1024;
+
+Since a response whose content exceeds the limit yields no content at all, it
+is usually worth passing C<raise_error> to decoded_content() so you can tell
+the two cases apart.
 
 =item $mess->decodable
 
